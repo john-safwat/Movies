@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
+import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
+import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MyTextFileds.dart';
 import 'package:mymoviesapp/Presentation/Registration/RefistrationViewModel.dart';
 import 'package:unicons/unicons.dart';
@@ -16,7 +18,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
 
-  RegistrationViewModel viewModel = RegistrationViewModel();
+  RegistrationViewModel viewModel = RegistrationViewModel(SignupUseCase(injectAuthRepository()));
 
 
   @override

@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
+import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
 
 class RegistrationViewModel extends Cubit<BaseCubitState>{
-  RegistrationViewModel():super(InputWaiting());
+
+  SignupUseCase useCase;
+  RegistrationViewModel(this.useCase):super(InputWaiting());
 
   final formKey = GlobalKey<FormState>();
 
@@ -61,7 +64,10 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
   // registration to validate and send the data to data base
   void register()async{
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: "johnads@gmail.com", password: "123123123123");
+    if(formKey.currentState!.validate()){
+      var response = await useCase.invoke(email.text, password.text);
+      print(response);
+    }
   }
 
 }
