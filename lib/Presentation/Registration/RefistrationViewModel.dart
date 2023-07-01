@@ -73,4 +73,5 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 }
 
 class InputWaiting extends BaseCubitState{}
+class AvatarWaiting extends BaseCubitState{}
 class InvalidState extends BaseCubitState{}

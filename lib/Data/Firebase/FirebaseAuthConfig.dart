@@ -12,13 +12,13 @@ class Auth {
   }
 
   // firebase auth configuration
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  User? get currentUser => firebaseAuth.currentUser;
 
   Future<String> signup(String email , String password)async{
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      return "Account Created Successfully";
+      await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      return firebaseAuth.currentUser!.uid;
     }on FirebaseAuthException catch(e){
       if(e.toString() == ''){
         return "";
