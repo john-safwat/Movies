@@ -23,8 +23,16 @@ class MyTheme {
     appBarTheme:const AppBarTheme(
       backgroundColor: blackThree,
       centerTitle: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(15),
+          bottomRight: Radius.circular(15),
+        )
+      ),
+      elevation: 2
     ),
 
+    hoverColor: MyTheme.gold,
     bottomNavigationBarTheme:const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: false,

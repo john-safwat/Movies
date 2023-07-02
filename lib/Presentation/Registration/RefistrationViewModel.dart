@@ -31,6 +31,10 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
   String image = "assets/images/avatar1.png";
 
+  void showModalBottomSheetState(){
+    emit(ShowModalBottomSheetAction());
+  }
+
   // validate on the name if it is not empty and doesn't contain ant spacial characters
   String? nameValidation(String name){
     if (name.isEmpty){
@@ -87,5 +91,5 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 }
 
 class InputWaiting extends BaseCubitState{}
-class ModalBottomSheetAction extends BaseCubitState{}
+class ShowModalBottomSheetAction extends BaseCubitState{}
 class InvalidState extends BaseCubitState{}
