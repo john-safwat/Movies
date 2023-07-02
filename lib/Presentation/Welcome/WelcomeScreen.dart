@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.7,
             child: ElevatedButton(
               onPressed: (){
-                GoRouter.of(context).goNamed(LoginScreen.routeName);
+                GoRouter.of(context).pushNamed(LoginScreen.routeName);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(MyTheme.gold),
@@ -57,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.7,
             child: ElevatedButton(
                 onPressed: (){
-                  GoRouter.of(context).goNamed(RegistrationScreen.routeName);
+                  GoRouter.of(context).pushNamed(RegistrationScreen.routeName);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(MyTheme.backGroundColor),

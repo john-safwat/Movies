@@ -17,6 +17,20 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
   TextEditingController passwordConfirmation = TextEditingController();
   TextEditingController phone = TextEditingController();
 
+  List<String> images = [
+    "assets/images/avatar1.png",
+    "assets/images/avatar2.png",
+    "assets/images/avatar3.png",
+    "assets/images/avatar4.png",
+    "assets/images/avatar5.png",
+    "assets/images/avatar6.png",
+    "assets/images/avatar7.png",
+    "assets/images/avatar8.png",
+    "assets/images/avatar9.png",
+  ];
+
+  String image = "assets/images/avatar1.png";
+
   // validate on the name if it is not empty and doesn't contain ant spacial characters
   String? nameValidation(String name){
     if (name.isEmpty){
@@ -73,5 +87,5 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 }
 
 class InputWaiting extends BaseCubitState{}
-class AvatarWaiting extends BaseCubitState{}
+class ModalBottomSheetAction extends BaseCubitState{}
 class InvalidState extends BaseCubitState{}
