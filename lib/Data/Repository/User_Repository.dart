@@ -21,7 +21,6 @@ class UserRepositoryImpl implements UserRepository {
         phone: user.phone,
         image: user.image,
         uid: user.uid));
-    print(response);
     return response;
   }
 }

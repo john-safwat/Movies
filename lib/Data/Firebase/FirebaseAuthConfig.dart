@@ -16,14 +16,8 @@ class Auth {
   User? get currentUser => firebaseAuth.currentUser;
 
   Future<String> signup(String email , String password)async{
-    try {
-      await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      return firebaseAuth.currentUser!.uid;
-    }on FirebaseAuthException catch(e){
-      return e.toString();
-    }catch (e){
-      return e.toString();
-    }
+    await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+    return firebaseAuth.currentUser!.uid;
   }
 
 

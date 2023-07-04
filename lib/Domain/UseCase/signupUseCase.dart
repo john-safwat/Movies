@@ -9,9 +9,7 @@ class SignupUseCase{
   Future<String> invoke({required String name ,required  String email ,required  String password ,required  String image ,required  String phone})async{
     var response = await repository.signup(email, password);
     Users user = Users(name: name, email: email, phone: phone, image: image, uid: response);
-    print(user.uid);
     var userResponse = await repository.createUser(user);
-    print(response);
     return userResponse;
   }
 
