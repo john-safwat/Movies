@@ -20,13 +20,7 @@ class Auth {
       await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       return firebaseAuth.currentUser!.uid;
     }on FirebaseAuthException catch(e){
-      if(e.toString() == ''){
-        return "";
-      }else if(e.toString() == ''){
-        return "";
-      }else{
-        return "";
-      }
+      return e.toString();
     }catch (e){
       return e.toString();
     }

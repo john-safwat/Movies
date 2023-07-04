@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,8 +90,14 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
   // registration to validate and send the data to data base
   void register()async{
     if(formKey.currentState!.validate()){
-      var response = await useCase.invoke(email.text, password.text);
-      print(response);
+      emit(ShowLoadingState());
+      var response = await useCase.invoke(
+          name: name.text,
+          email: email.text,
+          password: password.text,
+          image: image,
+          phone: phone.text);
+      emit(HideLoadingState());
     }
   }
 
@@ -97,4 +105,6 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
 class InputWaiting extends BaseCubitState{}
 class ShowModalBottomSheetAction extends BaseCubitState{}
+class ShowLoadingState extends BaseCubitState{}
+class HideLoadingState extends BaseCubitState{}
 class InvalidState extends BaseCubitState{}

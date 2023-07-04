@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
+import 'package:mymoviesapp/Core/utils/DialogUtils.dart';
 import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MyTextFileds.dart';
 import 'package:mymoviesapp/Presentation/Registration/RefistrationViewModel.dart';
@@ -31,6 +32,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           listener: (context, state) {
             if(state is ShowModalBottomSheetAction){
               showMyModalBottomSheet(context);
+            }
+            if(state is ShowLoadingState){
+              showLoadingDialog(context , "Creating Account ...");
+            }
+            if(state is HideLoadingState){
+              context.pop();
             }
             if (state is InputWaiting){
               context.pop();

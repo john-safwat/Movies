@@ -20,7 +20,10 @@ class FirebaseDatabase{
   }
 
   Future<void> createUser(UserDTO user)async{
-    await getCollectionReference().doc().set(user);
+    print(user.toFireStore());
+    var ref =  getCollectionReference() ;
+    var doc = ref.doc();
+    return doc.set(user);
   }
 
 }

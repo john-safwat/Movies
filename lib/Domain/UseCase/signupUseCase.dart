@@ -1,13 +1,18 @@
-import 'package:mymoviesapp/Domain/Repository/Auth_Contract.dart';
+import 'package:mymoviesapp/Domain/Models/User/User.dart';
+import 'package:mymoviesapp/Domain/Repository/User_Data_Contract.dart';
 
 class SignupUseCase{
 
-  AuthRepository repository;
+  UserRepository repository;
   SignupUseCase(this.repository);
 
-  Future<String> invoke(String email , String password)async{
+  Future<String> invoke({required String name ,required  String email ,required  String password ,required  String image ,required  String phone})async{
     var response = await repository.signup(email, password);
-    return response;
+    Users user = Users(name: name, email: email, phone: phone, image: image, uid: response);
+    print(user.uid);
+    var userResponse = await repository.createUser(user);
+    print(response);
+    return userResponse;
   }
 
 }

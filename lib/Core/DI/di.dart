@@ -2,11 +2,13 @@ import 'package:mymoviesapp/Data/API/ApiManager.dart';
 import 'package:mymoviesapp/Data/DataSource/Auth_Firebase_Remote_DataSource_Impl.dart';
 import 'package:mymoviesapp/Data/DataSource/Movies_Data_Remote_DataSource_Impl.dart';
 import 'package:mymoviesapp/Data/DataSource/Search_Data_Remote_DataSource_Impl.dart';
+import 'package:mymoviesapp/Data/DataSource/Users_Remote_DataSource_Impl.dart';
+import 'package:mymoviesapp/Data/Firebase/FireStoreConfig.dart';
 import 'package:mymoviesapp/Data/Firebase/FirebaseAuthConfig.dart';
-import 'package:mymoviesapp/Data/Repository/Auth_Repository.dart';
+import 'package:mymoviesapp/Data/Repository/User_Repository.dart';
 import 'package:mymoviesapp/Data/Repository/Movies_Data_Repository_Impl.dart';
 import 'package:mymoviesapp/Data/Repository/Search_Data_Repository_Impl.dart';
-import 'package:mymoviesapp/Domain/Repository/Auth_Contract.dart';
+import 'package:mymoviesapp/Domain/Repository/User_Data_Contract.dart';
 import 'package:mymoviesapp/Domain/Repository/Movies_Data_Contract.dart';
 import 'package:mymoviesapp/Domain/Repository/Search_Data_Contract.dart';
 
@@ -46,11 +48,19 @@ AuthFirebaseRemoteDataSource getAuthFirebaseRemoteDataSource(Auth auth){
   return AuthFirebaseRemoteDataSourceImpl(auth);
 }
 
-AuthRepository getAuthRepository(AuthFirebaseRemoteDataSource remoteDataSource){
-  return AuthRepositoryImpl(remoteDataSource);
+FirebaseDatabase getFirebaseDatabase(){
+  return FirebaseDatabase.getFirebaseDatabaseInstance();
 }
 
-AuthRepository injectAuthRepository(){
-  return getAuthRepository(getAuthFirebaseRemoteDataSource(getAuth()));
+UsersRemoteDataSource getUsersRemoteDataSource(FirebaseDatabase database){
+  return UsersRemoteDataSourceImpl(database);
+}
+
+UserRepository getAuthRepository(AuthFirebaseRemoteDataSource remoteDataSource , UsersRemoteDataSource usersRemoteDataSource){
+  return UserRepositoryImpl(remoteDataSource , usersRemoteDataSource);
+}
+
+UserRepository injectAuthRepository(){
+  return getAuthRepository(getAuthFirebaseRemoteDataSource(getAuth()) , getUsersRemoteDataSource(getFirebaseDatabase()));
 }
 

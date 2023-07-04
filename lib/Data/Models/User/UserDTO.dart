@@ -1,3 +1,5 @@
+import 'package:mymoviesapp/Domain/Models/User/User.dart';
+
 class UserDTO {
   String uid ;
   String email ;
@@ -30,6 +32,16 @@ class UserDTO {
       'phone' : phone,
       'image' : image
     };
+  }
+
+  Users toDomain(){
+    return Users(
+      uid:uid,
+      name:name,
+      email:email,
+      phone:phone,
+      image:image
+    );
   }
 
 }

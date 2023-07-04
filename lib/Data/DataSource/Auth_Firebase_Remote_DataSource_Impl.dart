@@ -1,5 +1,5 @@
 import 'package:mymoviesapp/Data/Firebase/FirebaseAuthConfig.dart';
-import 'package:mymoviesapp/Domain/Repository/Auth_Contract.dart';
+import 'package:mymoviesapp/Domain/Repository/User_Data_Contract.dart';
 
 class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource{
   Auth auth ;
