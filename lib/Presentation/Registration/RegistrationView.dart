@@ -1,5 +1,7 @@
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
@@ -29,7 +31,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: BlocConsumer<RegistrationViewModel , BaseCubitState>(
           listener: (context, state) {
             if(state is ShowModalBottomSheetAction){
-              showMyModalBottomSheet(context , viewModel.images);
+              showMyModalBottomSheet(context);
+            }
+            if (state is InputWaiting){
+              context.pop();
             }
           },
           builder: (context, state) => Scaffold(
@@ -115,18 +120,98 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Future<void> showMyModalBottomSheet(BuildContext context , List<String> images)async{
+  Future<void> showMyModalBottomSheet(BuildContext context)async{
     showModalBottomSheet(
-        context: context,
-        backgroundColor: MyTheme.blackThree,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            topLeft: Radius.circular(20),
-          )
-        ),
-        builder: (context) => Container(
+      context: context,
+      backgroundColor: Colors.transparent ,
+      isScrollControlled: true,
+      builder: (context) => Wrap(
+        children: [
+          ModalSheetWidget(
+              viewModel.images,
+              viewModel.image,
+              viewModel.changeSelectedImage
+          ),
+        ],
+      ),
 
+    );
+  }
+}
+
+class ModalSheetWidget extends StatefulWidget {
+  ModalSheetWidget(this.images , this.selectedImage, this.changeSelectedImage,{super.key});
+  // ScrollController scrollController ;
+  List<String> images ;
+  String selectedImage;
+  Function changeSelectedImage;
+
+  @override
+  State<ModalSheetWidget> createState() => _ModalSheetWidgetState();
+}
+
+class _ModalSheetWidgetState extends State<ModalSheetWidget> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(15),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: MyTheme.blackTwo
+      ),
+      child:Column(
+          children: [
+            Text("Pick Avatar" , style: Theme.of(context).textTheme.headline3,),
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(vertical: 20),
+              // controller: widget.scrollController,
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 1
+              ),
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: (){
+                  setState(() {
+                    widget.selectedImage = widget.images[index];
+                  });
+                },
+                child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: widget.selectedImage == widget.images[index] ? MyTheme.gray:MyTheme.blackTwo,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Image.asset(widget.images[index] , width: 100)
+                ),
+              ),
+              itemCount: widget.images.length,
+            ),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ))
+                ),
+                onPressed: (){
+                  widget.changeSelectedImage(widget.selectedImage);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "Confirm",
+                    style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
     );
   }

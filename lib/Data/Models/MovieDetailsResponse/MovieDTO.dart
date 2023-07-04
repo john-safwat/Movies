@@ -191,7 +191,7 @@ class MovieDTO {
         largeScreenshotImage1 : largeScreenshotImage1 ,
         largeScreenshotImage2 : largeScreenshotImage2 ,
         largeScreenshotImage3 : largeScreenshotImage3 ,
-        cast : cast!.map((e) => e.toDomain()).toList() ,
+        cast :cast == null?null: cast!.map((e) => e.toDomain()).toList() ,
         dateUploaded : dateUploaded ,
         dateUploadedUnix : dateUploadedUnix ,
     );

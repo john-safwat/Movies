@@ -35,6 +35,11 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
     emit(ShowModalBottomSheetAction());
   }
 
+  void changeSelectedImage(String image){
+    this.image = image;
+    emit(InputWaiting());
+  }
+
   // validate on the name if it is not empty and doesn't contain ant spacial characters
   String? nameValidation(String name){
     if (name.isEmpty){

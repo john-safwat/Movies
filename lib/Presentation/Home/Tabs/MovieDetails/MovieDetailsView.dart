@@ -250,7 +250,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         height: 10,
                       ),
                       title("Cast"),
-                      ListView.builder(
+                      state.movie.cast == null ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text("No Cast Available Now" , style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.normal),),
+                      ): ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
