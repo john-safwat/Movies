@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseAuthException.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseDatabaseExeption.dart';
+import 'package:mymoviesapp/Domain/Exceptions/FirebaseTimeoutException.dart';
 import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
 
 class RegistrationViewModel extends Cubit<BaseCubitState>{
@@ -91,31 +92,42 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
   // registration to validate and send the data to data base
   void register()async{
-    if(formKey.currentState!.validate()){
-      emit(ShowLoadingState());
-      try {
-        var response = await useCase.invoke(
-            name: name.text,
-            email: email.text,
-            password: password.text,
-            image: image,
-            phone: phone.text);
-        print(response);
-      }catch (e){
-        if(e is FirebaseAuthDataSourceException){
-          print(e.errorMessage) ;
-        }else {
-          print(e.toString());
+    if(password.text == passwordConfirmation.text){
+      if(formKey.currentState!.validate()){
+        emit(ShowLoadingState());
+        try {
+          var response = await useCase.invoke(
+              name: name.text,
+              email: email.text,
+              password: password.text,
+              image: image,
+              phone: phone.text);
+          print(response);
+        }catch (e){
+          if(e is FirebaseAuthDataSourceException){
+            print(e.errorMessage) ;
+          }else if (e is FirebaseTimeoutException){
+            print(e.error);
+          } else {
+            print(e.toString());
+          }
         }
+        emit(HideLoadingState());
       }
-      emit(HideLoadingState());
+    }else{
+      emit(ShowErrorMessageState("Passwords Doesn't Match"));
     }
   }
-
 }
 
+
 class InputWaiting extends BaseCubitState{}
+class InvalidState extends BaseCubitState{}
 class ShowModalBottomSheetAction extends BaseCubitState{}
 class ShowLoadingState extends BaseCubitState{}
+class ShowErrorMessageState extends BaseCubitState{
+  String errorMessage;
+  ShowErrorMessageState(this.errorMessage);
+}
+class ShowSuccessMessageState extends BaseCubitState{}
 class HideLoadingState extends BaseCubitState{}
-class InvalidState extends BaseCubitState{}

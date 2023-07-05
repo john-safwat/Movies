@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mymoviesapp/Data/Models/User/UserDTO.dart';
+import 'package:mymoviesapp/Domain/Exceptions/FirebaseTimeoutException.dart';
 
 class FirebaseDatabase{
 
@@ -22,7 +23,7 @@ class FirebaseDatabase{
   Future<void> createUser(UserDTO user)async{
     var ref =  getCollectionReference() ;
     var doc = ref.doc();
-    return doc.set(user);
+    return doc.set(user).timeout(Duration(seconds: 5) , onTimeout: () =>throw FirebaseTimeoutException(),);
   }
 
 }
