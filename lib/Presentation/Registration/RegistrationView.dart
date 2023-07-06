@@ -7,6 +7,8 @@ import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Core/utils/DialogUtils.dart';
 import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MyTextFileds.dart';
+import 'package:mymoviesapp/Presentation/Home/HomeScreenView.dart';
+import 'package:mymoviesapp/Presentation/Home/Tabs/Home/HomeTabView.dart';
 import 'package:mymoviesapp/Presentation/Registration/RefistrationViewModel.dart';
 import 'package:unicons/unicons.dart';
 
@@ -33,11 +35,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             if(state is ShowModalBottomSheetAction){
               showMyModalBottomSheet(context);
             }
-            if(state is ShowLoadingState){
-              MyDialogUtils.showLoadingDialog(context , "Creating Account ...");
-            }
-            if(state is HideLoadingState){
+            if (state is HideDialog){
               MyDialogUtils.hideDialog(context);
+            }
+            if(state is ShowLoadingState){
+              MyDialogUtils.showLoadingDialog(context , state.message);
+            }
+            if(state is ShowSuccessMessageState){
+              MyDialogUtils.showSuccessMessage(context: context ,message:  state.message , posActionTitle: "Ok" ,posAction: viewModel.goToHomeScreen);
+            }
+            if(state is ShowErrorMessageState){
+              MyDialogUtils.showFailMessage(context: context ,message: state.message , posActionTitle: "Try Again");
+            }
+            if(state is GoToHomeScreenAction){
+              GoRouter.of(context).goNamed(HomeTabView.routeName);
             }
             if (state is InputWaiting){
               context.pop();
@@ -108,7 +119,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 Text("Already Have Account ?" , style: Theme.of(context).textTheme.headline5,),
                                 TextButton(
                                   onPressed: (){
-                                    MyDialogUtils.showSuccessMessage(context: context, message: "Failed to Load Data" ,posActionTitle: "Ok");
+                                    MyDialogUtils.showSuccessMessage(context: context, message: "Failed to Load Data" ,posActionTitle: "Ok" , negativeActionTitle: "Cancel");
                                   },
                                   child: Text("Login" , style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),)
                                 )

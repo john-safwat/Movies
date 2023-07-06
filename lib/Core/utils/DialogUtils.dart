@@ -42,71 +42,73 @@ class MyDialogUtils {
     required BuildContext context,
     required String message ,
     String? posActionTitle ,
-    Function? posAction,
+    VoidCallback? posAction,
     String? negativeActionTitle,
-    Function? negativeAction,
+    VoidCallback? negativeAction,
   }) {
 
     List<Widget> actionList = [];
 
     // add the button to the action list if it doesn't equal null
-    if(posActionTitle != null){
+    if(negativeActionTitle != null){
       actionList.add(
-        Container(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                )
-              )
+          Expanded(
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(MyTheme.blackOne),
+                  shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(width: 2, color: MyTheme.gold),
+                      )
+                  )
+              ),
+              onPressed: (){
+                context.pop();
+                if (negativeAction != null){
+                  negativeAction();
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline5,),
+              ),
             ),
-            onPressed: (){
-              context.pop();
-              if (posAction != null){
-                posAction();
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(posActionTitle,style: Theme.of(context).textTheme.headline3,),
-            )
-          ),
-        )
+          )
       );
     }
 
     // add the button to the action list if it doesn't equal null
-    if(negativeActionTitle != null){
+    if(posActionTitle != null){
+      if (actionList.isNotEmpty){
+        actionList.add(SizedBox(width: 20,));
+      }
       actionList.add(
-          Container(
-            width: double.infinity,
+          Expanded(
             child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyTheme.blackOne),
+                    backgroundColor: MaterialStateProperty.all(MyTheme.gold),
                     shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(width: 2, color: MyTheme.gold),
                         )
                     )
                 ),
                 onPressed: (){
                   context.pop();
-                  if (negativeAction != null){
-                    negativeAction();
+                  if (posAction != null){
+                    posAction();
                   }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline3,),
+                  child: Text(posActionTitle,style: Theme.of(context).textTheme.headline5,),
                 )
             ),
           )
       );
     }
+
 
     showDialog(
         context: context,
@@ -122,7 +124,7 @@ class MyDialogUtils {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 30),
+                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 20),
                 decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.only(
@@ -138,17 +140,19 @@ class MyDialogUtils {
                     ),
                     Text(
                       message,
-                      style: Theme.of(context).textTheme.headline1,
+                      style: Theme.of(context).textTheme.headline5,
                     )
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: actionList,
                 ),
               )
             ],
           ),
-          actions: actionList,
-          actionsAlignment: MainAxisAlignment.center,
-          actionsPadding: EdgeInsets.all(20),
-          actionsOverflowButtonSpacing: 20,
         ),
         barrierColor: Colors.black.withOpacity(0.7),
         barrierDismissible: true);
@@ -157,49 +161,19 @@ class MyDialogUtils {
     required BuildContext context,
     required String message ,
     String? posActionTitle ,
-    Function? posAction,
+    VoidCallback? posAction,
     String? negativeActionTitle,
-    Function? negativeAction,
+    VoidCallback? negativeAction,
   }) {
 
     List<Widget> actionList = [];
 
     // add the button to the action list if it doesn't equal null
-    if(posActionTitle != null){
-      actionList.add(
-        Container(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                )
-              )
-            ),
-            onPressed: (){
-              context.pop();
-              if (posAction != null){
-                posAction();
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(posActionTitle,style: Theme.of(context).textTheme.headline3,),
-            )
-          ),
-        )
-      );
-    }
-
-    // add the button to the action list if it doesn't equal null
     if(negativeActionTitle != null){
       actionList.add(
-          Container(
-            width: double.infinity,
+          Expanded(
             child: ElevatedButton(
-                style: ButtonStyle(
+              style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(MyTheme.blackOne),
                     shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
@@ -208,15 +182,46 @@ class MyDialogUtils {
                         )
                     )
                 ),
-                onPressed: (){
+              onPressed: (){
                   context.pop();
                   if (negativeAction != null){
                     negativeAction();
                   }
                 },
+              child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline5,),
+                ),
+            ),
+          )
+      );
+    }
+
+    // add the button to the action list if it doesn't equal null
+    if(posActionTitle != null){
+      if (actionList.isNotEmpty){
+        actionList.add(SizedBox(width: 20,));
+      }
+      actionList.add(
+          Expanded(
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+                    shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )
+                    )
+                ),
+                onPressed: (){
+                  context.pop();
+                  if (posAction != null){
+                    posAction();
+                  }
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline3,),
+                  child: Text(posActionTitle,style: Theme.of(context).textTheme.headline5,),
                 )
             ),
           )
@@ -237,7 +242,7 @@ class MyDialogUtils {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 30),
+                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 20),
                 decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.only(
@@ -253,17 +258,19 @@ class MyDialogUtils {
                     ),
                     Text(
                       message,
-                      style: Theme.of(context).textTheme.headline1,
+                      style: Theme.of(context).textTheme.headline5,
                     )
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: actionList,
                 ),
               )
             ],
           ),
-          actions: actionList,
-          actionsAlignment: MainAxisAlignment.center,
-          actionsPadding: EdgeInsets.all(20),
-          actionsOverflowButtonSpacing: 20,
         ),
         barrierColor: Colors.black.withOpacity(0.7),
         barrierDismissible: true);

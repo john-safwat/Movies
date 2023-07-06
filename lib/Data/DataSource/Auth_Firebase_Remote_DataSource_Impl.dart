@@ -36,7 +36,7 @@ class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource {
       }
       throw FirebaseAuthDataSourceException(error);
     } catch (e) {
-      throw Exception(e.toString());
+      throw FirebaseAuthDataSourceException(e.toString());
     }
   }
 }

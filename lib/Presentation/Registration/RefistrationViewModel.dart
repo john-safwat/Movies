@@ -92,9 +92,9 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
   // registration to validate and send the data to data base
   void register()async{
+    emit(ShowLoadingState("Creating Your Account"));
     if(password.text == passwordConfirmation.text){
       if(formKey.currentState!.validate()){
-        emit(ShowLoadingState());
         try {
           var response = await useCase.invoke(
               name: name.text,
@@ -102,32 +102,46 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
               password: password.text,
               image: image,
               phone: phone.text);
-          print(response);
+          emit(HideDialog());
+          emit(ShowSuccessMessageState(response));
         }catch (e){
+          emit(HideDialog());
           if(e is FirebaseAuthDataSourceException){
-            print(e.errorMessage) ;
+            emit(ShowErrorMessageState(e.errorMessage));
           }else if (e is FirebaseTimeoutException){
-            print(e.error);
+            emit(ShowErrorMessageState(e.error));
           } else {
-            print(e.toString());
+            emit(ShowErrorMessageState(e.toString()));
           }
         }
-        emit(HideLoadingState());
       }
     }else{
+      emit(HideDialog());
       emit(ShowErrorMessageState("Passwords Doesn't Match"));
     }
+  }
+
+  void goToHomeScreen(){
+    print("going to home screen");
+    emit(GoToHomeScreenAction());
   }
 }
 
 
 class InputWaiting extends BaseCubitState{}
 class InvalidState extends BaseCubitState{}
+class GoToHomeScreenAction extends BaseCubitState{}
 class ShowModalBottomSheetAction extends BaseCubitState{}
-class ShowLoadingState extends BaseCubitState{}
-class ShowErrorMessageState extends BaseCubitState{
-  String errorMessage;
-  ShowErrorMessageState(this.errorMessage);
+class HideDialog extends BaseCubitState{}
+class ShowLoadingState extends BaseCubitState{
+  String message ;
+  ShowLoadingState(this.message);
 }
-class ShowSuccessMessageState extends BaseCubitState{}
-class HideLoadingState extends BaseCubitState{}
+class ShowErrorMessageState extends BaseCubitState{
+  String message;
+  ShowErrorMessageState(this.message);
+}
+class ShowSuccessMessageState extends BaseCubitState{
+  String message;
+  ShowSuccessMessageState(this.message);
+}
