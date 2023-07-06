@@ -34,10 +34,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               showMyModalBottomSheet(context);
             }
             if(state is ShowLoadingState){
-              showLoadingDialog(context , "Creating Account ...");
+              MyDialogUtils.showLoadingDialog(context , "Creating Account ...");
             }
             if(state is HideLoadingState){
-              context.pop();
+              MyDialogUtils.hideDialog(context);
             }
             if (state is InputWaiting){
               context.pop();
@@ -107,7 +107,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               children: [
                                 Text("Already Have Account ?" , style: Theme.of(context).textTheme.headline5,),
                                 TextButton(
-                                  onPressed: (){},
+                                  onPressed: (){
+                                    MyDialogUtils.showSuccessMessage(context: context, message: "Failed to Load Data" ,posActionTitle: "Ok");
+                                  },
                                   child: Text("Login" , style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),)
                                 )
                               ],

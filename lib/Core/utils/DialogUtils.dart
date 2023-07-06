@@ -1,26 +1,271 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 
-Future<void> showLoadingDialog( BuildContext context  , String message)async{
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: MyTheme.blackOne,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      alignment: Alignment.center,
-      contentPadding: EdgeInsets.all(40),
-      content: Row(
-        children: [
-          CircularProgressIndicator(color: MyTheme.gold,),
-          const SizedBox(width: 20,),
-          Text(message , style: Theme.of(context).textTheme.headline5,)
-        ],
-      ),
+class MyDialogUtils {
+  static Future<void> showLoadingDialog(
+      BuildContext context, String message) async {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: MyTheme.blackOne,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              alignment: Alignment.center,
+              contentPadding: EdgeInsets.all(30),
+              content: Row(
+                children: [
+                  CircularProgressIndicator(
+                    color: MyTheme.gold,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    message,
+                    style: Theme.of(context).textTheme.headline5,
+                  )
+                ],
+              ),
+            ),
+        barrierColor: Colors.black.withOpacity(0.7),
+        barrierDismissible: true);
+  }
 
-    ),
-    barrierColor: Colors.black.withOpacity(0.3),
-    barrierDismissible: true
-  );
+  static hideDialog(BuildContext context){
+    context.pop();
+  }
+
+  static showFailMessage({
+    required BuildContext context,
+    required String message ,
+    String? posActionTitle ,
+    Function? posAction,
+    String? negativeActionTitle,
+    Function? negativeAction,
+  }) {
+
+    List<Widget> actionList = [];
+
+    // add the button to the action list if it doesn't equal null
+    if(posActionTitle != null){
+      actionList.add(
+        Container(
+          width: double.infinity,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                )
+              )
+            ),
+            onPressed: (){
+              context.pop();
+              if (posAction != null){
+                posAction();
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(posActionTitle,style: Theme.of(context).textTheme.headline3,),
+            )
+          ),
+        )
+      );
+    }
+
+    // add the button to the action list if it doesn't equal null
+    if(negativeActionTitle != null){
+      actionList.add(
+          Container(
+            width: double.infinity,
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(MyTheme.blackOne),
+                    shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(width: 2, color: MyTheme.gold),
+                        )
+                    )
+                ),
+                onPressed: (){
+                  context.pop();
+                  if (negativeAction != null){
+                    negativeAction();
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline3,),
+                )
+            ),
+          )
+      );
+    }
+
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: MyTheme.blackOne,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          alignment: Alignment.center,
+          contentPadding: EdgeInsets.zero,
+          content: Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 30),
+                decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                    Text(
+                      message,
+                      style: Theme.of(context).textTheme.headline1,
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          actions: actionList,
+          actionsAlignment: MainAxisAlignment.center,
+          actionsPadding: EdgeInsets.all(20),
+          actionsOverflowButtonSpacing: 20,
+        ),
+        barrierColor: Colors.black.withOpacity(0.7),
+        barrierDismissible: true);
+  }
+  static showSuccessMessage({
+    required BuildContext context,
+    required String message ,
+    String? posActionTitle ,
+    Function? posAction,
+    String? negativeActionTitle,
+    Function? negativeAction,
+  }) {
+
+    List<Widget> actionList = [];
+
+    // add the button to the action list if it doesn't equal null
+    if(posActionTitle != null){
+      actionList.add(
+        Container(
+          width: double.infinity,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                )
+              )
+            ),
+            onPressed: (){
+              context.pop();
+              if (posAction != null){
+                posAction();
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(posActionTitle,style: Theme.of(context).textTheme.headline3,),
+            )
+          ),
+        )
+      );
+    }
+
+    // add the button to the action list if it doesn't equal null
+    if(negativeActionTitle != null){
+      actionList.add(
+          Container(
+            width: double.infinity,
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(MyTheme.blackOne),
+                    shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(width: 2, color: MyTheme.gold),
+                        )
+                    )
+                ),
+                onPressed: (){
+                  context.pop();
+                  if (negativeAction != null){
+                    negativeAction();
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline3,),
+                )
+            ),
+          )
+      );
+    }
+
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: MyTheme.blackOne,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          alignment: Alignment.center,
+          contentPadding: EdgeInsets.zero,
+          content: Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 30),
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )),
+                child: Column(
+                  children: [
+                    Icon(
+                      EvaIcons.checkmarkCircle,
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                    Text(
+                      message,
+                      style: Theme.of(context).textTheme.headline1,
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          actions: actionList,
+          actionsAlignment: MainAxisAlignment.center,
+          actionsPadding: EdgeInsets.all(20),
+          actionsOverflowButtonSpacing: 20,
+        ),
+        barrierColor: Colors.black.withOpacity(0.7),
+        barrierDismissible: true);
+  }
 }
