@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
+import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseAuthException.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseDatabaseExeption.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseTimeoutException.dart';
@@ -13,6 +14,8 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
   SignupUseCase useCase;
   RegistrationViewModel(this.useCase):super(InputWaiting());
+
+  AppConfigProvider? provider ;
 
   final formKey = GlobalKey<FormState>();
 
@@ -92,9 +95,9 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
   // registration to validate and send the data to data base
   void register()async{
-    emit(ShowLoadingState("Creating Your Account"));
     if(password.text == passwordConfirmation.text){
       if(formKey.currentState!.validate()){
+        emit(ShowLoadingState("Creating Your Account"));
         try {
           var response = await useCase.invoke(
               name: name.text,
@@ -103,7 +106,8 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
               image: image,
               phone: phone.text);
           emit(HideDialog());
-          emit(ShowSuccessMessageState(response));
+          emit(ShowSuccessMessageState("Account Created Successfully"));
+          provider!.updateUid(response);
         }catch (e){
           emit(HideDialog());
           if(e is FirebaseAuthDataSourceException){
@@ -122,8 +126,11 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
   }
 
   void goToHomeScreen(){
-    print("going to home screen");
     emit(GoToHomeScreenAction());
+  }
+
+  void goToLoginScreen(){
+    emit(GoToLoginScreenAction());
   }
 }
 
@@ -131,17 +138,5 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 class InputWaiting extends BaseCubitState{}
 class InvalidState extends BaseCubitState{}
 class GoToHomeScreenAction extends BaseCubitState{}
+class GoToLoginScreenAction extends BaseCubitState{}
 class ShowModalBottomSheetAction extends BaseCubitState{}
-class HideDialog extends BaseCubitState{}
-class ShowLoadingState extends BaseCubitState{
-  String message ;
-  ShowLoadingState(this.message);
-}
-class ShowErrorMessageState extends BaseCubitState{
-  String message;
-  ShowErrorMessageState(this.message);
-}
-class ShowSuccessMessageState extends BaseCubitState{
-  String message;
-  ShowSuccessMessageState(this.message);
-}

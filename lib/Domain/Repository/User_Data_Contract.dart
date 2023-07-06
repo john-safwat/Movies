@@ -3,10 +3,12 @@ import 'package:mymoviesapp/Domain/Models/User/User.dart';
 
 abstract class AuthFirebaseRemoteDataSource{
   Future<String> signup(String email , String password);
+  Future<String> login(String email , String password);
 }
 
 abstract class UserRepository{
   Future<String> signup(String email , String password);
+  Future<String> login(String email , String password);
   Future<String> createUser(Users user);
 }
 

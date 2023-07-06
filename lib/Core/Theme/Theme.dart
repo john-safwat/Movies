@@ -21,15 +21,9 @@ class MyTheme {
 
     fontFamily: "Cairo",
     appBarTheme:const AppBarTheme(
-      backgroundColor: blackThree,
+      backgroundColor: Colors.transparent,
       centerTitle: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        )
-      ),
-      elevation: 2
+      elevation: 0
     ),
 
     hoverColor: MyTheme.gold,

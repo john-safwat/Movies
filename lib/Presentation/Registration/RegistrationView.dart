@@ -3,13 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
+import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Core/utils/DialogUtils.dart';
 import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MyTextFileds.dart';
-import 'package:mymoviesapp/Presentation/Home/HomeScreenView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Home/HomeTabView.dart';
-import 'package:mymoviesapp/Presentation/Registration/RefistrationViewModel.dart';
+import 'package:mymoviesapp/Presentation/Login/LoginView.dart';
+import 'package:mymoviesapp/Presentation/Registration/RegistrationViewModel.dart';
+import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -21,115 +23,190 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  RegistrationViewModel viewModel =
+      RegistrationViewModel(SignupUseCase(injectAuthRepository()));
 
-  RegistrationViewModel viewModel = RegistrationViewModel(SignupUseCase(injectAuthRepository()));
+  @override
+  void initState() {
+    super.initState();
+    viewModel.provider = Provider.of<AppConfigProvider>(context, listen: false);
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+    viewModel.provider = null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocProvider(
         create: (context) => viewModel,
-        child: BlocConsumer<RegistrationViewModel , BaseCubitState>(
+        child: BlocConsumer<RegistrationViewModel, BaseCubitState>(
           listener: (context, state) {
-            if(state is ShowModalBottomSheetAction){
+            if (state is ShowModalBottomSheetAction) {
               showMyModalBottomSheet(context);
             }
-            if (state is HideDialog){
+            if (state is HideDialog) {
               MyDialogUtils.hideDialog(context);
             }
-            if(state is ShowLoadingState){
-              MyDialogUtils.showLoadingDialog(context , state.message);
+            if (state is ShowLoadingState) {
+              MyDialogUtils.showLoadingDialog(context, state.message);
             }
-            if(state is ShowSuccessMessageState){
-              MyDialogUtils.showSuccessMessage(context: context ,message:  state.message , posActionTitle: "Ok" ,posAction: viewModel.goToHomeScreen);
+            if (state is ShowSuccessMessageState) {
+              MyDialogUtils.showSuccessMessage(
+                  context: context,
+                  message: state.message,
+                  posActionTitle: "Ok",
+                  posAction: viewModel.goToHomeScreen);
             }
-            if(state is ShowErrorMessageState){
-              MyDialogUtils.showFailMessage(context: context ,message: state.message , posActionTitle: "Try Again");
+            if (state is ShowErrorMessageState) {
+              MyDialogUtils.showFailMessage(
+                  context: context,
+                  message: state.message,
+                  posActionTitle: "Try Again");
             }
-            if(state is GoToHomeScreenAction){
+            if (state is GoToHomeScreenAction) {
               GoRouter.of(context).goNamed(HomeTabView.routeName);
             }
-            if (state is InputWaiting){
+            if (state is GoToLoginScreenAction) {
+              GoRouter.of(context).goNamed(LoginScreen.routeName);
+            }
+            if (state is InputWaiting) {
               context.pop();
             }
           },
           builder: (context, state) => Scaffold(
-            appBar: AppBar(
-              title: Text("Create Account"),
-            ),
-            body:GlowingOverscrollIndicator(
-              color: MyTheme.gold,
-              axisDirection: AxisDirection.down,
-              child: SingleChildScrollView(
-
-                // physics: const BouncingScrollPhysics(),
-                child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0 ),
-                child:  Column(
-                    children: [
-                      Stack(children: [
-                        Image.asset(viewModel.image , width: 150,),
-                        Positioned(
-                          top: 10,
-                          right: 10,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(100),
-                            onTap: viewModel.showModalBottomSheetState,
-                            child: CircleAvatar(
-                                backgroundColor: MyTheme.gold,
-                                child: Icon(Icons.edit , color: MyTheme.white,)
-                            ),
-                          ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Create  ",
+                          style: Theme.of(context).textTheme.headline1,
                         ),
-                      ]),
-                      Form(
+                        Image.asset(
+                          "assets/images/Logo.png",
+                          height: 30,
+                        ),
+                        Text(
+                          "  Account",
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                      ],
+                    ),
+                    Stack(children: [
+                      Image.asset(
+                        viewModel.image,
+                        width: 150,
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(100),
+                          onTap: viewModel.showModalBottomSheetState,
+                          child: CircleAvatar(
+                              backgroundColor: MyTheme.gold,
+                              child: Icon(
+                                Icons.edit,
+                                color: MyTheme.white,
+                              )),
+                        ),
+                      ),
+                    ]),
+                    Form(
                         key: viewModel.formKey,
                         child: Column(
                           children: [
-                            const SizedBox(height: 20,),
-                            myTextFormField("Name" , Icons.badge_outlined , viewModel.nameValidation , viewModel.name , TextInputType.name),
-                            myTextFormField("Email" , Icons.email_outlined , viewModel.emailValidation , viewModel.email , TextInputType.emailAddress),
-                            myPasswordTextFormField("Password" , Icons.lock_outline_rounded , viewModel.passwordValidation , viewModel.password , TextInputType.visiblePassword),
-                            myPasswordTextFormField("Re-Password" , Icons.lock_outline_rounded , viewModel.passwordValidation , viewModel.passwordConfirmation , TextInputType.visiblePassword),
-                            myTextFormField("Phone Number" , UniconsLine.dialpad_alt , viewModel.phoneValidation , viewModel.phone , TextInputType.phone),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            MyTextFormField(
+                                "Name",
+                                Icons.badge_outlined,
+                                viewModel.nameValidation,
+                                viewModel.name,
+                                TextInputType.name),
+                            MyTextFormField(
+                                "Email",
+                                Icons.email_outlined,
+                                viewModel.emailValidation,
+                                viewModel.email,
+                                TextInputType.emailAddress),
+                            MyPasswordTextFormField(
+                                "Password",
+                                Icons.lock_outline_rounded,
+                                viewModel.passwordValidation,
+                                viewModel.password,
+                                TextInputType.visiblePassword),
+                            MyPasswordTextFormField(
+                                "Re-Password",
+                                Icons.lock_outline_rounded,
+                                viewModel.passwordValidation,
+                                viewModel.passwordConfirmation,
+                                TextInputType.visiblePassword),
+                            MyTextFormField(
+                                "Phone Number",
+                                UniconsLine.dialpad_alt,
+                                viewModel.phoneValidation,
+                                viewModel.phone,
+                                TextInputType.phone),
                             Container(
                               width: double.infinity,
                               margin: const EdgeInsets.all(20),
                               child: ElevatedButton(
-                                onPressed: viewModel.register,
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-                                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ))
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    "Create Account",
-                                    style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                )
-                              ),
+                                  onPressed: viewModel.register,
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              MyTheme.gold),
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "Create Account",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  )),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Already Have Account ?" , style: Theme.of(context).textTheme.headline5,),
+                                Text(
+                                  "Already Have Account ?",
+                                  style: Theme.of(context).textTheme.headline5,
+                                ),
                                 TextButton(
-                                  onPressed: (){
-                                    MyDialogUtils.showSuccessMessage(context: context, message: "Failed to Load Data" ,posActionTitle: "Ok" , negativeActionTitle: "Cancel");
-                                  },
-                                  child: Text("Login" , style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),)
-                                )
+                                    onPressed: viewModel.goToLoginScreen,
+                                    style: ButtonStyle(
+                                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                                    ),
+                                    child: Text(
+                                      "Login",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ))
                               ],
                             )
                           ],
-                        )
-                      )
-                    ],
-                  ),
+                        ))
+                  ],
                 ),
               ),
             ),
@@ -139,29 +216,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Future<void> showMyModalBottomSheet(BuildContext context)async{
+  Future<void> showMyModalBottomSheet(BuildContext context) async {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent ,
+      backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) => Wrap(
         children: [
           ModalSheetWidget(
-              viewModel.images,
-              viewModel.image,
-              viewModel.changeSelectedImage
-          ),
+              viewModel.images, viewModel.image, viewModel.changeSelectedImage),
         ],
       ),
-
     );
   }
 }
 
+// the widget in the bottom sheet
 class ModalSheetWidget extends StatefulWidget {
-  ModalSheetWidget(this.images , this.selectedImage, this.changeSelectedImage,{super.key});
+  ModalSheetWidget(this.images, this.selectedImage, this.changeSelectedImage,
+      {super.key});
   // ScrollController scrollController ;
-  List<String> images ;
+  List<String> images;
   String selectedImage;
   Function changeSelectedImage;
 
@@ -170,69 +245,69 @@ class ModalSheetWidget extends StatefulWidget {
 }
 
 class _ModalSheetWidgetState extends State<ModalSheetWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(15),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: MyTheme.blackTwo
-      ),
-      child:Column(
-          children: [
-            Text("Pick Avatar" , style: Theme.of(context).textTheme.headline3,),
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(vertical: 20),
-              // controller: widget.scrollController,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  childAspectRatio: 1
-              ),
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: (){
-                  setState(() {
-                    widget.selectedImage = widget.images[index];
-                  });
-                },
-                child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: widget.selectedImage == widget.images[index] ? MyTheme.gray:MyTheme.blackTwo,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Image.asset(widget.images[index] , width: 100)
-                ),
-              ),
-              itemCount: widget.images.length,
-            ),
-            Container(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ))
-                ),
-                onPressed: (){
-                  widget.changeSelectedImage(widget.selectedImage);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Confirm",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(fontWeight: FontWeight.bold),
+          borderRadius: BorderRadius.circular(20), color: MyTheme.blackTwo),
+      child: Column(
+        children: [
+          Text(
+            "Pick Avatar",
+            style: Theme.of(context).textTheme.headline3,
+          ),
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(vertical: 20),
+            // controller: widget.scrollController,
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4, childAspectRatio: 1),
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                setState(() {
+                  widget.selectedImage = widget.images[index];
+                });
+              },
+              child: Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: widget.selectedImage == widget.images[index]
+                        ? MyTheme.gray
+                        : MyTheme.blackTwo,
+                    borderRadius: BorderRadius.circular(15),
                   ),
+                  child: Image.asset(widget.images[index], width: 100)),
+            ),
+            itemCount: widget.images.length,
+          ),
+          Container(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ))),
+              onPressed: () {
+                widget.changeSelectedImage(widget.selectedImage);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  "Confirm",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
-

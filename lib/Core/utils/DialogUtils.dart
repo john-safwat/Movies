@@ -31,7 +31,7 @@ class MyDialogUtils {
               ),
             ),
         barrierColor: Colors.black.withOpacity(0.7),
-        barrierDismissible: true);
+        barrierDismissible: false);
   }
 
   static hideDialog(BuildContext context){
@@ -131,18 +131,17 @@ class MyDialogUtils {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     )),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      color: Colors.white,
-                      size: 60,
-                    ),
-                    Text(
-                      message,
-                      style: Theme.of(context).textTheme.headline5,
-                    )
-                  ],
+                child: Icon(
+                  Icons.error_outline,
+                  color: Colors.white,
+                  size: 60,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20 , right: 20 , left: 20),
+                child: Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               Padding(
@@ -155,8 +154,11 @@ class MyDialogUtils {
           ),
         ),
         barrierColor: Colors.black.withOpacity(0.7),
-        barrierDismissible: true);
+        barrierDismissible: false);
   }
+
+
+
   static showSuccessMessage({
     required BuildContext context,
     required String message ,
@@ -249,18 +251,17 @@ class MyDialogUtils {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     )),
-                child: Column(
-                  children: [
-                    Icon(
-                      EvaIcons.checkmarkCircle,
-                      color: Colors.white,
-                      size: 60,
-                    ),
-                    Text(
-                      message,
-                      style: Theme.of(context).textTheme.headline5,
-                    )
-                  ],
+                child: Icon(
+                  EvaIcons.checkmarkCircle,
+                  color: Colors.white,
+                  size: 60,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20 , right: 20 , left: 20),
+                child: Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               Padding(
@@ -273,6 +274,6 @@ class MyDialogUtils {
           ),
         ),
         barrierColor: Colors.black.withOpacity(0.7),
-        barrierDismissible: true);
+        barrierDismissible: false);
   }
 }

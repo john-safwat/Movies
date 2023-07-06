@@ -4,7 +4,7 @@ import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Home/HomeTabView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Search/SearchTabView.dart';
-import 'package:mymoviesapp/Presentation/Login/LoginScreen.dart';
+import 'package:mymoviesapp/Presentation/Login/LoginView.dart';
 import 'package:mymoviesapp/Presentation/Registration/RegistrationView.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.7,
             child: ElevatedButton(
               onPressed: (){
-                GoRouter.of(context).pushNamed(LoginScreen.routeName);
+                GoRouter.of(context).goNamed(LoginScreen.routeName);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(MyTheme.gold),
@@ -57,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.7,
             child: ElevatedButton(
                 onPressed: (){
-                  GoRouter.of(context).pushNamed(RegistrationScreen.routeName);
+                  GoRouter.of(context).goNamed(RegistrationScreen.routeName);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(MyTheme.backGroundColor),

@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 
-class myTextFormField  extends StatelessWidget {
+class MyTextFormField  extends StatelessWidget {
 
   String hint;
   IconData icon ;
   Function validation ;
   TextEditingController controller;
   TextInputType keyboardType;
-  myTextFormField(this.hint , this.icon , this.validation, this.controller , this.keyboardType,{super.key});
+  MyTextFormField(this.hint , this.icon , this.validation, this.controller , this.keyboardType,{super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,20 +66,20 @@ class myTextFormField  extends StatelessWidget {
 }
 
 
-class myPasswordTextFormField  extends StatefulWidget {
+class MyPasswordTextFormField  extends StatefulWidget {
 
   String hint;
   IconData icon ;
   Function validation ;
   TextEditingController controller;
   TextInputType keyboardType;
-  myPasswordTextFormField(this.hint , this.icon , this.validation, this.controller, this.keyboardType ,{super.key});
+  MyPasswordTextFormField(this.hint , this.icon , this.validation, this.controller, this.keyboardType ,{super.key});
 
   @override
-  State<myPasswordTextFormField> createState() => _myPasswordTextFormFieldState();
+  State<MyPasswordTextFormField> createState() => _MyPasswordTextFormFieldState();
 }
 
-class _myPasswordTextFormFieldState extends State<myPasswordTextFormField> {
+class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
   bool showPassword = false ;
 
   @override

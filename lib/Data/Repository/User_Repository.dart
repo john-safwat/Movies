@@ -23,4 +23,10 @@ class UserRepositoryImpl implements UserRepository {
         uid: user.uid));
     return response;
   }
+
+  @override
+  Future<String> login(String email, String password) async{
+    var response = await dataSource.login(email, password);
+    return response;
+  }
 }
