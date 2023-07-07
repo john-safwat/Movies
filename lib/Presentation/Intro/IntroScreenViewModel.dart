@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:mymoviesapp/Presentation/Intro/IntroScreenNavigator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Presentation/Intro/Widgets/FirstTab.dart';
 import 'package:mymoviesapp/Presentation/Intro/Widgets/LastTab.dart';
 import 'package:mymoviesapp/Presentation/Intro/Widgets/SecondTab.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class IntroScreenViewModel extends ChangeNotifier {
-  List<Widget> tabs = [] ;
-  int currentIndex = 0 ;
-  IntroScreenNavigator? navigator;
 
-  void setWidgets(){
-    tabs.add(FirstTab(changeIndexCallBack: changeIndex));
-    tabs.add(SecondTab(changeIndexCallBack: changeIndex));
-    tabs.add(LastTab(changeIndexCallBack: changeIndex));
-  }
-  void changeIndex(int newIndex){
+class IntroScreenViewModel extends Cubit<BaseCubitState>{
+  IntroScreenViewModel():super(TabsState());
+
+  late List<Widget> tabs = [
+    FirstTab(changeIndexCallBack: changeIndex),
+    SecondTab(changeIndexCallBack: changeIndex),
+    LastTab(changeIndexCallBack: changeIndex)
+  ];
+
+  int currentIndex = 0;
+
+  void changeIndex(int newIndex)async{
     if(newIndex == 3){
-      navigator!.goToWelcomeScreen();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("introDone", true);
+      emit(GoToWelcomeScreenAction());
       return;
     }
     currentIndex = newIndex ;
-    notifyListeners();
+    emit(TabsState());
   }
 }
+
+class TabsState extends BaseCubitState{}
+class GoToWelcomeScreenAction extends BaseCubitState{}
+

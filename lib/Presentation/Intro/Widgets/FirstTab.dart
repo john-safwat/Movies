@@ -18,13 +18,9 @@ class FirstTab extends StatelessWidget {
               Container(
                 margin:const EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
-                child: const Text(
+                child: Text(
                   "It's Time To Take a Brake",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold
-                  ),
+                  style: Theme.of(context).textTheme.headline1,
                 ),
               ),
               Image.asset('assets/images/image1_splash.png', width: MediaQuery.of(context).size.width * 0.8,),
@@ -33,37 +29,32 @@ class FirstTab extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Text(
-                "With a Huge Library of High Quality Movies To Watch You Can Watch What Ever You Want Also You Can Download it",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: MyTheme.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24
-                ),
-              ),
-              const SizedBox(height: 30,),
-              SizedBox(
-                height: 45,
-                width: MediaQuery.of(context).size.width * 0.7,
-                child: ElevatedButton(
-                  onPressed: (){
-                    changeIndexCallBack(1);
-                  },
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor: MaterialStateProperty.all(MyTheme.white),
-                    shape:MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ))
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  "With a Huge Library of High Quality Movies To Watch You Can Watch What Ever You Want Also You Can Download it",
+                  textAlign: TextAlign.center,
+                  style:Theme.of(context).textTheme.headline1
                   ),
-                  child: const Text(
-                    "Next",
-                    style: TextStyle(
-                      color: MyTheme.gold,
-                      fontSize: 24
+              ),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: ElevatedButton(
+                    onPressed: (){
+                      changeIndexCallBack(1);
+                    },
+                    style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                        backgroundColor: MaterialStateProperty.all(MyTheme.white),
+                        shape:MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ))
                     ),
-                  )
+                    child: Text(
+                      "Next",
+                      style:Theme.of(context).textTheme.headline1!.copyWith(color: MyTheme.gold)
+                    )
                 ),
               ),
               // the three points in the end
@@ -80,7 +71,7 @@ class FirstTab extends StatelessWidget {
                         color: MyTheme.white
                       ),
                     ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(width: 10,),
                     Container(
                       height: 10,
                       width: 10,
@@ -89,7 +80,7 @@ class FirstTab extends StatelessWidget {
                           color: MyTheme.blackFour
                       ),
                     ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(width: 10,),
                     Container(
                       height: 10,
                       width: 10,

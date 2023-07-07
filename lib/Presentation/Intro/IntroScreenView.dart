@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Presentation/Intro/IntroScreenViewModel.dart';
 import 'package:mymoviesapp/Presentation/Welcome/WelcomeScreen.dart';
 import 'package:provider/provider.dart';
 
-import 'IntroScreenNavigator.dart';
 
 class IntroScreenView extends StatefulWidget {
+  const IntroScreenView({super.key});
   static const String routeName = 'IntroScreen';
   static const String path = '/IntroScreen';
 
@@ -13,36 +16,22 @@ class IntroScreenView extends StatefulWidget {
   State<IntroScreenView> createState() => _IntroScreenViewState();
 }
 
-class _IntroScreenViewState extends State<IntroScreenView> implements IntroScreenNavigator{
+class _IntroScreenViewState extends State<IntroScreenView> {
   IntroScreenViewModel viewModel = IntroScreenViewModel();
 
   @override
-  void initState() {
-    super.initState();
-    viewModel.navigator = this;
-    viewModel.setWidgets();
-  }
-  @override
-  void dispose() {
-    super.dispose();
-    viewModel.navigator = null ;
-  }
-  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return BlocProvider<IntroScreenViewModel>(
       create: (context) => viewModel,
-      child: Consumer<IntroScreenViewModel>(
-        builder: (context, value, child) =>  Scaffold(
-          body: value.tabs[value.currentIndex],
-        ),
+      child: BlocConsumer<IntroScreenViewModel , BaseCubitState>(
+        listener: (context, state) {
+          if(state is GoToWelcomeScreenAction){
+            GoRouter.of(context).goNamed(WelcomeScreen.routeName);
+          }
+        },
+        builder: (context, state) => Scaffold(body: viewModel.tabs[viewModel.currentIndex]),
       ),
     );
   }
-
-  @override
-  void goToWelcomeScreen() {
-    Navigator.pushReplacementNamed(context, WelcomeScreen.routeName);
-  }
-
-
 }
+

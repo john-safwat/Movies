@@ -19,13 +19,9 @@ class LastTab extends StatelessWidget {
               Container(
                 margin:const EdgeInsets.all(30),
                 alignment: Alignment.topCenter,
-                child: const Text(
+                child: Text(
                   "See all Movies Details",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold
-                  ),
+                  style: Theme.of(context).textTheme.headline1
                 ),
               ),
               Image.asset('assets/images/image3_splash.png', width: MediaQuery.of(context).size.width * 0.8,),
@@ -34,19 +30,18 @@ class LastTab extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Text(
-                "Watch What Ever You Want And Manage Watch List  ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: MyTheme.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  "Watch What Ever You Want And Manage Watch List  ",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline1
                 ),
               ),
-              const SizedBox(height: 30,),
-              SizedBox(
-                height: 45,
-                width: MediaQuery.of(context).size.width * 0.7,
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+
                 child: ElevatedButton(
                     onPressed: (){
                       changeIndexCallBack(3);
@@ -56,22 +51,19 @@ class LastTab extends StatelessWidget {
                         elevation: MaterialStateProperty.all(0),
                         backgroundColor: MaterialStateProperty.all(MyTheme.white),
                         shape:MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(15),
                         ))
                     ),
-                    child: const Text(
+                    child: Text(
                       "Finish",
-                      style: TextStyle(
-                          color: MyTheme.gold,
-                          fontSize: 24
-                      ),
+                      style: Theme.of(context).textTheme.headline1!.copyWith(color: MyTheme.gold)
                     )
                 ),
               ),
-              const SizedBox(height: 20,),
-              SizedBox(
-                height: 45,
-                width: MediaQuery.of(context).size.width * 0.7,
+              const SizedBox(height: 10,),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
                     onPressed: (){
                       changeIndexCallBack(1);
@@ -80,16 +72,13 @@ class LastTab extends StatelessWidget {
                         elevation: MaterialStateProperty.all(0),
                         backgroundColor: MaterialStateProperty.all(Colors.transparent),
                         shape:MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
+                            borderRadius: BorderRadius.circular(15),
                             side:const BorderSide(color: Colors.white ,width: 3)
                         ))
                     ),
-                    child: const Text(
+                    child:  Text(
                       "Back",
-                      style: TextStyle(
-                          color: MyTheme.white,
-                          fontSize: 24
-                      ),
+                      style:Theme.of(context).textTheme.headline1
                     )
                 ),
               ),
@@ -107,7 +96,7 @@ class LastTab extends StatelessWidget {
                           color: MyTheme.blackFour
                       ),
                     ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(width: 10,),
                     Container(
                       height: 10,
                       width: 10,
@@ -116,7 +105,7 @@ class LastTab extends StatelessWidget {
                           color: MyTheme.blackFour
                       ),
                     ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(width: 10,),
                     Container(
                       height: 10,
                       width: 10,

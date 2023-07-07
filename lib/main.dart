@@ -31,13 +31,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  var uid = prefs.getString('uidd');
+  var uid = prefs.getString('uid');
+  var isFirstTime = prefs.getBool('introDone');
   uid??= '';
+  isFirstTime??=false;
   print(uid);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp(uid: uid,));
+  runApp(MyApp(uid: uid,isFirstTime: isFirstTime,));
   FlutterNativeSplash.remove();
 }
 
@@ -47,7 +49,8 @@ final shellNavigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
 
   String uid;
-  MyApp({required this.uid});
+  bool isFirstTime;
+  MyApp({required this.uid , required this.isFirstTime});
 
   late var router = GoRouter(
       initialLocation: getInitialLocation(),
@@ -113,6 +116,9 @@ class MyApp extends StatelessWidget {
       ]);
 
   String getInitialLocation(){
+    if(!isFirstTime){
+      return IntroScreenView.path;
+    }
     return uid.isEmpty ? WelcomeScreen.path: HomeTabView.path;
   }
 
