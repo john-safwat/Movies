@@ -29,4 +29,10 @@ class UserRepositoryImpl implements UserRepository {
     var response = await dataSource.login(email, password);
     return response;
   }
+
+  @override
+  Future<String> resetPassword(String email) async{
+    var response = await dataSource.resetPassword(email);
+    return response;
+  }
 }

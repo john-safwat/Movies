@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -40,174 +41,172 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocProvider(
-        create: (context) => viewModel,
-        child: BlocConsumer<RegistrationViewModel, BaseCubitState>(
-          listener: (context, state) {
-            if (state is ShowModalBottomSheetAction) {
-              showMyModalBottomSheet(context);
-            }
-            if (state is HideDialog) {
-              MyDialogUtils.hideDialog(context);
-            }
-            if (state is ShowLoadingState) {
-              MyDialogUtils.showLoadingDialog(context, state.message);
-            }
-            if (state is ShowSuccessMessageState) {
-              MyDialogUtils.showSuccessMessage(
-                  context: context,
-                  message: state.message,
-                  posActionTitle: "Ok",
-                  posAction: viewModel.goToHomeScreen);
-            }
-            if (state is ShowErrorMessageState) {
-              MyDialogUtils.showFailMessage(
-                  context: context,
-                  message: state.message,
-                  posActionTitle: "Try Again");
-            }
-            if (state is GoToHomeScreenAction) {
-              GoRouter.of(context).goNamed(HomeTabView.routeName);
-            }
-            if (state is GoToLoginScreenAction) {
-              GoRouter.of(context).goNamed(LoginScreen.routeName);
-            }
-            if (state is InputWaiting) {
-              context.pop();
-            }
-          },
-          builder: (context, state) => Scaffold(
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Create  ",
-                          style: Theme.of(context).textTheme.headline1,
-                        ),
-                        Image.asset(
-                          "assets/images/Logo.png",
-                          height: 30,
-                        ),
-                        Text(
-                          "  Account",
-                          style: Theme.of(context).textTheme.headline1,
-                        ),
-                      ],
-                    ),
-                    Stack(children: [
+    return BlocProvider(
+      create: (context) => viewModel,
+      child: BlocConsumer<RegistrationViewModel, BaseCubitState>(
+        listener: (context, state) {
+          if (state is ShowModalBottomSheetAction) {
+            showMyModalBottomSheet(context);
+          }
+          if (state is HideDialog) {
+            MyDialogUtils.hideDialog(context);
+          }
+          if (state is ShowLoadingState) {
+            MyDialogUtils.showLoadingDialog(context, state.message);
+          }
+          if (state is ShowSuccessMessageState) {
+            MyDialogUtils.showSuccessMessage(
+                context: context,
+                message: state.message,
+                posActionTitle: "Ok",
+                posAction: viewModel.goToHomeScreen);
+          }
+          if (state is ShowErrorMessageState) {
+            MyDialogUtils.showFailMessage(
+                context: context,
+                message: state.message,
+                posActionTitle: "Try Again");
+          }
+          if (state is GoToHomeScreenAction) {
+            GoRouter.of(context).goNamed(HomeTabView.routeName);
+          }
+          if (state is GoToLoginScreenAction) {
+            GoRouter.of(context).goNamed(LoginScreen.routeName);
+          }
+          if (state is InputWaiting) {
+            context.pop();
+          }
+        },
+        builder: (context, state) => Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Create  ",
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
                       Image.asset(
-                        viewModel.image,
-                        width: 150,
+                        "assets/images/Logo.png",
+                        height: 30,
                       ),
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(100),
-                          onTap: viewModel.showModalBottomSheetState,
-                          child: CircleAvatar(
-                              backgroundColor: MyTheme.gold,
-                              child: Icon(
-                                Icons.edit,
-                                color: MyTheme.white,
-                              )),
-                        ),
+                      Text(
+                        "  Account",
+                        style: Theme.of(context).textTheme.headline1,
                       ),
-                    ]),
-                    Form(
-                        key: viewModel.formKey,
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            MyTextFormField(
-                                "Name",
-                                Icons.badge_outlined,
-                                viewModel.nameValidation,
-                                viewModel.name,
-                                TextInputType.name),
-                            MyTextFormField(
-                                "Email",
-                                Icons.email_outlined,
-                                viewModel.emailValidation,
-                                viewModel.email,
-                                TextInputType.emailAddress),
-                            MyPasswordTextFormField(
-                                "Password",
-                                Icons.lock_outline_rounded,
-                                viewModel.passwordValidation,
-                                viewModel.password,
-                                TextInputType.visiblePassword),
-                            MyPasswordTextFormField(
-                                "Re-Password",
-                                Icons.lock_outline_rounded,
-                                viewModel.passwordValidation,
-                                viewModel.passwordConfirmation,
-                                TextInputType.visiblePassword),
-                            MyTextFormField(
-                                "Phone Number",
-                                UniconsLine.dialpad_alt,
-                                viewModel.phoneValidation,
-                                viewModel.phone,
-                                TextInputType.phone),
-                            Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.all(20),
-                              child: ElevatedButton(
-                                  onPressed: viewModel.register,
+                    ],
+                  ),
+                  Stack(children: [
+                    Image.asset(
+                      viewModel.image,
+                      width: 150,
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(100),
+                        onTap: viewModel.showModalBottomSheetState,
+                        child: CircleAvatar(
+                            backgroundColor: MyTheme.gold,
+                            child: Icon(
+                              Icons.edit,
+                              color: MyTheme.white,
+                            )),
+                      ),
+                    ),
+                  ]),
+                  Form(
+                      key: viewModel.formKey,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          MyTextFormField(
+                              "Name",
+                              EvaIcons.person,
+                              viewModel.nameValidation,
+                              viewModel.name,
+                              TextInputType.name),
+                          MyTextFormField(
+                              "Email",
+                              EvaIcons.email,
+                              viewModel.emailValidation,
+                              viewModel.email,
+                              TextInputType.emailAddress),
+                          MyPasswordTextFormField(
+                              "Password",
+                              EvaIcons.lock,
+                              viewModel.passwordValidation,
+                              viewModel.password,
+                              TextInputType.visiblePassword),
+                          MyPasswordTextFormField(
+                              "Re-Password",
+                              EvaIcons.lock,
+                              viewModel.passwordValidation,
+                              viewModel.passwordConfirmation,
+                              TextInputType.visiblePassword),
+                          MyTextFormField(
+                              "Phone Number",
+                              EvaIcons.phone,
+                              viewModel.phoneValidation,
+                              viewModel.phone,
+                              TextInputType.phone),
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.all(20),
+                            child: ElevatedButton(
+                                onPressed: viewModel.register,
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(
+                                            MyTheme.gold),
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    "Create Account",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already Have Account ?",
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                              TextButton(
+                                  onPressed: viewModel.goToLoginScreen,
                                   style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              MyTheme.gold),
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      "Create Account",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                  )),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Already Have Account ?",
-                                  style: Theme.of(context).textTheme.headline5,
-                                ),
-                                TextButton(
-                                    onPressed: viewModel.goToLoginScreen,
-                                    style: ButtonStyle(
-                                      overlayColor: MaterialStateProperty.all(Colors.transparent),
-                                    ),
-                                    child: Text(
-                                      "Login",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ))
-                              ],
-                            )
-                          ],
-                        ))
-                  ],
-                ),
+                                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                                  ),
+                                  child: Text(
+                                    "Login",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold),
+                                  ))
+                            ],
+                          )
+                        ],
+                      ))
+                ],
               ),
             ),
           ),

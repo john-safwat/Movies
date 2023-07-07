@@ -136,7 +136,6 @@ class RegistrationViewModel extends Cubit<BaseCubitState>{
 
 
 class InputWaiting extends BaseCubitState{}
-class InvalidState extends BaseCubitState{}
 class GoToHomeScreenAction extends BaseCubitState{}
 class GoToLoginScreenAction extends BaseCubitState{}
 class ShowModalBottomSheetAction extends BaseCubitState{}

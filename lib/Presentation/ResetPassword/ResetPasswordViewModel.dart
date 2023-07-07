@@ -1,21 +1,18 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
-import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseAuthException.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseTimeoutException.dart';
-import 'package:mymoviesapp/Domain/UseCase/loginUseCase.dart';
+import 'package:mymoviesapp/Domain/UseCase/resetPasswordUseCase.dart';
 
-class LoginViewModel extends Cubit<BaseCubitState>{
+class ResetPasswordViewModel extends Cubit<BaseCubitState>{
 
-  LoginUseCase useCase ;
-  LoginViewModel(this.useCase):super(InputWaiting());
+  ResetPasswordUseCase useCase ;
 
-  AppConfigProvider? provider;
+  ResetPasswordViewModel(this.useCase):super(InputWaiting());
 
   final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   // validate on the email form
   String? emailValidation(String input) {
@@ -30,24 +27,14 @@ class LoginViewModel extends Cubit<BaseCubitState>{
     }
     return null;
   }
-  // validate the password is not less than 8 chars
-  String? passwordValidation(String input) {
-    if (input.isEmpty) {
-      return "The Password Can't Be Empty";
-    } else if (input.length < 8) {
-      return "The Password Must be More Than 8 Characters";
-    }
-    return null;
-  }
 
-  void login()async{
+  void resetPassword()async{
     if(formKey.currentState!.validate()){
-      emit(ShowLoadingState("Signing You In"));
+      emit(ShowLoadingState("Sending Email"));
       try{
-        var response = await useCase.invoke(emailController.text, passwordController.text);
-        provider!.updateUid(response);
+        var response =  await useCase.invoke(emailController.text);
         emit(HideDialog());
-        emit(ShowSuccessMessageState("Welcome Back"));
+        emit(ShowSuccessMessageState(response));
       }catch (e){
         emit(HideDialog());
         if (e is FirebaseAuthDataSourceException){
@@ -61,20 +48,15 @@ class LoginViewModel extends Cubit<BaseCubitState>{
     }
   }
 
-  void goToHomeScreen(){
-    emit(GoToHomeScreenAction());
-  }
-
   void goToRegistrationScreen(){
     emit(GoToRegistrationScreenAction());
   }
 
-  void goToResetPasswordScreen(){
-    emit(GoToResetPasswordScreenAction());
+  void goToLoginScreen(){
+    emit(GoToLoginScreenAction());
   }
-}
 
+}
 class InputWaiting extends BaseCubitState{}
 class GoToRegistrationScreenAction extends BaseCubitState{}
-class GoToHomeScreenAction extends BaseCubitState{}
-class GoToResetPasswordScreenAction extends BaseCubitState{}
+class GoToLoginScreenAction extends BaseCubitState{}

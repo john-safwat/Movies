@@ -18,6 +18,7 @@ import 'package:mymoviesapp/Presentation/Home/Tabs/Search/SearchTabView.dart';
 import 'package:mymoviesapp/Presentation/Intro/IntroScreenView.dart';
 import 'package:mymoviesapp/Presentation/Login/LoginView.dart';
 import 'package:mymoviesapp/Presentation/Registration/RegistrationView.dart';
+import 'package:mymoviesapp/Presentation/ResetPassword/ResetPasswordView.dart';
 import 'package:mymoviesapp/Presentation/Welcome/WelcomeScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +31,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  var uid = prefs.getString('uid');
+  var uid = prefs.getString('uidd');
   uid??= '';
   print(uid);
   await Firebase.initializeApp(
@@ -71,6 +72,11 @@ class MyApp extends StatelessWidget {
           path: RegistrationScreen.path,
           name: RegistrationScreen.routeName,
           builder: (context, state) => RegistrationScreen(),
+        ),
+        GoRoute(
+          path: ResetPasswordView.path,
+          name: ResetPasswordView.routeName,
+          builder: (context, state) => ResetPasswordView(),
         ),
         ShellRoute(
             builder: (context, state, child) => HomeScreen(tab: child),
