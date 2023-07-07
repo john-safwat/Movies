@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mymoviesapp/Data/Models/User/UserDTO.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseTimeoutException.dart';
 
@@ -24,6 +25,13 @@ class FirebaseDatabase{
     var ref =  getCollectionReference() ;
     var doc = ref.doc();
     return doc.set(user).timeout(Duration(seconds: 5) , onTimeout: () =>throw FirebaseTimeoutException(),);
+  }
+
+  Future<UserDTO> getUser(String uid)async{
+    var response =  await FirebaseFirestore.instance.collection('Users').where('uid' , isEqualTo: uid).get();
+    UserDTO? user;
+    response.docs.forEach((element) {user = UserDTO.fromFireStore(element.data());});
+    return user!;
   }
 
 }

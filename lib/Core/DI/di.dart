@@ -56,11 +56,11 @@ UsersRemoteDataSource getUsersRemoteDataSource(FirebaseDatabase database){
   return UsersRemoteDataSourceImpl(database);
 }
 
-UserRepository getAuthRepository(AuthFirebaseRemoteDataSource remoteDataSource , UsersRemoteDataSource usersRemoteDataSource){
+UserRepository getUserRepository(AuthFirebaseRemoteDataSource remoteDataSource , UsersRemoteDataSource usersRemoteDataSource){
   return UserRepositoryImpl(remoteDataSource , usersRemoteDataSource);
 }
 
-UserRepository injectAuthRepository(){
-  return getAuthRepository(getAuthFirebaseRemoteDataSource(getAuth()) , getUsersRemoteDataSource(getFirebaseDatabase()));
+UserRepository injectUserRepository(){
+  return getUserRepository(getAuthFirebaseRemoteDataSource(getAuth()) , getUsersRemoteDataSource(getFirebaseDatabase()));
 }
 

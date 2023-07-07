@@ -23,7 +23,7 @@ class ResetPasswordView extends StatefulWidget {
 }
 
 class _ResetPasswordViewState extends State<ResetPasswordView> {
-  ResetPasswordViewModel viewModel = ResetPasswordViewModel(ResetPasswordUseCase(injectAuthRepository()));
+  ResetPasswordViewModel viewModel = ResetPasswordViewModel(ResetPasswordUseCase(injectUserRepository()));
 
   @override
   Widget build(BuildContext context) {

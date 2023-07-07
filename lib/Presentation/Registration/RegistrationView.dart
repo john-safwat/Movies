@@ -25,7 +25,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   RegistrationViewModel viewModel =
-      RegistrationViewModel(SignupUseCase(injectAuthRepository()));
+      RegistrationViewModel(SignupUseCase(injectUserRepository()));
 
   @override
   void initState() {

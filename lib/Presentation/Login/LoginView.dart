@@ -24,7 +24,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginViewModel viewModel = LoginViewModel(LoginUseCase(injectAuthRepository()));
+  LoginViewModel viewModel = LoginViewModel(LoginUseCase(injectUserRepository()));
 
   @override
   void initState() {
