@@ -58,6 +58,8 @@ class _HomeTabViewState extends State<HomeTabView> {
             return true;
           }else if (previous is LoadingState && current is ErrorState){
             return true;
+          }else if (previous is ErrorState && current is LoadingState){
+            return true;
           }else {
             return false;
           }
@@ -102,7 +104,6 @@ class _HomeTabViewState extends State<HomeTabView> {
                 Text(state.errorMessage , style: const TextStyle(color: Colors.white),),
                 ElevatedButton(
                     onPressed: (){
-                      viewModel.setStateToLoading();
                       viewModel.readData();
                     },
                     style: ButtonStyle(

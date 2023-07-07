@@ -15,7 +15,7 @@ class HomeTabViewModel extends Cubit<BaseCubitState>{
   HomeScreenViewModel? homeScreenViewModel;
 
   Future<void> readData()async{
-
+    emit(LoadingState());
     if(provider!.movies != null){
       emit(MoviesLoadedState(provider!.movies,provider!.actionMovies, provider!.animationMovies, provider!.crimeMovies, provider!.dramaMovies));
     } else {

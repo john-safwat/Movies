@@ -92,19 +92,27 @@ class _SearchTabViewState extends State<SearchTabView> {
                 }
               },
               buildWhen: (previous, current) {
-                if(previous is LoadingState && current is MoviesLoadedState){
+                if(previous is EmptyListState && current is LoadingState){
+                  return true;
+                }else if (previous is LoadingState && current is EmptyListState){
+                  return true;
+                }else if (previous is LoadingState && current is MoviesLoadedState){
                   return true;
                 }else if (previous is LoadingState && current is ErrorState){
                   return true;
-                }else if (previous is ErrorState && current is MoviesLoadedState){
+                }else if (previous is MoviesLoadedState && current is LoadingState){
+                  return true;
+                }else if (previous is ErrorState && current is LoadingState){
                   return true;
                 }else {
                   return false;
                 }
               },
               builder: (context, state) {
-                if (state is LoadingState) {
+                if (state is EmptyListState) {
                   return Center(child: Image.asset('assets/images/Empty.png'),);
+                }else if(state is LoadingState){
+                  return Center(child: CircularProgressIndicator(color: MyTheme.gold,),);
                 } else if (state is MoviesLoadedState) {
                   return Column(
                     children: [

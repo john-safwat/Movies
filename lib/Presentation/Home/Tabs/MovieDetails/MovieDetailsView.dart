@@ -33,8 +33,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
   @override
   void initState() {
-    viewModel.homeScreenViewModel =
-        Provider.of<HomeScreenViewModel>(context, listen: false);
+    viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context, listen: false);
     viewModel.movie = widget.movie;
     viewModel.loadData();
     super.initState();

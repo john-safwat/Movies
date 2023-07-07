@@ -6,11 +6,12 @@ import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
 
 class SearchTabViewModel extends Cubit<BaseCubitState>{
   GetSearchResultsUseCase useCase ;
-  SearchTabViewModel(this.useCase) : super(LoadingState());
+  SearchTabViewModel(this.useCase) : super(EmptyListState());
 
   HomeScreenViewModel? homeScreenViewModel;
 
   Future<void> getSearchResults(String keyword)async{
+    emit(LoadingState());
     if(keyword.isNotEmpty){
       try{
         if(keyword == 'الراجل اللي يابختة'){
@@ -26,7 +27,7 @@ class SearchTabViewModel extends Cubit<BaseCubitState>{
         emit(ErrorState(e.toString()));
       }
     }else{
-      emit(LoadingState());
+      emit(EmptyListState());
     }
   }
 
@@ -35,6 +36,9 @@ class SearchTabViewModel extends Cubit<BaseCubitState>{
   }
 
 }
+
+class EmptyListState extends BaseCubitState{}
+
 class MoviesLoadedState extends BaseCubitState {
   List<Movies> movies ;
   MoviesLoadedState(this.movies);
