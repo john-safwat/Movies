@@ -4,7 +4,8 @@ import 'package:mymoviesapp/Domain/Repository/Movies_Data_Contract.dart';
 
 class MoviesDataRepositoryImpl implements MoviesDataRepository {
   MoviesDataRemoteDataSource remoteDataSource ;
-  MoviesDataRepositoryImpl(this.remoteDataSource);
+  SQLiteDataSource sqLiteDataSource;
+  MoviesDataRepositoryImpl(this.remoteDataSource , this.sqLiteDataSource);
 
   @override
   Future<List<Movies>?> getTopRatedMovies() async{
@@ -34,5 +35,17 @@ class MoviesDataRepositoryImpl implements MoviesDataRepository {
   Future<Movie> getMovieFullDetails(String movieId) async{
     var response = await remoteDataSource.getMovieFullDetails(movieId);
     return response.movie!;
+  }
+
+  @override
+  Future<String> addToHistory(Movies movie, String uid) {
+    // TODO: implement addToHistory
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> addToWishList(Movies movie, String uid) {
+    // TODO: implement addToWishList
+    throw UnimplementedError();
   }
 }

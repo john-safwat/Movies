@@ -87,7 +87,7 @@ class _SearchTabViewState extends State<SearchTabView> {
             child: BlocConsumer<SearchTabViewModel, BaseCubitState>(
               listener: (context, state) {
                 if(state is MovieDetailsAction){
-                  GoRouter.of(context).pushNamed( MovieDetailsScreen.routeName , extra: state.movie);
+                  GoRouter.of(context).pushNamed( MovieDetailsScreen.routeName , extra: state.movie.id.toString());
                   viewModel.homeScreenViewModel!.setSelectedIndex(9);
                 }
               },

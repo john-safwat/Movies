@@ -12,13 +12,12 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
   GetRelatedMoviesUseCase getRelatedMoviesUseCase ;
   GetMovieFullDetailsUseCase getMovieFullDetailsUseCase ;
   MovieDetailsViewModel(this.getRelatedMoviesUseCase , this.getMovieFullDetailsUseCase):super(LoadingState());
-  var movie ;
 
   HomeScreenViewModel?homeScreenViewModel;
-  void loadData()async{
+  void loadData(String movieId)async{
     try{
-      var movies =await getRelatedMoviesUseCase.invoke(this.movie!.id.toString());
-      var movie =await getMovieFullDetailsUseCase.invoke(this.movie!.id.toString());
+      var movies =await getRelatedMoviesUseCase.invoke(movieId.toString());
+      var movie =await getMovieFullDetailsUseCase.invoke(movieId.toString());
 
       emit(DataLoadedState( movie ,movies!)) ;
     }catch (e){

@@ -50,7 +50,7 @@ class _HomeTabViewState extends State<HomeTabView> {
         listener: (context, state) {
           if(state is MovieDetailsAction){
             viewModel.homeScreenViewModel?.setSelectedIndex(9);
-            context.pushNamed(MovieDetailsScreen.routeName , extra: state.movie);
+            context.pushNamed(MovieDetailsScreen.routeName , extra: state.movie.id.toString());
           }
         },
         buildWhen: (previous, current) {
@@ -60,6 +60,10 @@ class _HomeTabViewState extends State<HomeTabView> {
             return true;
           }else if (previous is ErrorState && current is LoadingState){
             return true;
+          }else if (previous is RefreshState && current is MoviesLoadedState){
+            return true;
+          }else if (previous is RefreshState && current is ErrorState ){
+            return true;
           }else {
             return false;
           }
@@ -68,35 +72,39 @@ class _HomeTabViewState extends State<HomeTabView> {
           if (state is LoadingState) {
             return MyPlaceHolder();
           } else if (state is MoviesLoadedState) {
-            return SingleChildScrollView(
-                child: Column(
-                children: [
-                  TopRatedMovies(movies: state.movies! , goToDetailsScreen: viewModel.goToDetailsScreen),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Movieslist(
-                    movies: state.actionMovies!,
-                    type: "Action Movies",
-                    goToDetailsScreen: viewModel.goToDetailsScreen
-                  ),
-                  Movieslist(
-                    movies: state.crimeMovies!,
-                    type: "Crime Movies  ",
-                    goToDetailsScreen: viewModel.goToDetailsScreen
-                  ),
-                  Movieslist(
-                    movies: state.dramaMovies!,
-                    type: "Drama Movies",
-                    goToDetailsScreen: viewModel.goToDetailsScreen
-                  ),
-                  Movieslist(
-                    movies: state.animationMovies!,
-                    type: "Animation Movies",
-                    goToDetailsScreen: viewModel.goToDetailsScreen
-                  ),
-                ],
-            ));
+            return RefreshIndicator(
+              onRefresh: viewModel.refreshData,
+              color: MyTheme.gold,
+              child: SingleChildScrollView(
+                  child: Column(
+                  children: [
+                    TopRatedMovies(movies: state.movies! , goToDetailsScreen: viewModel.goToDetailsScreen),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Movieslist(
+                      movies: state.actionMovies!,
+                      type: "Action Movies",
+                      goToDetailsScreen: viewModel.goToDetailsScreen
+                    ),
+                    Movieslist(
+                      movies: state.crimeMovies!,
+                      type: "Crime Movies  ",
+                      goToDetailsScreen: viewModel.goToDetailsScreen
+                    ),
+                    Movieslist(
+                      movies: state.dramaMovies!,
+                      type: "Drama Movies",
+                      goToDetailsScreen: viewModel.goToDetailsScreen
+                    ),
+                    Movieslist(
+                      movies: state.animationMovies!,
+                      type: "Animation Movies",
+                      goToDetailsScreen: viewModel.goToDetailsScreen
+                    ),
+                  ],
+              )),
+            );
           } else if(state is ErrorState){
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,

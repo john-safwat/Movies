@@ -17,8 +17,8 @@ import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView
 import 'package:provider/provider.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
-  Movies movie;
-  MovieDetailsScreen({required this.movie, Key? key}) : super(key: key);
+  String movieId;
+  MovieDetailsScreen({required this.movieId, Key? key}) : super(key: key);
   static const String routeName = 'MovieDetailsScreen';
   static const String path = '/MovieDetailsScreen';
 
@@ -34,8 +34,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   void initState() {
     viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context, listen: false);
-    viewModel.movie = widget.movie;
-    viewModel.loadData();
+    viewModel.loadData(widget.movieId);
     super.initState();
   }
 
@@ -49,7 +48,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             context.pop(context);
           } else if (state is MovieDetailsAction) {
             viewModel.homeScreenViewModel!.setSelectedIndex(9);
-            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie);
+            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie.id.toString());
           }
         },
         buildWhen: (previous, current) {
@@ -350,7 +349,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ElevatedButton(
                     onPressed: () {
                       viewModel.setStateToLoading();
-                      viewModel.loadData();
+                      viewModel.loadData(widget.movieId);
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(MyTheme.gold),

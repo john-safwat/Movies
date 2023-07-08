@@ -51,6 +51,38 @@ class HomeTabViewModel extends Cubit<BaseCubitState>{
       }
     }
   }
+  Future<void> refreshData()async{
+    emit(RefreshState());
+    try{
+      final response = await Future.wait([
+        getMoviesDataUseCase.doWork(),
+        getMoviesByGenreUseCase.doWork("Drama"),
+        getMoviesByGenreUseCase.doWork("Action"),
+        getMoviesByGenreUseCase.doWork("Crime"),
+        getMoviesByGenreUseCase.doWork("animation")
+      ]);
+
+      var movies = response[0];
+      var dramaMovies = response[1];
+      var actionMovies = response[2] ;
+      var crimeMovies = response[3];
+      var animationMovies = response[4];
+
+      provider!.movies = movies;
+      provider!.dramaMovies = dramaMovies;
+      provider!.actionMovies = actionMovies;
+      provider!.crimeMovies = crimeMovies;
+      provider!.animationMovies = animationMovies;
+
+      if(movies == null || dramaMovies == null || animationMovies == null || actionMovies == null ||crimeMovies == null){
+        emit(ErrorState("Couldn't Load The Data"));
+      }else{
+        emit(MoviesLoadedState(movies, actionMovies, animationMovies, crimeMovies, dramaMovies));
+      }
+    }catch(e){
+      emit(ErrorState(e.toString()));
+    }
+  }
 
   void setStateToLoading(){
     emit(LoadingState());
@@ -61,6 +93,7 @@ class HomeTabViewModel extends Cubit<BaseCubitState>{
   }
 }
 
+class RefreshState extends BaseCubitState{}
 class MoviesLoadedState extends BaseCubitState {
   List<Movies>? movies ;
   List<Movies>? actionMovies ;

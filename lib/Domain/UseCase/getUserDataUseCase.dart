@@ -8,6 +8,8 @@ class GetUserDataUseCase {
 
   Future<Users> invoke(String uid)async{
     var response = await repository.getUser(uid);
+    // capitalize the name of the user
+    response.name = response.name[0].toUpperCase()+response.name.substring(1).toLowerCase();
     return response;
   }
 }

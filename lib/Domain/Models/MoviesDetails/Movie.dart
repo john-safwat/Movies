@@ -33,7 +33,10 @@ class Movie {
     this.largeScreenshotImage3,
     this.cast,
     this.dateUploaded,
-    this.dateUploadedUnix,});
+    this.dateUploadedUnix,
+    this.isInWishList = false,
+    this.isWatched = false
+  });
 
   num? id;
   String? url;
@@ -67,5 +70,6 @@ class Movie {
   List<Cast>? cast;
   String? dateUploaded;
   num? dateUploadedUnix;
-
+  bool isInWishList;
+  bool isWatched;
 }

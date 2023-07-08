@@ -125,31 +125,10 @@ class MoviesDTO {
   }
   Movies toDomain(){
     return Movies(
-      title: title,
-      backgroundImage: backgroundImage,
-      backgroundImageOriginal: backgroundImageOriginal,
-      dateUploaded: dateUploaded,
-      dateUploadedUnix: dateUploadedUnix,
-      descriptionFull: descriptionFull,
-      genres: genres,
       id: id,
-      imdbCode: imdbCode,
-      language: language,
       largeCoverImage: largeCoverImage,
       mediumCoverImage: mediumCoverImage,
-      mpaRating: mpaRating,
       rating: rating,
-      runtime: runtime,
-      slug: slug,
-      smallCoverImage: smallCoverImage,
-      state: state,
-      summary: summary,
-      synopsis: synopsis,
-      titleEnglish: titleEnglish,
-      titleLong: titleLong,
-      url: url,
-      year: year,
-      ytTrailerCode: ytTrailerCode,
     );
   }
 }

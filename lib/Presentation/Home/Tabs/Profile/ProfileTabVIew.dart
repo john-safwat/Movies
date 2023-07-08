@@ -58,35 +58,46 @@ class _ProfileTabViewState extends State<ProfileTabView> {
               ],
             );
           }else if (state is UserLoadedState){
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0 , vertical: 30),
-                  child: Row(
-                    children: [
-                      Image.asset(state.user.image),
-                      const SizedBox(width: 20,),
-                      Expanded(child: Text(state.user.name , style: Theme.of(context).textTheme.headline3,))
-                    ],
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(20),
-                  child: ElevatedButton(
-                    onPressed: (){},
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )
-                      ),
-                      backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(state.user.name , style: Theme.of(context).textTheme.headline3, ),
+                centerTitle: false,
+                leading: Container(),
+                leadingWidth:10,
+                actions: [
+
+                ],
+              ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0 , vertical: 30),
+                    child: Row(
+                      children: [
+                        Image.asset(state.user.image),
+                        const SizedBox(width: 20,),
+                        Expanded(child: Text(state.user.name , style: Theme.of(context).textTheme.headline3,))
+                      ],
                     ),
-                    child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
                   ),
-                ),
-              ],
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.all(20),
+                    child: ElevatedButton(
+                      onPressed: (){},
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )
+                        ),
+                        backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+                      ),
+                      child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
+                    ),
+                  ),
+                ],
+              ),
             );
           }else {
             return Container();

@@ -18,4 +18,11 @@ abstract class MoviesDataRepository{
   Future<List<Movies>?> getBrowseData(String genre , int pageNumber);
   Future<List<Movies>?> getRelatedMoviesData(String movieId);
   Future<Movie> getMovieFullDetails(String movieId);
+  Future<String> addToWishList(Movies movie , String uid);
+  Future<String> addToHistory(Movies movie , String uid);
+}
+
+abstract class SQLiteDataSource{
+  Future<String> addToWishList(Movies movie , String uid);
+  Future<String> addToHistory(Movies movie , String uid);
 }
