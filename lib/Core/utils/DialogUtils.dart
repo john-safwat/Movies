@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 
 class MyDialogUtils {
-  static Future<void> showLoadingDialog(
-      BuildContext context, String message) async {
+  static Future<void> showLoadingDialog(BuildContext context, String message) async {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(

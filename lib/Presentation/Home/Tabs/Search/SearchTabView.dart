@@ -26,7 +26,6 @@ class _SearchTabViewState extends State<SearchTabView> {
   SearchTabViewModel viewModel = SearchTabViewModel(GetSearchResultsUseCase(injectSearchRepo()));
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context, listen: false);
   }

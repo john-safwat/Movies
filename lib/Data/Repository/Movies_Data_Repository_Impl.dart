@@ -4,8 +4,8 @@ import 'package:mymoviesapp/Domain/Repository/Movies_Data_Contract.dart';
 
 class MoviesDataRepositoryImpl implements MoviesDataRepository {
   MoviesDataRemoteDataSource remoteDataSource ;
-  SQLiteDataSource sqLiteDataSource;
-  MoviesDataRepositoryImpl(this.remoteDataSource , this.sqLiteDataSource);
+  MoviesDataLocalDataSource sqLiteDataSource;
+  MoviesDataRepositoryImpl(this.remoteDataSource ,  this.sqLiteDataSource);
 
   @override
   Future<List<Movies>?> getTopRatedMovies() async{

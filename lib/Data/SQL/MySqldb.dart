@@ -1,7 +1,14 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 class MySqlDB {
-  static Database? _db;
+  Database? _db;
+  static MySqlDB? _instance ;
+
+  MySqlDB._() {getDB();}
+  static getMySqlDb(){
+    _instance??= MySqlDB._();
+    return _instance;
+  }
 
   Future<Database?> getDB() async{
     if(_db == null) {

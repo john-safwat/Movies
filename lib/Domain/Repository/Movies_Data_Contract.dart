@@ -22,7 +22,7 @@ abstract class MoviesDataRepository{
   Future<String> addToHistory(Movies movie , String uid);
 }
 
-abstract class SQLiteDataSource{
+abstract class MoviesDataLocalDataSource{
   Future<String> addToWishList(Movies movie , String uid);
   Future<String> addToHistory(Movies movie , String uid);
 }
