@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
+import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
-import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
-import 'package:mymoviesapp/Domain/Models/MoviesDetails/Movie.dart';
+import 'package:mymoviesapp/Domain/UseCase/addToHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMovieFullDetailsUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getRelatedMoviesUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MoviesLists.dart';
@@ -17,7 +17,7 @@ import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView
 import 'package:provider/provider.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
-  String movieId;
+  num? movieId;
   MovieDetailsScreen({required this.movieId, Key? key}) : super(key: key);
   static const String routeName = 'MovieDetailsScreen';
   static const String path = '/MovieDetailsScreen';
@@ -29,13 +29,22 @@ class MovieDetailsScreen extends StatefulWidget {
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   MovieDetailsViewModel viewModel = MovieDetailsViewModel(
       GetRelatedMoviesUseCase(injectMoviesRepository()),
-      GetMovieFullDetailsUseCase(injectMoviesRepository()));
+      GetMovieFullDetailsUseCase(injectMoviesRepository()),
+      AddToHistoryUseCase(injectMoviesRepository()),
+  );
 
   @override
   void initState() {
     viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context, listen: false);
+    viewModel.provider = Provider.of<AppConfigProvider>(context , listen: false);
     viewModel.loadData(widget.movieId);
     super.initState();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    viewModel.provider = null;
+    viewModel.homeScreenViewModel = null;
   }
 
   @override
@@ -48,7 +57,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             context.pop(context);
           } else if (state is MovieDetailsAction) {
             viewModel.homeScreenViewModel!.setSelectedIndex(9);
-            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie.id.toString());
+            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie.id);
           }
         },
         buildWhen: (previous, current) {
@@ -104,7 +113,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           )),
                           // the center play button
                           InkWell(
-                            onTap: () => viewModel.lunchURL(state.movie.url!),
+                            onTap: () => viewModel.lunchURL(state.movie.url! , state.movie),
                             child: Center(
                                 child: Container(
                               height: 60,
@@ -163,7 +172,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             horizontal: 20, vertical: 20),
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => viewModel.lunchURL(state.movie.url!),
+                          onPressed: () => viewModel.lunchURL(state.movie.url!, state.movie),
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.red),

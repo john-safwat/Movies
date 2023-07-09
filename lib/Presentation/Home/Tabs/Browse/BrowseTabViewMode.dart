@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
+import 'package:mymoviesapp/Domain/Exceptions/ServerException.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMoviesByGenreToBrowseUseCase.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
@@ -32,7 +33,11 @@ class BrowseTabViewModel extends Cubit<BaseCubitState>{
         emit(MoviesLoadedState());
       }
     }catch(e){
-      emit(ErrorState(e.toString()));
+      if(e is ServerException){
+        emit(ErrorState(e.error));
+      }else {
+        emit(ErrorState(e.toString()));
+      }
     }
   }
 

@@ -38,14 +38,20 @@ class MoviesDataRepositoryImpl implements MoviesDataRepository {
   }
 
   @override
-  Future<String> addToHistory(Movies movie, String uid) {
-    // TODO: implement addToHistory
-    throw UnimplementedError();
+  Future<String> addToHistory(Movies movie, String uid) async{
+    var response= await sqLiteDataSource.addToHistory(movie, uid);
+    return response;
   }
 
   @override
-  Future<String> addToWishList(Movies movie, String uid) {
-    // TODO: implement addToWishList
-    throw UnimplementedError();
+  Future<String> deleteFromHistory(num? id, String uid) async{
+    var response = await sqLiteDataSource.deleteFromHistory(id, uid);
+    return response;
+  }
+
+  @override
+  Future<bool> isInHistory(num? id, String uid) async{
+    var response = await sqLiteDataSource.isInHistory(id, uid);
+    return response;
   }
 }

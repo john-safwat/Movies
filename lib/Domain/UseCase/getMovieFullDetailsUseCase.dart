@@ -6,8 +6,12 @@ class GetMovieFullDetailsUseCase {
   MoviesDataRepository repository ;
   GetMovieFullDetailsUseCase(this.repository);
 
-  Future<Movie> invoke(String movieId)async{
-    var response = await repository.getMovieFullDetails(movieId);
+  Future<Movie> invoke(num? movieId , String uid)async{
+    var response = await repository.getMovieFullDetails(movieId.toString());
+    var isInWatchHistory = await repository.isInHistory(movieId, uid);
+    if(isInWatchHistory){
+      response.isWatched = true;
+    }
     return response;
   }
 

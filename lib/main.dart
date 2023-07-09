@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
                 path: MovieDetailsScreen.path,
                 name: MovieDetailsScreen.routeName,
                 builder: (context, state) => MovieDetailsScreen(
-                  movieId: state.extra as String,
+                  movieId: state.extra as num,
                 ),
               ),
             ]),

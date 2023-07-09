@@ -18,11 +18,14 @@ abstract class MoviesDataRepository{
   Future<List<Movies>?> getBrowseData(String genre , int pageNumber);
   Future<List<Movies>?> getRelatedMoviesData(String movieId);
   Future<Movie> getMovieFullDetails(String movieId);
-  Future<String> addToWishList(Movies movie , String uid);
   Future<String> addToHistory(Movies movie , String uid);
+  Future<String> deleteFromHistory(num? id, String uid);
+  Future<bool> isInHistory(num? id, String uid);
+
 }
 
 abstract class MoviesDataLocalDataSource{
-  Future<String> addToWishList(Movies movie , String uid);
   Future<String> addToHistory(Movies movie , String uid);
+  Future<String> deleteFromHistory(num? id, String uid);
+  Future<bool> isInHistory(num? id, String uid);
 }

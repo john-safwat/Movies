@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
+import 'package:mymoviesapp/Domain/Exceptions/ServerException.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/UseCase/getSearchResultsUseCase.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
@@ -24,7 +25,11 @@ class SearchTabViewModel extends Cubit<BaseCubitState>{
           emit(MoviesLoadedState(response));
         }
       }catch(e){
-        emit(ErrorState(e.toString()));
+        if(e is ServerException){
+          emit(ErrorState(e.error));
+        }else {
+          emit(ErrorState(e.toString()));
+        }
       }
     }else{
       emit(EmptyListState());

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
+import 'package:mymoviesapp/Domain/Exceptions/ServerException.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMoviesByGenreUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMoviesDataUseCase.dart';
@@ -47,7 +48,11 @@ class HomeTabViewModel extends Cubit<BaseCubitState>{
           emit(MoviesLoadedState(movies, actionMovies, animationMovies, crimeMovies, dramaMovies));
         }
       }catch(e){
-        emit(ErrorState(e.toString()));
+        if(e is ServerException){
+          emit(ErrorState(e.error));
+        }else {
+          emit(ErrorState(e.toString()));
+        }
       }
     }
   }
@@ -80,7 +85,11 @@ class HomeTabViewModel extends Cubit<BaseCubitState>{
         emit(MoviesLoadedState(movies, actionMovies, animationMovies, crimeMovies, dramaMovies));
       }
     }catch(e){
-      emit(ErrorState(e.toString()));
+      if(e is ServerException){
+        emit(ErrorState(e.error));
+      }else {
+        emit(ErrorState(e.toString()));
+      }
     }
   }
 

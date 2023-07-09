@@ -77,13 +77,7 @@ class WelcomeScreen extends StatelessWidget {
                 )
             ),
           ),
-          const SizedBox(height: 30,),
-          TextButton(
-            onPressed: (){
-              GoRouter.of(context).goNamed(HomeTabView.routeName);
-            },
-            child:Text("Continue as Guest" , style: Theme.of(context).textTheme.headline1,)
-          )
+
         ],
       ),
     );

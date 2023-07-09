@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
+import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
+import 'package:mymoviesapp/Domain/Exceptions/ServerException.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/Models/MoviesDetails/Movie.dart';
+import 'package:mymoviesapp/Domain/UseCase/addToHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMovieFullDetailsUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getRelatedMoviesUseCase.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
@@ -11,17 +14,25 @@ import 'package:url_launcher/url_launcher_string.dart';
 class MovieDetailsViewModel extends Cubit<BaseCubitState> {
   GetRelatedMoviesUseCase getRelatedMoviesUseCase ;
   GetMovieFullDetailsUseCase getMovieFullDetailsUseCase ;
-  MovieDetailsViewModel(this.getRelatedMoviesUseCase , this.getMovieFullDetailsUseCase):super(LoadingState());
+  AddToHistoryUseCase addToHistoryUseCase;
+  MovieDetailsViewModel(this.getRelatedMoviesUseCase , this.getMovieFullDetailsUseCase , this.addToHistoryUseCase):super(LoadingState());
+
+  AppConfigProvider? provider;
 
   HomeScreenViewModel?homeScreenViewModel;
-  void loadData(String movieId)async{
+  void loadData(num? movieId)async{
     try{
       var movies =await getRelatedMoviesUseCase.invoke(movieId.toString());
-      var movie =await getMovieFullDetailsUseCase.invoke(movieId.toString());
-
+      var uid = await provider!.getUid();
+      var movie =await getMovieFullDetailsUseCase.invoke(movieId , uid);
+      print(movie.isWatched);
       emit(DataLoadedState( movie ,movies!)) ;
-    }catch (e){
-      emit(ErrorState(e.toString()));
+    }catch(e){
+      if(e is ServerException){
+        emit(ErrorState(e.error));
+      }else {
+        emit(ErrorState(e.toString()));
+      }
     }
   }
 
@@ -37,14 +48,20 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
     emit(MovieDetailsAction(movie));
   }
 
-  Future<void> lunchURL(String link)async{
+  Future<void> lunchURL(String link , Movie movie)async{
     try{
       var url = Uri.parse(link);
       !await launchUrl(url ,  mode: LaunchMode.inAppWebView,
           webViewConfiguration: const WebViewConfiguration(
               headers: <String, String>{'my_header_key': 'my_header_value'}));
+      var uid = await provider!.getUid();
+      var response =await addToHistoryUseCase.invoke(uid, movie.id!, movie.mediumCoverImage!, movie.largeCoverImage!, movie.rating! , movie.isWatched);
     }catch(e){
-      e.toString();
+      if(e is ServerException){
+        emit(ErrorState(e.error));
+      }else {
+        emit(ErrorState(e.toString()));
+      }
     }
   }
 }
