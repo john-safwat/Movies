@@ -1,3 +1,4 @@
+import 'package:mymoviesapp/Data/Models/MovieResponse/MoviesDTO.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -66,12 +67,13 @@ class MySqlDB {
     var response =  await myDb!.rawQuery(sql);
     return response.first['count'] as int > 0 ;
   }
-  Future<String>selectWatchHistory(num? id , String uid) async{
+  selectWatchHistory(String uid) async{
     Database? myDb = _db;
     var sql = "SELECT `id`, `medium_cover_image`, `large_cover_image`, `rating` FROM `History` WHERE `uid` = '$uid';";
     var response =  await myDb!.rawQuery(sql);
-    print(response);
-    return response.toString();
+
+    return response;
+
   }
 
 }

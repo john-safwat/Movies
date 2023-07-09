@@ -21,11 +21,13 @@ abstract class MoviesDataRepository{
   Future<String> addToHistory(Movies movie , String uid);
   Future<String> deleteFromHistory(num? id, String uid);
   Future<bool> isInHistory(num? id, String uid);
-
+  Future<List<Movies>> getHistory(String uid);
+  
 }
 
 abstract class MoviesDataLocalDataSource{
   Future<String> addToHistory(Movies movie , String uid);
   Future<String> deleteFromHistory(num? id, String uid);
   Future<bool> isInHistory(num? id, String uid);
+  Future<List<Movies>> getHistory(String uid);
 }

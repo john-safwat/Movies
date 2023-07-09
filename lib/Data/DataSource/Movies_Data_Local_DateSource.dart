@@ -1,3 +1,4 @@
+import 'package:mymoviesapp/Data/Models/MovieResponse/MoviesDTO.dart';
 import 'package:mymoviesapp/Data/SQL/MySqldb.dart';
 import 'package:mymoviesapp/Domain/Exceptions/LocalDatabaseException.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
@@ -35,6 +36,28 @@ class MoviesDataLocalDataSourceImpl implements MoviesDataLocalDataSource{
     }catch (e){
       throw LocalDatabaseException("Can't Load Data From Local Storage");
     }
+  }
+
+  @override
+  Future<List<Movies>> getHistory(String uid) async{
+    var response = await db.selectWatchHistory(uid);
+    if (response != null){
+      List<Movies> movies = [];
+      response.forEach((e) {
+
+        num id = num.parse(e['id'].toString());
+        num rating = num.parse(e['rating'].toString());
+        String mid = e['large_cover_image'];
+        String large = e['medium_cover_image'];
+        movies.add(Movies(
+          id: id,
+          rating: rating ,
+          largeCoverImage: large,
+          mediumCoverImage: mid,
+        ));
+      });
+      return movies;
+    }else return [];
   }
 
 }

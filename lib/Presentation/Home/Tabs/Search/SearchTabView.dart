@@ -116,22 +116,20 @@ class _SearchTabViewState extends State<SearchTabView> {
                   return Column(
                     children: [
                       Expanded(
-                        child: Padding(
+                        child: GridView.builder(
+                          physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: GridView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 20 ,
-                                mainAxisSpacing: 20,
-                                childAspectRatio: 0.65
-                            ),
-                            itemBuilder: (context, index) => PosterImage(
-                                movie: state.movies[index],
-                                goToDetailsScreen: viewModel.goToDetailsScreen,
-                            ),
-                            itemCount: state.movies.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 20 ,
+                              mainAxisSpacing: 20,
+                              childAspectRatio: 0.65
                           ),
+                          itemBuilder: (context, index) => PosterImage(
+                              movie: state.movies[index],
+                              goToDetailsScreen: viewModel.goToDetailsScreen,
+                          ),
+                          itemCount: state.movies.length,
                         )
                       ),
                     ],

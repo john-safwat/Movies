@@ -2,21 +2,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseDatabaseExeption.dart';
+import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/Models/User/User.dart';
+import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
 
 class ProfileTabViewModel extends Cubit<BaseCubitState>{
 
-  GetUserDataUseCase useCase;
-  ProfileTabViewModel(this.useCase):super(LoadingState());
+  GetUserDataUseCase getUserDataUseCase;
+  GetHistoryUseCase getHistoryUseCase;
+  ProfileTabViewModel(this.getUserDataUseCase , this.getHistoryUseCase):super(LoadingState());
   AppConfigProvider? provider;
 
   void getUserData()async{
     emit(LoadingState());
     try{
       String uid = await provider!.getUid();
-      var response = await useCase.invoke(uid);
-      emit(UserLoadedState(response));
+      var userResponse = await getUserDataUseCase.invoke(uid);
+      var moviesResponse = await getHistoryUseCase.invoke(uid);
+
+      emit(DataLoadedState(userResponse , moviesResponse));
     }catch (e){
       if(e is FirebaseDatabaseException){
         emit(ErrorState(e.errorMessage));
@@ -25,9 +30,20 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
       }
     }
   }
+
+  void goToDetailsScreen(String id){
+    emit(GoToDetailsScreenAction(id));
+  }
+
 }
 
-class UserLoadedState extends BaseCubitState{
+class DataLoadedState extends BaseCubitState{
   Users user;
-  UserLoadedState(this.user);
+  List<Movies> movies;
+  DataLoadedState(this.user , this.movies);
+}
+
+class GoToDetailsScreenAction extends BaseCubitState{
+  String movieId;
+  GoToDetailsScreenAction(this.movieId);
 }

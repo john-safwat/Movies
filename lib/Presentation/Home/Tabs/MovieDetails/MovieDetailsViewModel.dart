@@ -56,6 +56,7 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
               headers: <String, String>{'my_header_key': 'my_header_value'}));
       var uid = await provider!.getUid();
       var response =await addToHistoryUseCase.invoke(uid, movie.id!, movie.mediumCoverImage!, movie.largeCoverImage!, movie.rating! , movie.isWatched);
+      movie.isWatched = true;
     }catch(e){
       if(e is ServerException){
         emit(ErrorState(e.error));

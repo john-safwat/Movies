@@ -54,4 +54,10 @@ class MoviesDataRepositoryImpl implements MoviesDataRepository {
     var response = await sqLiteDataSource.isInHistory(id, uid);
     return response;
   }
+
+  @override
+  Future<List<Movies>> getHistory(String uid) async{
+    var response = await sqLiteDataSource.getHistory(uid);
+    return response;
+  }
 }

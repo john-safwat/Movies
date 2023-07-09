@@ -8,6 +8,7 @@ class AddToHistoryUseCase {
   Future<String> invoke(String uid , num movieId , String midImage, String largeImage , num rating , bool isWatched)async{
     if (isWatched){
       await repository.deleteFromHistory(movieId, uid);
+      print('deleted');
     }
     var response = await repository.addToHistory(Movies(
       id: movieId,

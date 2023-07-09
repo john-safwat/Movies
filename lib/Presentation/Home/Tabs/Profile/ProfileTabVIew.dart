@@ -4,7 +4,9 @@ import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
+import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
+import 'package:mymoviesapp/Presentation/Global%20Widgets/PosterImage.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Profile/ProfileTabViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +19,7 @@ class ProfileTabView extends StatefulWidget {
 }
 
 class _ProfileTabViewState extends State<ProfileTabView> {
-  ProfileTabViewModel viewModel = ProfileTabViewModel(GetUserDataUseCase(injectUserRepository()));
+  ProfileTabViewModel viewModel = ProfileTabViewModel(GetUserDataUseCase(injectUserRepository()), GetHistoryUseCase(injectMoviesRepository()));
   @override
   void initState() {
     super.initState();
@@ -57,7 +59,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                 )
               ],
             );
-          }else if (state is UserLoadedState){
+          }else if (state is DataLoadedState){
             return Scaffold(
               appBar: AppBar(
                 title: Text(state.user.name , style: Theme.of(context).textTheme.headline3, ),
@@ -68,35 +70,53 @@ class _ProfileTabViewState extends State<ProfileTabView> {
 
                 ],
               ),
-              body: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0 , vertical: 30),
-                    child: Row(
-                      children: [
-                        Image.asset(state.user.image),
-                        const SizedBox(width: 20,),
-                        Expanded(child: Text(state.user.name , style: Theme.of(context).textTheme.headline3,))
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.all(20),
-                    child: ElevatedButton(
-                      onPressed: (){},
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                        ),
-                        backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0 , vertical: 30),
+                      child: Row(
+                        children: [
+                          Image.asset(state.user.image),
+                          const SizedBox(width: 20,),
+                          Expanded(child: Text(state.user.name , style: Theme.of(context).textTheme.headline3,))
+                        ],
                       ),
-                      child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
                     ),
-                  ),
-                ],
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.all(20),
+                      child: ElevatedButton(
+                        onPressed: (){},
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              )
+                          ),
+                          backgroundColor: MaterialStateProperty.all(MyTheme.gold),
+                        ),
+                        child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
+                      ),
+                    ),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20 ,
+                          mainAxisSpacing: 20,
+                          childAspectRatio: 0.65
+                      ),
+                      itemBuilder: (context, index) => PosterImage(
+                        movie: state.movies[index],
+                        goToDetailsScreen: viewModel.goToDetailsScreen,
+                      ),
+                      itemCount: state.movies.length,
+                    )
+                  ],
+                ),
               ),
             );
           }else {
