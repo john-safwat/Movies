@@ -24,7 +24,7 @@ class MySqlDB {
   _initiateDB() async {
     String dataBasePath = await getDatabasesPath() ;
     String path = join( dataBasePath , 'Movies.db') ;
-    Database myDb = await openDatabase(path , onCreate: _onCreate , version: 1 ) ;
+    Database myDb = await openDatabase(path , onCreate: _onCreate , version: 2 ) ;
     return myDb ;
   }
 
@@ -42,7 +42,8 @@ class MySqlDB {
         `id` text NOT NULL,
         `medium_cover_image` text,
         `large_cover_image` text,
-        `rating` double(4,2)
+        `rating` double(4,2),
+        `isWatched` bool 
       );
     ''');
     print('data base created');
@@ -54,26 +55,25 @@ class MySqlDB {
     return "Movie Added";
   }
 
-  Future<String>deleteMovieToHistory(num? id , String uid) async{
+  Future<String>deleteMovieFromHistory(num? id , String uid) async{
     Database? myDb = _db;
     var sql = "DELETE FROM `History` WHERE `uid` = '$uid' AND `id` = '$id';";
     var response =  await myDb!.rawDelete(sql);
     return "Movie Delete";
   }
 
-  Future<bool>isInHistory(num? id , String uid) async{
+  Future<bool>isInWatchHistory(num? id , String uid) async{
     Database? myDb = _db;
     var sql = "SELECT COUNT(*) as count FROM `History` WHERE `uid` = '$uid' AND `id` = '$id';";
     var response =  await myDb!.rawQuery(sql);
     return response.first['count'] as int > 0 ;
   }
+
   selectWatchHistory(String uid) async{
     Database? myDb = _db;
     var sql = "SELECT `id`, `medium_cover_image`, `large_cover_image`, `rating` FROM `History` WHERE `uid` = '$uid';";
     var response =  await myDb!.rawQuery(sql);
-
     return response;
-
   }
 
 }

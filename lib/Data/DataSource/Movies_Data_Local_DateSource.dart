@@ -21,7 +21,7 @@ class MoviesDataLocalDataSourceImpl implements MoviesDataLocalDataSource{
   @override
   Future<String> deleteFromHistory(num? id, String uid)async {
     try{
-      var response = await db.deleteMovieToHistory(id, uid);
+      var response = await db.deleteMovieFromHistory(id, uid);
       return response;
     }catch (e){
       throw LocalDatabaseException("Can't Load Data From Local Storage");
@@ -31,7 +31,7 @@ class MoviesDataLocalDataSourceImpl implements MoviesDataLocalDataSource{
   @override
   Future<bool> isInHistory(num? id, String uid) async{
     try{
-      var response = await db.isInHistory(id, uid);
+      var response = await db.isInWatchHistory(id, uid);
       return response;
     }catch (e){
       throw LocalDatabaseException("Can't Load Data From Local Storage");

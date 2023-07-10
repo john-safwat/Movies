@@ -104,9 +104,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 20 ,
-                          mainAxisSpacing: 20,
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10 ,
+                          mainAxisSpacing: 10,
                           childAspectRatio: 0.65
                       ),
                       itemBuilder: (context, index) => PosterImage(
