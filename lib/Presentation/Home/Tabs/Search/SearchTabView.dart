@@ -39,7 +39,8 @@ class _SearchTabViewState extends State<SearchTabView> {
           AppBar(
             backgroundColor: MyTheme.backGroundColor,
             elevation: 0,
-            title: TextField(
+            title:
+            TextField(
               onChanged: (value) {
                 viewModel.getSearchResults(value);
               },
