@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
+import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Domain/UseCase/addToHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMovieFullDetailsUseCase.dart';
@@ -37,6 +38,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   void initState() {
     viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context, listen: false);
     viewModel.provider = Provider.of<AppConfigProvider>(context , listen: false);
+    viewModel.dataProvider = Provider.of<DataProvider>(context , listen: false);
     viewModel.loadData(widget.movieId);
     super.initState();
   }
@@ -45,6 +47,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     super.dispose();
     viewModel.provider = null;
     viewModel.homeScreenViewModel = null;
+    viewModel.dataProvider = null;
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
+import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Domain/Exceptions/ServerException.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/Models/MoviesDetails/Movie.dart';
@@ -18,6 +19,7 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
   MovieDetailsViewModel(this.getRelatedMoviesUseCase , this.getMovieFullDetailsUseCase , this.addToHistoryUseCase):super(LoadingState());
 
   AppConfigProvider? provider;
+  DataProvider? dataProvider;
 
   HomeScreenViewModel?homeScreenViewModel;
   void loadData(num? movieId)async{
@@ -25,7 +27,6 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
       var movies =await getRelatedMoviesUseCase.invoke(movieId.toString());
       var uid = await provider!.getUid();
       var movie =await getMovieFullDetailsUseCase.invoke(movieId , uid);
-      print(movie.isWatched);
       emit(DataLoadedState( movie ,movies!)) ;
     }catch(e){
       if(e is ServerException){
@@ -56,6 +57,12 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
               headers: <String, String>{'my_header_key': 'my_header_value'}));
       var uid = await provider!.getUid();
       var response =await addToHistoryUseCase.invoke(uid, movie.id!, movie.mediumCoverImage!, movie.largeCoverImage!, movie.rating! , movie.isWatched);
+      dataProvider!.addMoviesToWatchHistory(Movies(
+        id: movie.id!,
+        mediumCoverImage: movie.mediumCoverImage!,
+        rating: movie.rating!,
+        largeCoverImage: movie.largeCoverImage!
+      ) , movie.isWatched);
       movie.isWatched = true;
     }catch(e){
       if(e is ServerException){

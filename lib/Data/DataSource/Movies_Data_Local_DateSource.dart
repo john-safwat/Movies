@@ -45,15 +45,11 @@ class MoviesDataLocalDataSourceImpl implements MoviesDataLocalDataSource{
       List<Movies> movies = [];
       response.forEach((e) {
 
-        num id = num.parse(e['id'].toString());
-        num rating = num.parse(e['rating'].toString());
-        String mid = e['large_cover_image'];
-        String large = e['medium_cover_image'];
         movies.add(Movies(
-          id: id,
-          rating: rating ,
-          largeCoverImage: large,
-          mediumCoverImage: mid,
+          id: num.parse(e['id'].toString()),
+          rating: num.parse(e['rating'].toString()) ,
+          largeCoverImage: e['medium_cover_image'],
+          mediumCoverImage: e['large_cover_image'],
         ));
       });
       return movies;

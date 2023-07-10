@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
+import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
@@ -24,7 +25,15 @@ class _ProfileTabViewState extends State<ProfileTabView> {
   void initState() {
     super.initState();
     viewModel.provider = Provider.of<AppConfigProvider>(context,listen: false);
+    viewModel.dataProvider = Provider.of<DataProvider>(context,listen: false);
     viewModel.getUserData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    viewModel.dataProvider = null ;
+    viewModel.provider = null;
   }
 
   @override

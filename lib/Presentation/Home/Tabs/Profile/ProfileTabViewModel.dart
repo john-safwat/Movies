@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
+import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseDatabaseExeption.dart';
 import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/Models/User/User.dart';
@@ -13,6 +14,7 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
   GetHistoryUseCase getHistoryUseCase;
   ProfileTabViewModel(this.getUserDataUseCase , this.getHistoryUseCase):super(LoadingState());
   AppConfigProvider? provider;
+  DataProvider? dataProvider;
 
   void getUserData()async{
     emit(LoadingState());
@@ -20,8 +22,8 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
       String uid = await provider!.getUid();
       var userResponse = await getUserDataUseCase.invoke(uid);
       var moviesResponse = await getHistoryUseCase.invoke(uid);
-
-      emit(DataLoadedState(userResponse , moviesResponse));
+      dataProvider!.watchHistory = moviesResponse;
+      emit(DataLoadedState(userResponse , dataProvider!.watchHistory));
     }catch (e){
       if(e is FirebaseDatabaseException){
         emit(ErrorState(e.errorMessage));

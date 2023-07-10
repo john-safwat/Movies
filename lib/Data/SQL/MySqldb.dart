@@ -71,7 +71,7 @@ class MySqlDB {
 
   selectWatchHistory(String uid) async{
     Database? myDb = _db;
-    var sql = "SELECT `id`, `medium_cover_image`, `large_cover_image`, `rating` FROM `History` WHERE `uid` = '$uid';";
+    var sql = "SELECT * FROM `History` WHERE `uid` = '$uid';";
     var response =  await myDb!.rawQuery(sql);
     return response;
   }
