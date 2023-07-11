@@ -60,7 +60,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             context.pop(context);
           } else if (state is MovieDetailsAction) {
             viewModel.homeScreenViewModel!.setSelectedIndex(9);
-            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie.id);
+            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie);
           }
         },
         buildWhen: (previous, current) {

@@ -14,7 +14,7 @@ class PosterImage extends StatelessWidget {
     // show the image and handel the waiting state and error state
     return InkWell(
       onTap: () {
-        goToDetailsScreen(movie);
+        goToDetailsScreen(movie.id);
       },
       child: Stack(
         children: [

@@ -12,7 +12,6 @@ import 'package:mymoviesapp/Presentation/Home/Tabs/Search/SearchTabViewModel.dar
 import 'package:mymoviesapp/Core/DI/di.dart';
 
 import 'package:provider/provider.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class SearchTabView extends StatefulWidget {
   static const String routeName = 'SearchTab';
@@ -87,7 +86,7 @@ class _SearchTabViewState extends State<SearchTabView> {
             child: BlocConsumer<SearchTabViewModel, BaseCubitState>(
               listener: (context, state) {
                 if(state is MovieDetailsAction){
-                  GoRouter.of(context).pushNamed( MovieDetailsScreen.routeName , extra: state.movie.id);
+                  GoRouter.of(context).pushNamed( MovieDetailsScreen.routeName , extra: state.movie);
                   viewModel.homeScreenViewModel!.setSelectedIndex(9);
                 }
               },

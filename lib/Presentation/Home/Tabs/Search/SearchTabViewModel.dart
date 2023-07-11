@@ -36,7 +36,7 @@ class SearchTabViewModel extends Cubit<BaseCubitState>{
     }
   }
 
-  void goToDetailsScreen(Movies movie){
+  void goToDetailsScreen(num movie){
     emit(MovieDetailsAction(movie));
   }
 
@@ -49,6 +49,6 @@ class MoviesLoadedState extends BaseCubitState {
   MoviesLoadedState(this.movies);
 }
 class MovieDetailsAction extends BaseCubitState{
-  Movies movie;
+  num movie;
   MovieDetailsAction(this.movie);
 }

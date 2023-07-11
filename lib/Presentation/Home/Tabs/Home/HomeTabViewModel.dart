@@ -97,7 +97,7 @@ class HomeTabViewModel extends Cubit<BaseCubitState>{
     emit(LoadingState());
   }
 
-  void goToDetailsScreen(Movies movie){
+  void goToDetailsScreen(num movie){
     emit(MovieDetailsAction(movie));
   }
 }
@@ -113,6 +113,6 @@ class MoviesLoadedState extends BaseCubitState {
   MoviesLoadedState(this.movies , this.actionMovies , this.animationMovies , this.crimeMovies , this.dramaMovies);
 }
 class MovieDetailsAction extends BaseCubitState{
-  Movies movie;
+  num movie;
   MovieDetailsAction(this.movie);
 }

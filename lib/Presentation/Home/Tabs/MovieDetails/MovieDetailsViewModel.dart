@@ -45,7 +45,7 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
     emit(BackAction());
   }
 
-  void goToDetailsScreen(Movies movie){
+  void goToDetailsScreen(num movie){
     emit(MovieDetailsAction(movie));
   }
 
@@ -81,7 +81,7 @@ class DataLoadedState extends BaseCubitState{
 }
 
 class MovieDetailsAction extends BaseCubitState{
-  Movies movie;
+  num movie;
   MovieDetailsAction(this.movie);
 }
 

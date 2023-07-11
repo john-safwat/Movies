@@ -7,16 +7,19 @@ import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
 import 'package:mymoviesapp/Domain/Models/User/User.dart';
 import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
+import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
 
 class ProfileTabViewModel extends Cubit<BaseCubitState>{
 
   GetUserDataUseCase getUserDataUseCase;
   GetHistoryUseCase getHistoryUseCase;
   ProfileTabViewModel(this.getUserDataUseCase , this.getHistoryUseCase):super(LoadingState());
+
+  HomeScreenViewModel? homeScreenViewModel ;
   AppConfigProvider? provider;
   DataProvider? dataProvider;
 
-  void getUserData()async{
+  void getData()async{
     emit(LoadingState());
     try{
       String uid = await provider!.getUid();
@@ -33,8 +36,8 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
     }
   }
 
-  void goToDetailsScreen(String id){
-    emit(GoToDetailsScreenAction(id));
+  void goToDetailsScreen(num movie){
+    emit(GoToDetailsScreenAction(movie));
   }
 
 }
@@ -46,6 +49,6 @@ class DataLoadedState extends BaseCubitState{
 }
 
 class GoToDetailsScreenAction extends BaseCubitState{
-  String movieId;
+  num movieId;
   GoToDetailsScreenAction(this.movieId);
 }

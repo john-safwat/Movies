@@ -68,7 +68,7 @@ class _BrowseTabViewState extends State<BrowseTabView> {
               listener: (context, state) {
                 if (state is MovieDetailsAction) {
                   viewModel.homeScreenViewModel!.setSelectedIndex(9);
-                  context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie.id);
+                  context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie);
                 }
               },
               buildWhen: (previous, current) {
