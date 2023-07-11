@@ -59,7 +59,3 @@ class BrowseTabViewModel extends Cubit<BaseCubitState>{
 }
 
 class MoviesLoadedState extends BaseCubitState {}
-class MovieDetailsAction extends BaseCubitState{
-  num movie;
-  MovieDetailsAction(this.movie);
-}

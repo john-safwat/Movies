@@ -80,9 +80,4 @@ class DataLoadedState extends BaseCubitState{
   DataLoadedState(this.movie ,this.relatedMovies);
 }
 
-class MovieDetailsAction extends BaseCubitState{
-  num movie;
-  MovieDetailsAction(this.movie);
-}
-
 class BackAction extends BaseCubitState{}

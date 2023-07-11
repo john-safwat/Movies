@@ -48,7 +48,3 @@ class MoviesLoadedState extends BaseCubitState {
   List<Movies> movies ;
   MoviesLoadedState(this.movies);
 }
-class MovieDetailsAction extends BaseCubitState{
-  num movie;
-  MovieDetailsAction(this.movie);
-}

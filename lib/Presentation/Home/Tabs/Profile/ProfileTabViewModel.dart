@@ -37,7 +37,7 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
   }
 
   void goToDetailsScreen(num movie){
-    emit(GoToDetailsScreenAction(movie));
+    emit(MovieDetailsAction(movie));
   }
 
 }
@@ -46,9 +46,4 @@ class DataLoadedState extends BaseCubitState{
   Users user;
   List<Movies> movies;
   DataLoadedState(this.user , this.movies);
-}
-
-class GoToDetailsScreenAction extends BaseCubitState{
-  num movieId;
-  GoToDetailsScreenAction(this.movieId);
 }

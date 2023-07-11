@@ -48,9 +48,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
       create: (context) => viewModel,
       child: BlocConsumer<ProfileTabViewModel , BaseCubitState>(
         listener: (context, state) {
-          if(state is GoToDetailsScreenAction){
+          if(state is MovieDetailsAction){
             viewModel.homeScreenViewModel!.setSelectedIndex(9);
-            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movieId);
+            context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie);
           }
         },
 

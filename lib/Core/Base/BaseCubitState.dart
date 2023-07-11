@@ -18,3 +18,8 @@ class ShowSuccessMessageState extends BaseCubitState{
   String message;
   ShowSuccessMessageState(this.message);
 }
+class MovieDetailsAction extends BaseCubitState{
+  num movie;
+  MovieDetailsAction(this.movie);
+}
+
