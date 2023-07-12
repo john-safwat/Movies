@@ -56,4 +56,51 @@ class MoviesDataLocalDataSourceImpl implements MoviesDataLocalDataSource{
     }else return [];
   }
 
+  @override
+  Future<String> addToWishList(Movies movie, String uid) async{
+    try{
+      var response = await db.insertMovieToWishList(movie, uid);
+      return response;
+    }catch (e){
+      throw LocalDatabaseException("Can't Load Data From Local Storage");
+    }
+  }
+
+  @override
+  Future<String> deleteFromWishList(num? id, String uid)async {
+    try{
+      var response = await db.deleteMovieFromWishList(id, uid);
+      return response;
+    }catch (e){
+      throw LocalDatabaseException("Can't Load Data From Local Storage");
+    }
+  }
+
+  @override
+  Future<List<Movies>> getWishList(String uid) async{
+    var response = await db.selectWishList(uid);
+    if (response != null){
+      List<Movies> movies = [];
+      response.forEach((e) {
+        movies.add(Movies(
+          id: num.parse(e['id'].toString()),
+          rating: num.parse(e['rating'].toString()) ,
+          largeCoverImage: e['medium_cover_image'],
+          mediumCoverImage: e['large_cover_image'],
+        ));
+      });
+      return movies;
+    }else return [];
+  }
+
+  @override
+  Future<bool> isInWishList(num? id, String uid) async{
+    try{
+      var response = await db.isInWishList(id, uid);
+      return response;
+    }catch (e){
+      throw LocalDatabaseException("Can't Load Data From Local Storage");
+    }
+  }
+
 }

@@ -9,6 +9,8 @@ class DataProvider extends ChangeNotifier {
   var animationMovies;
 
   List<Movies> watchHistory = [];
+  List<Movies> wishList = [];
+  List<Movies> relatedMovies = [];
 
   void addMoviesToWatchHistory(Movies movie , bool inWatchHistory){
     if(inWatchHistory){
@@ -20,7 +22,21 @@ class DataProvider extends ChangeNotifier {
       largeCoverImage: movie.largeCoverImage,
       mediumCoverImage: movie.mediumCoverImage
     ));
+    notifyListeners();
+  }
 
+  void addToWishList(Movies movie){
+    wishList.insert(0,Movies(
+        id: movie.id,
+        rating: movie.rating,
+        largeCoverImage: movie.largeCoverImage,
+        mediumCoverImage: movie.mediumCoverImage
+    ));
+    notifyListeners();
+  }
+
+  void deleteFromWishList(Movies movie){
+    wishList.removeWhere((element) => element.id == movie.id,);
     notifyListeners();
   }
 }

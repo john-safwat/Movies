@@ -9,7 +9,10 @@ import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
+import 'package:mymoviesapp/Core/utils/DialogUtils.dart';
 import 'package:mymoviesapp/Domain/UseCase/addToHistoryUseCase.dart';
+import 'package:mymoviesapp/Domain/UseCase/addToWishListUseCase.dart';
+import 'package:mymoviesapp/Domain/UseCase/daleteFromWishListUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getMovieFullDetailsUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getRelatedMoviesUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MoviesLists.dart';
@@ -32,6 +35,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       GetRelatedMoviesUseCase(injectMoviesRepository()),
       GetMovieFullDetailsUseCase(injectMoviesRepository()),
       AddToHistoryUseCase(injectMoviesRepository()),
+      AddToWishListUseCase(injectMoviesRepository()),
+      DeleteFromWishListUseCase(injectMoviesRepository()),
   );
 
   @override
@@ -61,10 +66,26 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           } else if (state is MovieDetailsAction) {
             viewModel.homeScreenViewModel!.setSelectedIndex(9);
             context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie);
+          }else if (state is HideDialog) {
+            MyDialogUtils.hideDialog(context);
+          }else if (state is ShowLoadingState) {
+            MyDialogUtils.showLoadingDialog(context, state.message);
+          }else if (state is ShowSuccessMessageState) {
+            MyDialogUtils.showSuccessMessage(
+                context: context,
+                message: state.message,
+                posActionTitle: "Ok",);
+          }else if (state is ShowErrorMessageState) {
+            MyDialogUtils.showFailMessage(
+                context: context,
+                message: state.message,
+                posActionTitle: "Try Again");
           }
         },
         buildWhen: (previous, current) {
           if (current is DataLoadedState && previous is LoadingState) {
+            return true;
+          }else if (current is DataLoadedState && previous is ShowSuccessMessageState) {
             return true;
           } else {
             return false;
@@ -337,10 +358,12 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 size: 28,
                               )),
                           IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.bookmark_add_outlined,
-                                color: Colors.white,
+                              onPressed: () {
+                                viewModel.changeWishList(state.movie);
+                              },
+                              icon: Icon(
+                                Icons.bookmark_add,
+                                color: state.movie.isInWishList? MyTheme.gold:Colors.white,
                                 size: 30,
                               ))
                         ],

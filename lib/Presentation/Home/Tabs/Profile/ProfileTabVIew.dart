@@ -9,6 +9,7 @@ import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
+import 'package:mymoviesapp/Domain/UseCase/getWishListDataUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/PosterImage.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView.dart';
@@ -24,7 +25,11 @@ class ProfileTabView extends StatefulWidget {
 }
 
 class _ProfileTabViewState extends State<ProfileTabView> {
-  ProfileTabViewModel viewModel = ProfileTabViewModel(GetUserDataUseCase(injectUserRepository()), GetHistoryUseCase(injectMoviesRepository()));
+  ProfileTabViewModel viewModel = ProfileTabViewModel(
+      GetUserDataUseCase(injectUserRepository()),
+      GetHistoryUseCase(injectMoviesRepository()),
+      GetWishListDataUseCase(injectMoviesRepository()),
+  );
   ScrollController controller = ScrollController();
   @override
   void initState() {
@@ -94,36 +99,56 @@ class _ProfileTabViewState extends State<ProfileTabView> {
               child:NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverAppBar(
-
                     toolbarHeight: 250,
                     backgroundColor: MyTheme.blackThree,
                     title: Container(
+                      height: 250,
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0 , vertical: 30),
+                          Expanded(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Image.asset(state.user.image),
-                                const SizedBox(width: 20,),
-                                Expanded(child: Text(state.user.name , style: Theme.of(context).textTheme.headline3,))
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(state.user.image),
+                                    Text(state.user.name , style: Theme.of(context).textTheme.headline3,)
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(state.wishlistMovies.length.toString() , style: Theme.of(context).textTheme.headline6,),
+                                    Text("Wish List", style: Theme.of(context).textTheme.headline3,)
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(state.historyMovies.length.toString() , style: Theme.of(context).textTheme.headline6,),
+                                    Text("History", style: Theme.of(context).textTheme.headline3,)
+                                  ],
+                                ),
                               ],
-                            ),
+                            )
                           ),
                           Container(
                             width: double.infinity,
-                            margin: EdgeInsets.all(20),
                             child: ElevatedButton(
                               onPressed: (){},
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(10),
                                     )
                                 ),
                                 backgroundColor: MaterialStateProperty.all(MyTheme.gold),
                               ),
-                              child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
+                              ),
                             ),
                           ),
                         ],
@@ -179,10 +204,10 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                   childAspectRatio: 0.65
                               ),
                               itemBuilder: (context, index) => PosterImage(
-                                movie: state.movies[index],
+                                movie: state.wishlistMovies[index],
                                 goToDetailsScreen: viewModel.goToDetailsScreen,
                               ),
-                              itemCount: state.movies.length,
+                              itemCount: state.wishlistMovies.length,
                             ),
                             GridView.builder(
                               shrinkWrap: true,
@@ -195,10 +220,10 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                   childAspectRatio: 0.65
                               ),
                               itemBuilder: (context, index) => PosterImage(
-                                movie: state.movies[index],
+                                movie: state.historyMovies[index],
                                 goToDetailsScreen: viewModel.goToDetailsScreen,
                               ),
-                              itemCount: state.movies.length,
+                              itemCount: state.historyMovies.length,
                             )
                           ],
                         )

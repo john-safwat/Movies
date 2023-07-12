@@ -37,6 +37,8 @@ class MySqlDB {
         `large_cover_image` text,
         `rating` double(4,2)
       );
+    ''');
+    await db.execute('''
       CREATE TABLE `WishList` (
         `uid` text NOT NULL,
         `id` text NOT NULL,

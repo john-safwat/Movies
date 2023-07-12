@@ -9,8 +9,12 @@ class GetMovieFullDetailsUseCase {
   Future<Movie> invoke(num? movieId , String uid)async{
     var response = await repository.getMovieFullDetails(movieId.toString());
     var isInWatchHistory = await repository.isInHistory(movieId, uid);
+    var isInWishList = await repository.isInWishList(movieId, uid);
     if(isInWatchHistory){
       response.isWatched = true;
+    }
+    if(isInWishList){
+      response.isInWishList = true;
     }
     return response;
   }

@@ -60,4 +60,28 @@ class MoviesDataRepositoryImpl implements MoviesDataRepository {
     var response = await sqLiteDataSource.getHistory(uid);
     return response;
   }
+
+  @override
+  Future<String> addToWishList(Movies movie, String uid) async{
+    var response= await sqLiteDataSource.addToWishList(movie, uid);
+    return response;
+  }
+
+  @override
+  Future<String> deleteFromWishList(num? id, String uid) async{
+    var response = await sqLiteDataSource.deleteFromWishList(id, uid);
+    return response;
+  }
+
+  @override
+  Future<List<Movies>> getWishList(String uid) async{
+    var response = await sqLiteDataSource.getWishList(uid);
+    return response;
+  }
+
+  @override
+  Future<bool> isInWishList(num? id, String uid)async {
+    var response = await sqLiteDataSource.isInWishList(id, uid);
+    return response;
+  }
 }

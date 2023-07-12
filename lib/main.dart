@@ -32,7 +32,7 @@ void main() async {
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var uid = prefs.getString('uid');
-  var isFirstTime = prefs.getBool('introDonee');
+  var isFirstTime = prefs.getBool('introDone');
   uid??= '';
   isFirstTime??=false;
   print(uid);

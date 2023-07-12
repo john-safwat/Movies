@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Presentation/Intro/IntroScreenViewModel.dart';
 import 'package:mymoviesapp/Presentation/Welcome/WelcomeScreen.dart';
-import 'package:provider/provider.dart';
 
 
 class IntroScreenView extends StatefulWidget {

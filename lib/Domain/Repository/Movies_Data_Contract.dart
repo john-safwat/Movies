@@ -22,7 +22,10 @@ abstract class MoviesDataRepository{
   Future<String> deleteFromHistory(num? id, String uid);
   Future<bool> isInHistory(num? id, String uid);
   Future<List<Movies>> getHistory(String uid);
-  
+  Future<String> addToWishList(Movies movie , String uid);
+  Future<String> deleteFromWishList(num? id, String uid);
+  Future<bool> isInWishList(num? id, String uid);
+  Future<List<Movies>> getWishList(String uid);
 }
 
 abstract class MoviesDataLocalDataSource{
@@ -30,4 +33,8 @@ abstract class MoviesDataLocalDataSource{
   Future<String> deleteFromHistory(num? id, String uid);
   Future<bool> isInHistory(num? id, String uid);
   Future<List<Movies>> getHistory(String uid);
+  Future<String> addToWishList(Movies movie , String uid);
+  Future<String> deleteFromWishList(num? id, String uid);
+  Future<bool> isInWishList(num? id, String uid);
+  Future<List<Movies>> getWishList(String uid);
 }
