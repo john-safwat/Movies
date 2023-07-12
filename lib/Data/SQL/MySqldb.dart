@@ -42,8 +42,7 @@ class MySqlDB {
         `id` text NOT NULL,
         `medium_cover_image` text,
         `large_cover_image` text,
-        `rating` double(4,2),
-        `isWatched` bool 
+        `rating` double(4,2)
       );
     ''');
     print('data base created');
@@ -72,6 +71,34 @@ class MySqlDB {
   selectWatchHistory(String uid) async{
     Database? myDb = _db;
     var sql = "SELECT * FROM `History` WHERE `uid` = '$uid';";
+    var response =  await myDb!.rawQuery(sql);
+    return response;
+  }
+
+  Future<String>insertMovieToWishList(Movies movies , String uid) async{
+    Database? myDb = _db;
+    var sql = "INSERT INTO `WishList` (`uid`, `id`, `medium_cover_image`, `large_cover_image`, `rating`) VALUES ('$uid', '${movies.id}', '${movies.mediumCoverImage}', '${movies.largeCoverImage}', '${movies.rating}');";
+    var response =  await myDb!.rawInsert(sql);
+    return "Movie Added";
+  }
+
+  Future<String>deleteMovieFromWishList(num? id , String uid) async{
+    Database? myDb = _db;
+    var sql = "DELETE FROM `WishList` WHERE `uid` = '$uid' AND `id` = '$id';";
+    var response =  await myDb!.rawDelete(sql);
+    return "Movie Delete";
+  }
+
+  Future<bool>isInWishList(num? id , String uid) async{
+    Database? myDb = _db;
+    var sql = "SELECT COUNT(*) as count FROM `WishList` WHERE `uid` = '$uid' AND `id` = '$id';";
+    var response =  await myDb!.rawQuery(sql);
+    return response.first['count'] as int > 0 ;
+  }
+
+  selectWishList(String uid) async{
+    Database? myDb = _db;
+    var sql = "SELECT * FROM `WishList` WHERE `uid` = '$uid';";
     var response =  await myDb!.rawQuery(sql);
     return response;
   }
