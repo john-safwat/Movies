@@ -9,6 +9,7 @@ import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getWishListDataUseCase.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileTabViewModel extends Cubit<BaseCubitState>{
 
@@ -44,6 +45,16 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
     emit(MovieDetailsAction(movie));
   }
 
+  void onSignOutPress(String message){
+    emit(ShowQuestionMessageState(message));
+  }
+
+  void signOut()async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('uid', '');
+    emit(SignOutAction());
+  }
+
 }
 
 class DataLoadedState extends BaseCubitState{
@@ -52,3 +63,9 @@ class DataLoadedState extends BaseCubitState{
   List<Movies> wishlistMovies;
   DataLoadedState(this.user , this.historyMovies , this.wishlistMovies);
 }
+
+class ShowQuestionMessageState extends BaseCubitState{
+  String message;
+  ShowQuestionMessageState(this.message);
+}
+class SignOutAction extends BaseCubitState{}

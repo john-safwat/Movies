@@ -7,6 +7,7 @@ import 'package:mymoviesapp/Core/DI/di.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
+import 'package:mymoviesapp/Core/utils/DialogUtils.dart';
 import 'package:mymoviesapp/Domain/UseCase/getHistoryUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getWishListDataUseCase.dart';
@@ -14,6 +15,7 @@ import 'package:mymoviesapp/Presentation/Global%20Widgets/PosterImage.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Profile/ProfileTabViewModel.dart';
+import 'package:mymoviesapp/Presentation/Welcome/WelcomeScreen.dart';
 import 'package:provider/provider.dart';
 
 class ProfileTabView extends StatefulWidget {
@@ -26,24 +28,25 @@ class ProfileTabView extends StatefulWidget {
 
 class _ProfileTabViewState extends State<ProfileTabView> {
   ProfileTabViewModel viewModel = ProfileTabViewModel(
-      GetUserDataUseCase(injectUserRepository()),
-      GetHistoryUseCase(injectMoviesRepository()),
-      GetWishListDataUseCase(injectMoviesRepository()),
+    GetUserDataUseCase(injectUserRepository()),
+    GetHistoryUseCase(injectMoviesRepository()),
+    GetWishListDataUseCase(injectMoviesRepository()),
   );
   ScrollController controller = ScrollController();
   @override
   void initState() {
     super.initState();
-    viewModel.provider = Provider.of<AppConfigProvider>(context,listen: false);
-    viewModel.dataProvider = Provider.of<DataProvider>(context,listen: false);
-    viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context , listen: false);
+    viewModel.provider = Provider.of<AppConfigProvider>(context, listen: false);
+    viewModel.dataProvider = Provider.of<DataProvider>(context, listen: false);
+    viewModel.homeScreenViewModel =
+        Provider.of<HomeScreenViewModel>(context, listen: false);
     viewModel.getData();
   }
 
   @override
   void dispose() {
     super.dispose();
-    viewModel.dataProvider = null ;
+    viewModel.dataProvider = null;
     viewModel.provider = null;
   }
 
@@ -51,188 +54,278 @@ class _ProfileTabViewState extends State<ProfileTabView> {
   Widget build(BuildContext context) {
     return BlocProvider<ProfileTabViewModel>(
       create: (context) => viewModel,
-      child: BlocConsumer<ProfileTabViewModel , BaseCubitState>(
+      child: BlocConsumer<ProfileTabViewModel, BaseCubitState>(
         listener: (context, state) {
-          if(state is MovieDetailsAction){
+          if (state is MovieDetailsAction) {
             viewModel.homeScreenViewModel!.setSelectedIndex(9);
             context.pushNamed(MovieDetailsScreen.routeName, extra: state.movie);
+          } else if (state is ShowQuestionMessageState) {
+            MyDialogUtils.showQuestionMessage(
+                context: context,
+                message: state.message,
+                posActionTitle: "Ok",
+                posAction: viewModel.signOut,
+                negativeActionTitle: "Cancel");
+          }else if (state is SignOutAction){
+            context.goNamed(WelcomeScreen.routeName);
           }
         },
-
         buildWhen: (previous, current) {
-          if(previous is LoadingState && current is DataLoadedState){
-            return true ;
-          }else {
+          if (previous is LoadingState && current is DataLoadedState) {
+            return true;
+          } else {
             return false;
           }
         },
-
         builder: (context, state) {
-          if(state is LoadingState){
+          if (state is LoadingState) {
             return const Center(
               child: CircularProgressIndicator(
                 color: MyTheme.gold,
               ),
             );
-          } else if(state is ErrorState){
+          } else if (state is ErrorState) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(state.errorMessage , style: const TextStyle(color: Colors.white),),
+                Text(
+                  state.errorMessage,
+                  style: const TextStyle(color: Colors.white),
+                ),
                 ElevatedButton(
-                    onPressed: (){
+                    onPressed: () {
                       viewModel.getData();
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-                    ) ,
-                    child:const Text(
-                        "Try Again"
-                    )
-                )
+                    ),
+                    child: const Text("Try Again"))
               ],
             );
-          }else if (state is DataLoadedState){
+          } else if (state is DataLoadedState) {
             return DefaultTabController(
               length: 2,
               initialIndex: 0,
-              child:NestedScrollView(
+              child: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverAppBar(
-                    toolbarHeight: 250,
-                    backgroundColor: MyTheme.blackThree,
-                    title: Container(
-                      height: 250,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      toolbarHeight: 250,
+                      backgroundColor: MyTheme.blackThree,
+                      title: Container(
+                        height: 250,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                child: Row(
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(state.user.image),
-                                    Text(state.user.name , style: Theme.of(context).textTheme.headline3,)
-                                  ],
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(state.user.image),
+                                      Text(
+                                        state.user.email,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(state.wishlistMovies.length.toString() , style: Theme.of(context).textTheme.headline6,),
-                                    Text("Wish List", style: Theme.of(context).textTheme.headline3,)
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(state.historyMovies.length.toString() , style: Theme.of(context).textTheme.headline6,),
-                                    Text("History", style: Theme.of(context).textTheme.headline3,)
-                                  ],
-                                ),
+                                Expanded(
+                                    flex: 3,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              state.wishlistMovies.length
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline3,
+                                            ),
+                                            Text(
+                                              "Wish List",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4,
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              state.historyMovies.length
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline3,
+                                            ),
+                                            Text(
+                                              "History",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4,
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ))
                               ],
-                            )
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
+                            )),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      )),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              MyTheme.gold),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Text(
+                                        "Edit Profile",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    viewModel.onSignOutPress("Are You Sure You Want To Sign Out");
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                    )
+                                    )),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.red),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Icon(EvaIcons.logOut),
+                                  ),
                                 ),
-                                backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text("Edit Profile" , style: Theme.of(context).textTheme.headline5,),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    pinned: true,
-                    floating: true,
-                    leading: Container(),
-                    leadingWidth: 0,
-                    forceElevated: innerBoxIsScrolled,
-                    bottom: PreferredSize(
-                      preferredSize: Size.fromHeight(90),
-                      child: TabBar(
-                        indicatorColor: MyTheme.gold,
-                        tabs: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              children: [
-                                Icon(EvaIcons.list , color: MyTheme.gold,),
-                                Text("Favorite List " , style: Theme.of(context).textTheme.headline5,),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              children: [
-                                Icon(EvaIcons.archive , color: MyTheme.gold,),
-                                Text("History " , style: Theme.of(context).textTheme.headline5,),
-                              ],
-                            ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    )
-                  )
+                      pinned: true,
+                      floating: true,
+                      leading: Container(),
+                      leadingWidth: 0,
+                      forceElevated: innerBoxIsScrolled,
+                      bottom: PreferredSize(
+                        preferredSize: Size.fromHeight(90),
+                        child: TabBar(
+                          indicatorColor: MyTheme.gold,
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    EvaIcons.list,
+                                    color: MyTheme.gold,
+                                  ),
+                                  Text(
+                                    "Favorite List ",
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    EvaIcons.archive,
+                                    color: MyTheme.gold,
+                                  ),
+                                  Text(
+                                    "History ",
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ))
                 ],
                 body: Column(
                   children: [
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Expanded(
                         child: TabBarView(
-                          children: [
-                            GridView.builder(
-                              shrinkWrap: true,
-                              // physics: const BouncingScrollPhysics(),
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      children: [
+                        GridView.builder(
+                          shrinkWrap: true,
+                          // physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
-                                  crossAxisSpacing: 10 ,
+                                  crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
-                                  childAspectRatio: 0.65
-                              ),
-                              itemBuilder: (context, index) => PosterImage(
-                                movie: state.wishlistMovies[index],
-                                goToDetailsScreen: viewModel.goToDetailsScreen,
-                              ),
-                              itemCount: state.wishlistMovies.length,
-                            ),
-                            GridView.builder(
-                              shrinkWrap: true,
-
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.65),
+                          itemBuilder: (context, index) => PosterImage(
+                            movie: state.wishlistMovies[index],
+                            goToDetailsScreen: viewModel.goToDetailsScreen,
+                          ),
+                          itemCount: state.wishlistMovies.length,
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
-                                  crossAxisSpacing: 10 ,
+                                  crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
-                                  childAspectRatio: 0.65
-                              ),
-                              itemBuilder: (context, index) => PosterImage(
-                                movie: state.historyMovies[index],
-                                goToDetailsScreen: viewModel.goToDetailsScreen,
-                              ),
-                              itemCount: state.historyMovies.length,
-                            )
-                          ],
+                                  childAspectRatio: 0.65),
+                          itemBuilder: (context, index) => PosterImage(
+                            movie: state.historyMovies[index],
+                            goToDetailsScreen: viewModel.goToDetailsScreen,
+                          ),
+                          itemCount: state.historyMovies.length,
                         )
-                    )
+                      ],
+                    ))
                   ],
                 ),
-              ) ,
+              ),
             );
-          }else {
+          } else {
             return Container();
           }
         },
