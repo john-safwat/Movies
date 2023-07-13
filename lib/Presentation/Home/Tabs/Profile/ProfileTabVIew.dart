@@ -214,8 +214,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    MyDialogUtils.showFailMessage(context: context, message: "Are You Sure You Want To Sign Out" , posActionTitle: "Ok" , negativeActionTitle: "Cancel");
-                                    // viewModel.onSignOutPress("Are You Sure You Want To Sign Out");
+                                    viewModel.onSignOutPress("Are You Sure You Want To Sign Out");
                                   },
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all(

@@ -1,0 +1,26 @@
+icons_launcher:
+  image_path: "assets/images/appIcon.png"
+  platforms:
+    android:
+      enable: true
+      image_path: "assets/images/appIcon.png"
+      adaptive_background_color: '#121312'
+      adaptive_round_image: "assets/images/appIcon.png"
+      adaptive_foreground_image: "assets/images/appIcon.png"
+      adaptive_monochrome_image: "assets/images/appIcon.png"
+    ios:
+      enable: true
+      image_path: "assets/images/appIcon.png"
+    web:
+      enable: true
+      image_path: "assets/images/appIcon.png"
+      favicon_path: "assets/images/appIcon.png"
+    macos:
+      enable: false
+      image_path: "assets/images/appIcon.png"
+    windows:
+      enable: false
+      image_path: "assets/images/appIcon.png"
+    linux:
+      enable: false
+      image_path: "assets/images/appIcon.png"

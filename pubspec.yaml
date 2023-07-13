@@ -56,11 +56,13 @@ dependencies:
   cloud_firestore: ^4.8.2
   shared_preferences: ^2.2.0
   sqflite: ^2.2.8+4
+  icons_launcher: ^2.1.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^2.3.1
+
 
 flutter_native_splash:
   image: assets/images/splashLogo.png
