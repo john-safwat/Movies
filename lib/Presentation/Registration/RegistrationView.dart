@@ -88,7 +88,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     children: [
                       Text(
                         "Create  ",
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.displayLarge,
                       ),
                       Image.asset(
                         "assets/images/Logo.png",
@@ -96,7 +96,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       Text(
                         "  Account",
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.displayLarge,
                       ),
                     ],
                   ),
@@ -176,7 +176,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     "Create Account",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .displaySmall!
                                         .copyWith(
                                             fontWeight: FontWeight.bold),
                                   ),
@@ -187,7 +187,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             children: [
                               Text(
                                 "Already Have Account ?",
-                                style: Theme.of(context).textTheme.headline5,
+                                style: Theme.of(context).textTheme.displaySmall,
                               ),
                               TextButton(
                                   onPressed: viewModel.goToLoginScreen,
@@ -198,7 +198,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     "Login",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .displaySmall!
                                         .copyWith(
                                             fontWeight: FontWeight.bold),
                                   ))
@@ -255,7 +255,7 @@ class _ModalSheetWidgetState extends State<ModalSheetWidget> {
         children: [
           Text(
             "Pick Avatar",
-            style: Theme.of(context).textTheme.headline3,
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -299,7 +299,7 @@ class _ModalSheetWidgetState extends State<ModalSheetWidget> {
                   "Confirm",
                   style: Theme.of(context)
                       .textTheme
-                      .headline5!
+                      .displaySmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),

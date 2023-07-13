@@ -24,7 +24,7 @@ class MyDialogUtils {
                   ),
                   Text(
                     message,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.displaySmall,
                   )
                 ],
               ),
@@ -70,7 +70,7 @@ class MyDialogUtils {
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline5,),
+                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.displaySmall,),
               ),
             ),
           )
@@ -101,7 +101,7 @@ class MyDialogUtils {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(posActionTitle,style: Theme.of(context).textTheme.headline5,),
+                  child: Text(posActionTitle,style: Theme.of(context).textTheme.displaySmall,),
                 )
             ),
           )
@@ -142,7 +142,8 @@ class MyDialogUtils {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   message,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.displaySmall,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Padding(
@@ -193,7 +194,7 @@ class MyDialogUtils {
                 },
               child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline5,),
+                  child: Text(negativeActionTitle,style: Theme.of(context).textTheme.displaySmall,),
                 ),
             ),
           )
@@ -224,7 +225,7 @@ class MyDialogUtils {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(posActionTitle,style: Theme.of(context).textTheme.headline5,),
+                  child: Text(posActionTitle,style: Theme.of(context).textTheme.displaySmall,),
                 )
             ),
           )
@@ -264,7 +265,8 @@ class MyDialogUtils {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   message,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.displaySmall,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Padding(
@@ -313,7 +315,7 @@ class MyDialogUtils {
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.headline5,),
+                child: Text(negativeActionTitle,style: Theme.of(context).textTheme.displaySmall,),
               ),
             ),
           )
@@ -344,7 +346,7 @@ class MyDialogUtils {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(posActionTitle,style: Theme.of(context).textTheme.headline5,),
+                  child: Text(posActionTitle,style: Theme.of(context).textTheme.displaySmall,),
                 )
             ),
           )
@@ -384,7 +386,8 @@ class MyDialogUtils {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   message,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.displaySmall,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Padding(

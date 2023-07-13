@@ -47,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   "Login",
-                  style: Theme.of(context).textTheme.headline3!,
+                  style: Theme.of(context).textTheme.displayMedium!,
                 ),
               )
             ),
@@ -72,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     "Sign Up",
-                    style: Theme.of(context).textTheme.headline3!,
+                    style: Theme.of(context).textTheme.displayMedium!,
                   ),
                 )
             ),

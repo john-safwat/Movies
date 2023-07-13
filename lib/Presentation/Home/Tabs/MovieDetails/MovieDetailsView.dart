@@ -170,7 +170,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                           textAlign: TextAlign.center,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline1!
+                                              .displayLarge!
                                               .copyWith(fontSize: 30),
                                         ),
                                       ),
@@ -182,7 +182,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                     child: Text(state.movie.year!.toString(),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6),
+                                            .headlineSmall),
                                   ),
                                 ],
                               ),
@@ -208,7 +208,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Text(
                               "Watch",
-                              style: Theme.of(context).textTheme.headline3,
+                              style: Theme.of(context).textTheme.displayMedium,
                             ),
                           ),
                         ),
@@ -268,7 +268,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 state.movie.genres![index],
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline6!
+                                    .headlineSmall!
                                     .copyWith(fontSize: 16),
                               ),
                             ),
@@ -283,7 +283,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       title("Cast"),
                       state.movie.cast == null ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Text("No Cast Available Now" , style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.normal),),
+                        child: Text("No Cast Available Now" , style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.normal),),
                       ): ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
@@ -313,8 +313,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               Expanded(child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                Text("Name : ${state.movie.cast![index].name}", style: Theme.of(context).textTheme.headline5, maxLines: 1, overflow: TextOverflow.ellipsis,),
-                                Text("Character : ${state.movie.cast![index].characterName}", style: Theme.of(context).textTheme.headline5, maxLines: 1, overflow: TextOverflow.ellipsis,)
+                                Text("Name : ${state.movie.cast![index].name}", style: Theme.of(context).textTheme.displaySmall, maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                Text("Character : ${state.movie.cast![index].characterName}", style: Theme.of(context).textTheme.displaySmall, maxLines: 1, overflow: TextOverflow.ellipsis,)
                               ],))
                             ],
                           ),
@@ -329,7 +329,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           state.movie.descriptionFull!,
                           style: Theme.of(context)
                               .textTheme
-                              .headline6!
+                              .headlineSmall!
                               .copyWith(
                                   fontWeight: FontWeight.w400, wordSpacing: 1),
                         ),
@@ -405,7 +405,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.headline1,
+        style: Theme.of(context).textTheme.displayLarge,
       ),
     );
   }
@@ -430,7 +430,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               child: Text(
             title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.displaySmall,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           )),

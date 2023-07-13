@@ -23,7 +23,7 @@ class Movieslist extends StatelessWidget {
             child: Text(
               type,
               textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.headline3
+              style: Theme.of(context).textTheme.displayMedium
             ),
           ),
           // the movies

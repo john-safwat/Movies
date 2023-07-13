@@ -37,32 +37,32 @@ class MyTheme {
       unselectedIconTheme: IconThemeData(size: 22)
     ),
 
-    textTheme: const TextTheme(
-      headline1: TextStyle(
-        color: MyTheme.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 24
+    textTheme: TextTheme(
+      displayLarge: TextStyle(
+          color: MyTheme.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 24
       ),
-      headline2: TextStyle(
+      displayMedium:  TextStyle(
+          color: MyTheme.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 22
+      ),
+      displaySmall: TextStyle(
+          color: MyTheme.white,
+          fontSize: 18
+      ),
+      headlineMedium: TextStyle(
+          color: MyTheme.gray,
+          fontWeight: FontWeight.bold,
+          fontSize: 22
+      ),
+      headlineLarge: TextStyle(
           color: MyTheme.gray,
           fontWeight: FontWeight.bold,
           fontSize: 24
       ),
-      headline3: TextStyle(
-          color: MyTheme.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 22
-      ),
-      headline4: TextStyle(
-          color: MyTheme.gray,
-          fontWeight: FontWeight.bold,
-          fontSize: 22
-      ),
-      headline5: TextStyle(
-          color: MyTheme.white,
-          fontSize: 18
-      ),
-      headline6: TextStyle(
+      headlineSmall: TextStyle(
           color: MyTheme.gray,
           fontSize: 18
       ),

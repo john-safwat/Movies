@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: ButtonStyle(
                                     overlayColor: MaterialStateProperty.all(Colors.transparent),
                                   ),
-                                  child: Text("Forget Password" , style: Theme.of(context).textTheme.headline5,)
+                                  child: Text("Forget Password" , style: Theme.of(context).textTheme.displaySmall,)
                                 ),
                               ],
                             ),
@@ -146,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     "Login",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .displaySmall!
                                         .copyWith(
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Text(
                                 "Don't Have Account ?",
-                                style: Theme.of(context).textTheme.headline5,
+                                style: Theme.of(context).textTheme.displaySmall,
                               ),
                               TextButton(
                                   onPressed: viewModel.goToRegistrationScreen,
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     "Create One",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .displaySmall!
                                         .copyWith(
                                         fontWeight: FontWeight.bold),
                                   ))

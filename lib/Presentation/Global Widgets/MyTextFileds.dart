@@ -18,7 +18,7 @@ class MyTextFormField  extends StatelessWidget {
       padding:const EdgeInsets.symmetric(horizontal:20, vertical: 10),
       child: TextFormField(
         textCapitalization:TextCapitalization.words,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.headlineSmall,
         validator: (value) => validation(value),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         controller: controller,
@@ -28,7 +28,7 @@ class MyTextFormField  extends StatelessWidget {
 
           contentPadding:const EdgeInsets.all(15),
           hintText: hint,
-          hintStyle: Theme.of(context).textTheme.headline6,
+          hintStyle: Theme.of(context).textTheme.headlineSmall,
           prefixIcon: Icon(
             icon,
             color: MyTheme.gray,
@@ -89,7 +89,7 @@ class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
       padding:const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
       child: TextFormField(
 
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.headlineSmall,
         validator: (value) => widget.validation(value),
         controller: widget.controller,
         obscureText: !showPassword,
@@ -100,7 +100,7 @@ class _MyPasswordTextFormFieldState extends State<MyPasswordTextFormField> {
 
           contentPadding:const EdgeInsets.all(15),
           hintText: widget.hint,
-          hintStyle: Theme.of(context).textTheme.headline6,
+          hintStyle: Theme.of(context).textTheme.headlineSmall,
           errorStyle:const TextStyle(
               fontSize: 14,
               color: Colors.red

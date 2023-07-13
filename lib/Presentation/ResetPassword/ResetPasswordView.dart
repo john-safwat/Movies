@@ -72,7 +72,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text("Please Enter your Email Address To Receive a Recovery Link" , style: Theme.of(context).textTheme.headline6, textAlign: TextAlign.center,),
+                  child: Text("Please Enter your Email Address To Receive a Recovery Link" , style: Theme.of(context).textTheme.headlineSmall, textAlign: TextAlign.center,),
                 ),
                 Form(
                   key: viewModel.formKey,
@@ -98,7 +98,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                 "Send Mail",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5!
+                                    .displaySmall!
                                     .copyWith(
                                     fontWeight: FontWeight.bold),
                               ),
@@ -112,7 +112,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   children: [
                     Text(
                       "Don't Have Account ?",
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     TextButton(
                         onPressed: viewModel.goToRegistrationScreen,
@@ -123,7 +123,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           "Create One",
                           style: Theme.of(context)
                               .textTheme
-                              .headline5!
+                              .displaySmall!
                               .copyWith(
                               fontWeight: FontWeight.bold),
                         ))

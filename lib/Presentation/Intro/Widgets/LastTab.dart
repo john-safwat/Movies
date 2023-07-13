@@ -21,7 +21,7 @@ class LastTab extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Text(
                   "See all Movies Details",
-                  style: Theme.of(context).textTheme.headline1
+                  style: Theme.of(context).textTheme.displayLarge
                 ),
               ),
               Image.asset('assets/images/image3_splash.png', width: MediaQuery.of(context).size.width * 0.8,),
@@ -35,7 +35,7 @@ class LastTab extends StatelessWidget {
                 child: Text(
                   "Watch What Ever You Want And Manage Watch List  ",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline1
+                  style: Theme.of(context).textTheme.displayLarge
                 ),
               ),
               Container(
@@ -56,7 +56,7 @@ class LastTab extends StatelessWidget {
                     ),
                     child: Text(
                       "Finish",
-                      style: Theme.of(context).textTheme.headline1!.copyWith(color: MyTheme.gold)
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(color: MyTheme.gold)
                     )
                 ),
               ),
@@ -78,7 +78,7 @@ class LastTab extends StatelessWidget {
                     ),
                     child:  Text(
                       "Back",
-                      style:Theme.of(context).textTheme.headline1
+                      style:Theme.of(context).textTheme.displayLarge
                     )
                 ),
               ),

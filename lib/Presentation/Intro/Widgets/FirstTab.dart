@@ -20,7 +20,7 @@ class FirstTab extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Text(
                   "It's Time To Take a Brake",
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
               ),
               Image.asset('assets/images/image1_splash.png', width: MediaQuery.of(context).size.width * 0.8,),
@@ -34,7 +34,7 @@ class FirstTab extends StatelessWidget {
                 child: Text(
                   "With a Huge Library of High Quality Movies To Watch You Can Watch What Ever You Want Also You Can Download it",
                   textAlign: TextAlign.center,
-                  style:Theme.of(context).textTheme.headline1
+                  style:Theme.of(context).textTheme.displayLarge
                   ),
               ),
               Container(
@@ -53,7 +53,7 @@ class FirstTab extends StatelessWidget {
                     ),
                     child: Text(
                       "Next",
-                      style:Theme.of(context).textTheme.headline1!.copyWith(color: MyTheme.gold)
+                      style:Theme.of(context).textTheme.displayLarge!.copyWith(color: MyTheme.gold)
                     )
                 ),
               ),

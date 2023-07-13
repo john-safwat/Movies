@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mymoviesapp/Data/Firebase/FirebaseAuthConfig.dart';
 import 'package:mymoviesapp/Domain/Exceptions/FirebaseAuthException.dart';
@@ -11,10 +13,7 @@ class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource {
   @override
   Future<String> signup(String email, String password) async {
     try {
-      var response = await auth.signup(email, password).timeout(
-            Duration(seconds: 3),
-            onTimeout: () => throw FirebaseTimeoutException(),
-          );
+      var response = await auth.signup(email, password).timeout(Duration(seconds: 3),);
       return response;
     } on FirebaseAuthException catch (e) {
       var error;
@@ -35,7 +34,9 @@ class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource {
           error = e.toString();
       }
       throw FirebaseAuthDataSourceException(error);
-    } catch (e) {
+    } on TimeoutException catch (e){
+      throw FirebaseTimeoutException();
+    }catch (e){
       throw FirebaseAuthDataSourceException(e.toString());
     }
   }
@@ -43,7 +44,7 @@ class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource {
   @override
   Future<String> login(String email, String password) async{
     try{
-      var response = await auth.login(email, password).timeout(Duration(seconds: 10) ,  onTimeout: () => throw FirebaseTimeoutException(),);
+      var response = await auth.login(email, password).timeout(Duration(seconds: 10) );
       return response;
     }on FirebaseAuthException catch (e){
       String error = '';
@@ -74,6 +75,8 @@ class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource {
           break;
       }
       throw FirebaseAuthDataSourceException(error);
+    }on TimeoutException catch (e){
+      throw FirebaseTimeoutException();
     }catch (e){
       throw FirebaseAuthDataSourceException(e.toString());
     }
@@ -113,6 +116,8 @@ class AuthFirebaseRemoteDataSourceImpl implements AuthFirebaseRemoteDataSource {
           break;
       }
       throw FirebaseAuthDataSourceException(error);
+    }on TimeoutException catch (e){
+      throw FirebaseTimeoutException();
     }catch (e){
       throw FirebaseAuthDataSourceException(e.toString());
     }

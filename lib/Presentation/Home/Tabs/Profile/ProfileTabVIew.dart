@@ -128,7 +128,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                         state.user.email,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5,
+                                            .displaySmall,
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -151,13 +151,13 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline3,
+                                                  .displayMedium,
                                             ),
                                             Text(
                                               "Wish List",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline4,
+                                                  .headlineMedium,
                                             )
                                           ],
                                         ),
@@ -170,13 +170,13 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline3,
+                                                  .displayMedium,
                                             ),
                                             Text(
                                               "History",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline4,
+                                                  .headlineMedium,
                                             )
                                           ],
                                         ),
@@ -204,7 +204,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                         "Edit Profile",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5,
+                                            .displaySmall,
                                       ),
                                     ),
                                   ),
@@ -255,7 +255,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                   Text(
                                     "Favorite List ",
                                     style:
-                                        Theme.of(context).textTheme.headline5,
+                                        Theme.of(context).textTheme.displaySmall,
                                   ),
                                 ],
                               ),
@@ -271,7 +271,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                   Text(
                                     "History ",
                                     style:
-                                        Theme.of(context).textTheme.headline5,
+                                        Theme.of(context).textTheme.displaySmall,
                                   ),
                                 ],
                               ),
