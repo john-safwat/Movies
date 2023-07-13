@@ -66,7 +66,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                 posActionTitle: "Ok",
                 posAction: viewModel.signOut,
                 negativeActionTitle: "Cancel");
-          }else if (state is SignOutAction){
+          } else if (state is SignOutAction) {
             context.goNamed(WelcomeScreen.routeName);
           }
         },
@@ -125,7 +125,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                     children: [
                                       Image.asset(state.user.image),
                                       Text(
-                                        state.user.email,
+                                        state.user.name,
                                         style: Theme.of(context)
                                             .textTheme
                                             .displaySmall,
@@ -214,7 +214,8 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    viewModel.onSignOutPress("Are You Sure You Want To Sign Out");
+                                    MyDialogUtils.showFailMessage(context: context, message: "Are You Sure You Want To Sign Out" , posActionTitle: "Ok" , negativeActionTitle: "Cancel");
+                                    // viewModel.onSignOutPress("Are You Sure You Want To Sign Out");
                                   },
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all(
@@ -254,8 +255,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                   ),
                                   Text(
                                     "Favorite List ",
-                                    style:
-                                        Theme.of(context).textTheme.displaySmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall,
                                   ),
                                 ],
                               ),
@@ -270,8 +272,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                   ),
                                   Text(
                                     "History ",
-                                    style:
-                                        Theme.of(context).textTheme.displaySmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall,
                                   ),
                                 ],
                               ),
@@ -288,37 +291,55 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                     Expanded(
                         child: TabBarView(
                       children: [
-                        GridView.builder(
-                          shrinkWrap: true,
-                          // physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio: 0.65),
-                          itemBuilder: (context, index) => PosterImage(
-                            movie: state.wishlistMovies[index],
-                            goToDetailsScreen: viewModel.goToDetailsScreen,
-                          ),
-                          itemCount: state.wishlistMovies.length,
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio: 0.65),
-                          itemBuilder: (context, index) => PosterImage(
-                            movie: state.historyMovies[index],
-                            goToDetailsScreen: viewModel.goToDetailsScreen,
-                          ),
-                          itemCount: state.historyMovies.length,
-                        )
+                        state.wishlistMovies.isEmpty
+                            ? Center(
+                                child: Image.asset(
+                                  "assets/images/Empty.png",
+                                  width: 100,
+                                ),
+                              )
+                            : GridView.builder(
+                                shrinkWrap: true,
+                                // physics: const BouncingScrollPhysics(),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        childAspectRatio: 0.65),
+                                itemBuilder: (context, index) => PosterImage(
+                                  movie: state.wishlistMovies[index],
+                                  goToDetailsScreen:
+                                      viewModel.goToDetailsScreen,
+                                ),
+                                itemCount: state.wishlistMovies.length,
+                              ),
+                        state.historyMovies.isEmpty
+                            ? Center(
+                                child: Image.asset(
+                                  "assets/images/Empty.png",
+                                  width: 100,
+                                ),
+                              )
+                            : GridView.builder(
+                                shrinkWrap: true,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        childAspectRatio: 0.65),
+                                itemBuilder: (context, index) => PosterImage(
+                                  movie: state.historyMovies[index],
+                                  goToDetailsScreen:
+                                      viewModel.goToDetailsScreen,
+                                ),
+                                itemCount: state.historyMovies.length,
+                              )
                       ],
                     ))
                   ],
