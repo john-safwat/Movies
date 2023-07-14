@@ -8,12 +8,12 @@ import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
 import 'package:mymoviesapp/Core/utils/DialogUtils.dart';
 import 'package:mymoviesapp/Domain/UseCase/signupUseCase.dart';
+import 'package:mymoviesapp/Presentation/Global%20Widgets/MyBottomSheet.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/MyTextFileds.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Home/HomeTabView.dart';
 import 'package:mymoviesapp/Presentation/Login/LoginView.dart';
 import 'package:mymoviesapp/Presentation/Registration/RegistrationViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:unicons/unicons.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String routeName = "registration";
@@ -47,33 +47,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         listener: (context, state) {
           if (state is ShowModalBottomSheetAction) {
             showMyModalBottomSheet(context);
-          }
-          if (state is HideDialog) {
+          } else if (state is HideDialog) {
             MyDialogUtils.hideDialog(context);
-          }
-          if (state is ShowLoadingState) {
+          } else if (state is ShowLoadingState) {
             MyDialogUtils.showLoadingDialog(context, state.message);
-          }
-          if (state is ShowSuccessMessageState) {
+          } else if (state is ShowSuccessMessageState) {
             MyDialogUtils.showSuccessMessage(
                 context: context,
                 message: state.message,
                 posActionTitle: "Ok",
                 posAction: viewModel.goToHomeScreen);
-          }
-          if (state is ShowErrorMessageState) {
+          } else if (state is ShowErrorMessageState) {
             MyDialogUtils.showFailMessage(
                 context: context,
                 message: state.message,
                 posActionTitle: "Try Again");
-          }
-          if (state is GoToHomeScreenAction) {
+           }else if (state is GoToHomeScreenAction) {
             GoRouter.of(context).goNamed(HomeTabView.routeName);
-          }
-          if (state is GoToLoginScreenAction) {
+          } else if (state is GoToLoginScreenAction) {
             GoRouter.of(context).goNamed(LoginScreen.routeName);
-          }
-          if (state is InputWaiting) {
+          } else if (state is InputWaiting) {
             context.pop();
           }
         },
@@ -224,87 +217,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         children: [
           ModalSheetWidget(
               viewModel.images, viewModel.image, viewModel.changeSelectedImage),
-        ],
-      ),
-    );
-  }
-}
-
-// the widget in the bottom sheet
-class ModalSheetWidget extends StatefulWidget {
-  ModalSheetWidget(this.images, this.selectedImage, this.changeSelectedImage,
-      {super.key});
-  // ScrollController scrollController ;
-  List<String> images;
-  String selectedImage;
-  Function changeSelectedImage;
-
-  @override
-  State<ModalSheetWidget> createState() => _ModalSheetWidgetState();
-}
-
-class _ModalSheetWidgetState extends State<ModalSheetWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: MyTheme.blackTwo),
-      child: Column(
-        children: [
-          Text(
-            "Pick Avatar",
-            style: Theme.of(context).textTheme.displayMedium,
-          ),
-          GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(vertical: 20),
-            // controller: widget.scrollController,
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, childAspectRatio: 1),
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                setState(() {
-                  widget.selectedImage = widget.images[index];
-                });
-              },
-              child: Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: widget.selectedImage == widget.images[index]
-                        ? MyTheme.gray
-                        : MyTheme.blackTwo,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Image.asset(widget.images[index], width: 100)),
-            ),
-            itemCount: widget.images.length,
-          ),
-          Container(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(MyTheme.gold),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ))),
-              onPressed: () {
-                widget.changeSelectedImage(widget.selectedImage);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  "Confirm",
-                  style: Theme.of(context)
-                      .textTheme
-                      .displaySmall!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );

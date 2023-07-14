@@ -13,6 +13,7 @@ import 'package:mymoviesapp/Domain/UseCase/getUserDataUseCase.dart';
 import 'package:mymoviesapp/Domain/UseCase/getWishListDataUseCase.dart';
 import 'package:mymoviesapp/Presentation/Global%20Widgets/PosterImage.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenViewModel.dart';
+import 'package:mymoviesapp/Presentation/Home/Tabs/EditProfileScreen/EditProfileView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Profile/ProfileTabViewModel.dart';
 import 'package:mymoviesapp/Presentation/Welcome/WelcomeScreen.dart';
@@ -38,8 +39,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
     super.initState();
     viewModel.provider = Provider.of<AppConfigProvider>(context, listen: false);
     viewModel.dataProvider = Provider.of<DataProvider>(context, listen: false);
-    viewModel.homeScreenViewModel =
-        Provider.of<HomeScreenViewModel>(context, listen: false);
+    viewModel.homeScreenViewModel = Provider.of<HomeScreenViewModel>(context, listen: false);
     viewModel.getData();
   }
 
@@ -68,6 +68,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                 negativeActionTitle: "Cancel");
           } else if (state is SignOutAction) {
             context.goNamed(WelcomeScreen.routeName);
+          }else if (state is EditProfileAction){
+            GoRouter.of(context).pushNamed( EditProfileView.routeName , extra:state.user );
+            viewModel.homeScreenViewModel!.setSelectedIndex(9);
           }
         },
         buildWhen: (previous, current) {
@@ -188,7 +191,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                               children: [
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: (){
+                                      viewModel.goToEditProfileScreen(state.user);
+                                    },
                                     style: ButtonStyle(
                                       shape: MaterialStateProperty.all(
                                           RoundedRectangleBorder(
@@ -225,8 +230,14 @@ class _ProfileTabViewState extends State<ProfileTabView> {
                                         MaterialStateProperty.all(Colors.red),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Icon(EvaIcons.logOut),
+                                    padding: const EdgeInsets.all(5.0),
+                                    child:Row(
+                                      children: [
+                                        Text("Exit" , style: Theme.of(context).textTheme.displaySmall,),
+                                        SizedBox(width: 5,),
+                                        Icon(EvaIcons.logOut)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],

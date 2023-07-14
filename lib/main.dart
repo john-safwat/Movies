@@ -7,10 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Providers/AppConfigProvieder.dart';
 import 'package:mymoviesapp/Core/Providers/DataProvider.dart';
 import 'package:mymoviesapp/Core/Theme/Theme.dart';
-import 'package:mymoviesapp/Domain/Models/Movies/Movies.dart';
+import 'package:mymoviesapp/Domain/Models/User/User.dart';
 import 'package:mymoviesapp/Presentation/Home/HomeScreenView.dart';
 import 'package:dcdg/dcdg.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Browse/BrowseTabView.dart';
+import 'package:mymoviesapp/Presentation/Home/Tabs/EditProfileScreen/EditProfileView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Home/HomeTabView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Profile/ProfileTabVIew.dart';
@@ -80,6 +81,13 @@ class MyApp extends StatelessWidget {
           path: ResetPasswordView.path,
           name: ResetPasswordView.routeName,
           builder: (context, state) => ResetPasswordView(),
+        ),
+        GoRoute(
+          path: EditProfileView.path,
+          name: EditProfileView.routeName,
+          builder: (context, state) => EditProfileView(
+            user: state.extra as Users,
+          ),
         ),
         ShellRoute(
             builder: (context, state, child) => HomeScreen(tab: child),

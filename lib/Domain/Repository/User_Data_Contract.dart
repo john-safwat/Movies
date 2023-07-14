@@ -13,9 +13,11 @@ abstract class UserRepository{
   Future<String> resetPassword(String email);
   Future<String> createUser(Users user);
   Future<Users> getUser(String uid);
+  Future<String> updateUserData(Users user);
 }
 
 abstract class UsersRemoteDataSource{
   Future<String> createUser(UserDTO user);
   Future<Users> getUser(String uid);
+  Future<String> updateUserData(Users user);
 }

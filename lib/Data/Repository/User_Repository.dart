@@ -41,4 +41,10 @@ class UserRepositoryImpl implements UserRepository {
     var response = await remoteDataSource.getUser(uid);
     return response;
   }
+
+  @override
+  Future<String> updateUserData(Users user) async{
+    var response= await remoteDataSource.updateUserData(user);
+    return response;
+  }
 }

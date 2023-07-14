@@ -23,8 +23,7 @@ class FirebaseDatabase{
 
   Future<void> createUser(UserDTO user)async{
     var ref =  getCollectionReference() ;
-    var doc = ref.doc();
-    return doc.set(user).timeout(Duration(seconds: 5) , onTimeout: () =>throw FirebaseTimeoutException(),);
+    return ref.doc(user.uid).set(user).timeout(Duration(seconds: 5) , onTimeout: () =>throw FirebaseTimeoutException(),);
   }
 
   Future<UserDTO> getUser(String uid)async{
@@ -32,6 +31,11 @@ class FirebaseDatabase{
     UserDTO? user;
     response.docs.forEach((element) {user = UserDTO.fromFireStore(element.data());});
     return user!;
+  }
+  
+  Future<void> updateUserData(UserDTO user)async{
+    var ref = getCollectionReference().doc(user.uid);
+    return ref.update(user.toFireStore()).timeout(Duration(seconds: 5));
   }
 
 }

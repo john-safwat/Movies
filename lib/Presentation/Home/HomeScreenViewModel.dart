@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mymoviesapp/Core/Base/BaseCubitState.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Browse/BrowseTabView.dart';
+import 'package:mymoviesapp/Presentation/Home/Tabs/EditProfileScreen/EditProfileView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Home/HomeTabView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/MovieDetails/MovieDetailsView.dart';
 import 'package:mymoviesapp/Presentation/Home/Tabs/Profile/ProfileTabVIew.dart';
@@ -52,6 +53,8 @@ class HomeScreenViewModel extends Cubit<BaseCubitState>{
       selectedIndex = 3;
       return 3;
     }else if(router!.location == MovieDetailsScreen.path){
+      return selectedIndex;
+    }else if(router!.location == EditProfileView.path){
       return selectedIndex;
     }
     return 0;

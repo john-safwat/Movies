@@ -55,6 +55,10 @@ class ProfileTabViewModel extends Cubit<BaseCubitState>{
     emit(SignOutAction());
   }
 
+  void goToEditProfileScreen(Users user){
+    emit(EditProfileAction(user));
+  }
+
 }
 
 class DataLoadedState extends BaseCubitState{
@@ -69,3 +73,7 @@ class ShowQuestionMessageState extends BaseCubitState{
   ShowQuestionMessageState(this.message);
 }
 class SignOutAction extends BaseCubitState{}
+class EditProfileAction extends BaseCubitState{
+  Users user;
+  EditProfileAction(this.user);
+}
