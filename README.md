@@ -23,7 +23,7 @@
 
 # Movies
 
-![all image](https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/App_Screen_MockupsForFree.png?alt=media&token=5163f2b5-adf4-4c7e-8777-fd7dc9ff3de0)
+![all image](https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/App_Screen_MockupsForFree.png?alt=media&token=959ef262-60f5-4257-8b38-c513d8faadb5)
 ## Description
 
 A Flutter movies app that allows users to browse and watch movies from a variety of sources. Build to demonstrate the use of flutter and (Dio , MVVM , Bloc , Clean Arch)
