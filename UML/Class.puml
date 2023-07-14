@@ -1,0 +1,1432 @@
+@startuml
+set namespaceSeparator ::
+
+abstract class "mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" {
+}
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::LoadingState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::LoadingState"
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::ErrorState" {
+  +String errorMessage
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::ErrorState"
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::HideDialog" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::HideDialog"
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::ShowLoadingState" {
+  +String message
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::ShowLoadingState"
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::ShowErrorMessageState" {
+  +String message
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::ShowErrorMessageState"
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::ShowSuccessMessageState" {
+  +String message
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::ShowSuccessMessageState"
+
+class "mymoviesapp::Core::Base::BaseCubitState.dart::MovieDetailsAction" {
+  +num movie
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Core::Base::BaseCubitState.dart::MovieDetailsAction"
+
+class "mymoviesapp::Core::Providers::AppConfigProvieder.dart::AppConfigProvider" {
+  -String _uid
+  +void updateUid()
+  +dynamic getUid()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "mymoviesapp::Core::Providers::AppConfigProvieder.dart::AppConfigProvider"
+
+class "mymoviesapp::Core::Providers::DataProvider.dart::DataProvider" {
+  +dynamic movies
+  +dynamic dramaMovies
+  +dynamic actionMovies
+  +dynamic crimeMovies
+  +dynamic animationMovies
+  +List<Movies> watchHistory
+  +List<Movies> wishList
+  +List<Movies> relatedMovies
+  +void addMoviesToWatchHistory()
+  +void addToWishList()
+  +void deleteFromWishList()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "mymoviesapp::Core::Providers::DataProvider.dart::DataProvider"
+
+class "mymoviesapp::Core::Theme::Theme.dart::MyTheme" {
+  {static} +Color backGroundColor
+  {static} +Color blackOne
+  {static} +Color blackTwo
+  {static} +Color blackThree
+  {static} +Color blackFour
+  {static} +Color gray
+  {static} +Color gold
+  {static} +Color white
+  {static} +Color green
+  {static} +Color red
+  {static} +ThemeData theme
+}
+
+"mymoviesapp::Core::Theme::Theme.dart::MyTheme" o-- "dart::ui::Color"
+"mymoviesapp::Core::Theme::Theme.dart::MyTheme" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+class "mymoviesapp::Core::utils::DialogUtils.dart::MyDialogUtils" {
+  {static} +dynamic showLoadingDialog()
+  {static} +dynamic hideDialog()
+  {static} +dynamic showFailMessage()
+  {static} +dynamic showSuccessMessage()
+  {static} +dynamic showQuestionMessage()
+}
+
+class "mymoviesapp::Data::API::ApiManager.dart::ApiManager" {
+  {static} -ApiManager? _instance
+  +String baseUrl
+  +Dio dio
+  {static} +ApiManager getApiManager()
+  +dynamic getHighRatingMovies()
+  +dynamic getMovieListByGenre()
+  +dynamic gatSearchResults()
+  +dynamic getRelatedMovies()
+  +dynamic getMovieFullDetails()
+}
+
+"mymoviesapp::Data::API::ApiManager.dart::ApiManager" o-- "mymoviesapp::Data::API::ApiManager.dart::ApiManager"
+"mymoviesapp::Data::API::ApiManager.dart::ApiManager" o-- "dio::src::dio.dart::Dio"
+
+class "mymoviesapp::Data::DataSource::Auth_Firebase_Remote_DataSource_Impl.dart::AuthFirebaseRemoteDataSourceImpl" {
+  +Auth auth
+  +dynamic signup()
+  +dynamic login()
+  +dynamic resetPassword()
+}
+
+"mymoviesapp::Data::DataSource::Auth_Firebase_Remote_DataSource_Impl.dart::AuthFirebaseRemoteDataSourceImpl" o-- "mymoviesapp::Data::Firebase::FirebaseAuthConfig.dart::Auth"
+"mymoviesapp::Domain::Repository::User_Data_Contract.dart::AuthFirebaseRemoteDataSource" <|-- "mymoviesapp::Data::DataSource::Auth_Firebase_Remote_DataSource_Impl.dart::AuthFirebaseRemoteDataSourceImpl"
+
+class "mymoviesapp::Data::DataSource::Movies_Data_Local_DateSource.dart::MoviesDataLocalDataSourceImpl" {
+  +MySqlDB db
+  +dynamic addToHistory()
+  +dynamic deleteFromHistory()
+  +dynamic isInHistory()
+  +dynamic getHistory()
+  +dynamic addToWishList()
+  +dynamic deleteFromWishList()
+  +dynamic getWishList()
+  +dynamic isInWishList()
+}
+
+"mymoviesapp::Data::DataSource::Movies_Data_Local_DateSource.dart::MoviesDataLocalDataSourceImpl" o-- "mymoviesapp::Data::SQL::MySqldb.dart::MySqlDB"
+"mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataLocalDataSource" <|-- "mymoviesapp::Data::DataSource::Movies_Data_Local_DateSource.dart::MoviesDataLocalDataSourceImpl"
+
+class "mymoviesapp::Data::DataSource::Movies_Data_Remote_DataSource_Impl.dart::MoviesDataRemoteDataSourceImpl" {
+  +ApiManager apiManager
+  +dynamic getTopRatedMovies()
+  +dynamic getMoviesByGenre()
+  +dynamic getBrowseData()
+  +dynamic getRelatedMoviesData()
+  +dynamic getMovieFullDetails()
+}
+
+"mymoviesapp::Data::DataSource::Movies_Data_Remote_DataSource_Impl.dart::MoviesDataRemoteDataSourceImpl" o-- "mymoviesapp::Data::API::ApiManager.dart::ApiManager"
+"mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRemoteDataSource" <|-- "mymoviesapp::Data::DataSource::Movies_Data_Remote_DataSource_Impl.dart::MoviesDataRemoteDataSourceImpl"
+
+class "mymoviesapp::Data::DataSource::Search_Data_Remote_DataSource_Impl.dart::SearchDataRemoteDataSourceImpl" {
+  +ApiManager apiManager
+  +dynamic getMoviesByKeyWord()
+}
+
+"mymoviesapp::Data::DataSource::Search_Data_Remote_DataSource_Impl.dart::SearchDataRemoteDataSourceImpl" o-- "mymoviesapp::Data::API::ApiManager.dart::ApiManager"
+"mymoviesapp::Domain::Repository::Search_Data_Contract.dart::SearchDataRemoteDataSource" <|-- "mymoviesapp::Data::DataSource::Search_Data_Remote_DataSource_Impl.dart::SearchDataRemoteDataSourceImpl"
+
+class "mymoviesapp::Data::DataSource::Users_Remote_DataSource_Impl.dart::UsersRemoteDataSourceImpl" {
+  +FirebaseDatabase database
+  +dynamic createUser()
+  +dynamic getUser()
+  +dynamic updateUserData()
+}
+
+"mymoviesapp::Data::DataSource::Users_Remote_DataSource_Impl.dart::UsersRemoteDataSourceImpl" o-- "mymoviesapp::Data::Firebase::FireStoreConfig.dart::FirebaseDatabase"
+"mymoviesapp::Domain::Repository::User_Data_Contract.dart::UsersRemoteDataSource" <|-- "mymoviesapp::Data::DataSource::Users_Remote_DataSource_Impl.dart::UsersRemoteDataSourceImpl"
+
+class "mymoviesapp::Data::Firebase::FirebaseAuthConfig.dart::Auth" {
+  {static} -Auth? _instance
+  +FirebaseAuth firebaseAuth
+  {static} +Auth getAuth()
+  +dynamic signup()
+  +dynamic login()
+  +dynamic forgetPassword()
+}
+
+"mymoviesapp::Data::Firebase::FirebaseAuthConfig.dart::Auth" o-- "mymoviesapp::Data::Firebase::FirebaseAuthConfig.dart::Auth"
+"mymoviesapp::Data::Firebase::FirebaseAuthConfig.dart::Auth" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"
+
+class "mymoviesapp::Data::Firebase::FireStoreConfig.dart::FirebaseDatabase" {
+  {static} -FirebaseDatabase? _instance
+  {static} +FirebaseDatabase getFirebaseDatabaseInstance()
+  +CollectionReference<UserDTO> getCollectionReference()
+  +dynamic createUser()
+  +dynamic getUser()
+  +dynamic updateUserData()
+}
+
+"mymoviesapp::Data::Firebase::FireStoreConfig.dart::FirebaseDatabase" o-- "mymoviesapp::Data::Firebase::FireStoreConfig.dart::FirebaseDatabase"
+
+class "mymoviesapp::Data::Models::MovieDetailsResponse::CastDTO.dart::CastDTO" {
+  +String? name
+  +String? characterName
+  +String? urlSmallImage
+  +String? imdbCode
+  +Map<String, dynamic> toJson()
+  +Cast toDomain()
+}
+
+class "mymoviesapp::Data::Models::MovieDetailsResponse::DataDTO.dart::DataDTO" {
+  +MovieDTO? movie
+  +Map<String, dynamic> toJson()
+}
+
+"mymoviesapp::Data::Models::MovieDetailsResponse::DataDTO.dart::DataDTO" o-- "mymoviesapp::Data::Models::MovieDetailsResponse::MovieDTO.dart::MovieDTO"
+
+class "mymoviesapp::Data::Models::MovieDetailsResponse::MovieDetailsResponseDTO.dart::MovieDetailsResponseDTO" {
+  +String? status
+  +String? statusMessage
+  +DataDTO? data
+  +metaDTO? meta
+  +Map<String, dynamic> toJson()
+  +MovieDetailsResponse toDomain()
+}
+
+"mymoviesapp::Data::Models::MovieDetailsResponse::MovieDetailsResponseDTO.dart::MovieDetailsResponseDTO" o-- "mymoviesapp::Data::Models::MovieDetailsResponse::DataDTO.dart::DataDTO"
+"mymoviesapp::Data::Models::MovieDetailsResponse::MovieDetailsResponseDTO.dart::MovieDetailsResponseDTO" o-- "mymoviesapp::Data::Models::MovieResponse::@metaDTO.dart::metaDTO"
+
+class "mymoviesapp::Data::Models::MovieDetailsResponse::MovieDTO.dart::MovieDTO" {
+  +num? id
+  +String? url
+  +String? imdbCode
+  +String? title
+  +String? titleEnglish
+  +String? titleLong
+  +String? slug
+  +num? year
+  +num? rating
+  +num? runtime
+  +List<String>? genres
+  +num? downloadCount
+  +num? likeCount
+  +String? descriptionIntro
+  +String? descriptionFull
+  +String? ytTrailerCode
+  +String? language
+  +String? mpaRating
+  +String? backgroundImage
+  +String? backgroundImageOriginal
+  +String? smallCoverImage
+  +String? mediumCoverImage
+  +String? largeCoverImage
+  +String? mediumScreenshotImage1
+  +String? mediumScreenshotImage2
+  +String? mediumScreenshotImage3
+  +String? largeScreenshotImage1
+  +String? largeScreenshotImage2
+  +String? largeScreenshotImage3
+  +List<CastDTO>? cast
+  +List<TorrentsDTO>? torrents
+  +String? dateUploaded
+  +num? dateUploadedUnix
+  +Map<String, dynamic> toJson()
+  +Movie toDomain()
+}
+
+class "mymoviesapp::Data::Models::MovieDetailsResponse::TorrentsDTO.dart::TorrentsDTO" {
+  +String? url
+  +String? hash
+  +String? quality
+  +String? type
+  +String? isRepack
+  +String? videoCodec
+  +String? bitDepth
+  +String? audioChannels
+  +num? seeds
+  +num? peers
+  +String? size
+  +num? sizeBytes
+  +String? dateUploaded
+  +num? dateUploadedUnix
+  +Map<String, dynamic> toJson()
+}
+
+class "mymoviesapp::Data::Models::MovieResponse::@metaDTO.dart::metaDTO" {
+  +num? serverTime
+  +String? serverTimezone
+  +num? apiVersion
+  +String? executionTime
+  +Map<String, dynamic> toJson()
+}
+
+class "mymoviesapp::Data::Models::MovieResponse::DataDTO.dart::DataDTO" {
+  +num? movieCount
+  +num? limit
+  +num? pageNumber
+  +List<MoviesDTO>? movies
+  +Map<String, dynamic> toJson()
+}
+
+class "mymoviesapp::Data::Models::MovieResponse::MovieResponseDTO.dart::MovieResponseDTO" {
+  +String? status
+  +String? statusMessage
+  +DataDTO? data
+  +metaDTO? metaa
+  +Map<String, dynamic> toJson()
+  +MovieResponse toDomain()
+}
+
+"mymoviesapp::Data::Models::MovieResponse::MovieResponseDTO.dart::MovieResponseDTO" o-- "mymoviesapp::Data::Models::MovieResponse::DataDTO.dart::DataDTO"
+"mymoviesapp::Data::Models::MovieResponse::MovieResponseDTO.dart::MovieResponseDTO" o-- "mymoviesapp::Data::Models::MovieResponse::@metaDTO.dart::metaDTO"
+
+class "mymoviesapp::Data::Models::MovieResponse::MoviesDTO.dart::MoviesDTO" {
+  +num? id
+  +String? url
+  +String? imdbCode
+  +String? title
+  +String? titleEnglish
+  +String? titleLong
+  +String? slug
+  +num? year
+  +num? rating
+  +num? runtime
+  +List<String>? genres
+  +String? summary
+  +String? descriptionFull
+  +String? synopsis
+  +String? ytTrailerCode
+  +String? language
+  +String? mpaRating
+  +String? backgroundImage
+  +String? backgroundImageOriginal
+  +String? smallCoverImage
+  +String? mediumCoverImage
+  +String? largeCoverImage
+  +String? state
+  +List<TorrentsDTO>? torrents
+  +String? dateUploaded
+  +num? dateUploadedUnix
+  +Map<String, dynamic> toJson()
+  +Movies toDomain()
+}
+
+class "mymoviesapp::Data::Models::MovieResponse::TorrentsDTO.dart::TorrentsDTO" {
+  +String? url
+  +String? hash
+  +String? quality
+  +String? type
+  +num? seeds
+  +num? peers
+  +String? size
+  +num? sizeBytes
+  +String? dateUploaded
+  +num? dateUploadedUnix
+  +Map<String, dynamic> toJson()
+}
+
+class "mymoviesapp::Data::Models::User::UserDTO.dart::UserDTO" {
+  +String uid
+  +String email
+  +String image
+  +String phone
+  +String name
+  +Map<String, dynamic> toFireStore()
+  +Users toDomain()
+}
+
+class "mymoviesapp::Data::Repository::Movies_Data_Repository_Impl.dart::MoviesDataRepositoryImpl" {
+  +MoviesDataRemoteDataSource remoteDataSource
+  +MoviesDataLocalDataSource sqLiteDataSource
+  +dynamic getTopRatedMovies()
+  +dynamic getMoviesByGenre()
+  +dynamic getBrowseData()
+  +dynamic getRelatedMoviesData()
+  +dynamic getMovieFullDetails()
+  +dynamic addToHistory()
+  +dynamic deleteFromHistory()
+  +dynamic isInHistory()
+  +dynamic getHistory()
+  +dynamic addToWishList()
+  +dynamic deleteFromWishList()
+  +dynamic getWishList()
+  +dynamic isInWishList()
+}
+
+"mymoviesapp::Data::Repository::Movies_Data_Repository_Impl.dart::MoviesDataRepositoryImpl" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRemoteDataSource"
+"mymoviesapp::Data::Repository::Movies_Data_Repository_Impl.dart::MoviesDataRepositoryImpl" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataLocalDataSource"
+"mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository" <|-- "mymoviesapp::Data::Repository::Movies_Data_Repository_Impl.dart::MoviesDataRepositoryImpl"
+
+class "mymoviesapp::Data::Repository::Search_Data_Repository_Impl.dart::SearchDataRepositoryImpl" {
+  +SearchDataRemoteDataSource remoteDataSource
+  +dynamic getMoviesByKeyWord()
+}
+
+"mymoviesapp::Data::Repository::Search_Data_Repository_Impl.dart::SearchDataRepositoryImpl" o-- "mymoviesapp::Domain::Repository::Search_Data_Contract.dart::SearchDataRemoteDataSource"
+"mymoviesapp::Domain::Repository::Search_Data_Contract.dart::SearchDataRepository" <|-- "mymoviesapp::Data::Repository::Search_Data_Repository_Impl.dart::SearchDataRepositoryImpl"
+
+class "mymoviesapp::Data::Repository::User_Repository.dart::UserRepositoryImpl" {
+  +AuthFirebaseRemoteDataSource dataSource
+  +UsersRemoteDataSource remoteDataSource
+  +dynamic signup()
+  +dynamic createUser()
+  +dynamic login()
+  +dynamic resetPassword()
+  +dynamic getUser()
+  +dynamic updateUserData()
+}
+
+"mymoviesapp::Data::Repository::User_Repository.dart::UserRepositoryImpl" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::AuthFirebaseRemoteDataSource"
+"mymoviesapp::Data::Repository::User_Repository.dart::UserRepositoryImpl" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UsersRemoteDataSource"
+"mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository" <|-- "mymoviesapp::Data::Repository::User_Repository.dart::UserRepositoryImpl"
+
+class "mymoviesapp::Data::SQL::MySqldb.dart::MySqlDB" {
+  -Database? _db
+  {static} -MySqlDB? _instance
+  {static} +dynamic getMySqlDb()
+  +dynamic getDB()
+  -dynamic _initiateDB()
+  -void _onCreate()
+  +dynamic insertMovieToHistory()
+  +dynamic deleteMovieFromHistory()
+  +dynamic isInWatchHistory()
+  +dynamic selectWatchHistory()
+  +dynamic insertMovieToWishList()
+  +dynamic deleteMovieFromWishList()
+  +dynamic isInWishList()
+  +dynamic selectWishList()
+}
+
+"mymoviesapp::Data::SQL::MySqldb.dart::MySqlDB" o-- "sqflite_common::sqlite_api.dart::Database"
+"mymoviesapp::Data::SQL::MySqldb.dart::MySqlDB" o-- "mymoviesapp::Data::SQL::MySqldb.dart::MySqlDB"
+
+class "mymoviesapp::Domain::Exceptions::FirebaseAuthException.dart::FirebaseAuthDataSourceException" {
+  +String errorMessage
+}
+
+"dart::core::Exception" <|-- "mymoviesapp::Domain::Exceptions::FirebaseAuthException.dart::FirebaseAuthDataSourceException"
+
+class "mymoviesapp::Domain::Exceptions::FirebaseDatabaseExeption.dart::FirebaseDatabaseException" {
+  +String errorMessage
+}
+
+"dart::core::Exception" <|-- "mymoviesapp::Domain::Exceptions::FirebaseDatabaseExeption.dart::FirebaseDatabaseException"
+
+class "mymoviesapp::Domain::Exceptions::FirebaseTimeoutException.dart::FirebaseTimeoutException" {
+  +String error
+}
+
+"dart::core::Exception" <|-- "mymoviesapp::Domain::Exceptions::FirebaseTimeoutException.dart::FirebaseTimeoutException"
+
+class "mymoviesapp::Domain::Exceptions::LocalDatabaseException.dart::LocalDatabaseException" {
+  +String error
+}
+
+"dart::core::Exception" <|-- "mymoviesapp::Domain::Exceptions::LocalDatabaseException.dart::LocalDatabaseException"
+
+class "mymoviesapp::Domain::Exceptions::ServerException.dart::ServerException" {
+  +String error
+}
+
+"dart::core::Exception" <|-- "mymoviesapp::Domain::Exceptions::ServerException.dart::ServerException"
+
+class "mymoviesapp::Domain::Models::Movies::MovieResponse.dart::MovieResponse" {
+  +String? status
+  +String? statusMessage
+  +List<Movies>? movies
+}
+
+class "mymoviesapp::Domain::Models::Movies::Movies.dart::Movies" {
+  +num? id
+  +num? rating
+  +String? largeCoverImage
+  +String? mediumCoverImage
+}
+
+class "mymoviesapp::Domain::Models::MoviesDetails::Cast.dart::Cast" {
+  +String? name
+  +String? characterName
+  +String? urlSmallImage
+  +String? imdbCode
+}
+
+class "mymoviesapp::Domain::Models::MoviesDetails::Movie.dart::Movie" {
+  +num? id
+  +String? url
+  +String? imdbCode
+  +String? title
+  +String? titleEnglish
+  +String? titleLong
+  +String? slug
+  +num? year
+  +num? rating
+  +num? runtime
+  +List<String>? genres
+  +num? downloadCount
+  +num? likeCount
+  +String? descriptionIntro
+  +String? descriptionFull
+  +String? ytTrailerCode
+  +String? language
+  +String? mpaRating
+  +String? backgroundImage
+  +String? backgroundImageOriginal
+  +String? smallCoverImage
+  +String? mediumCoverImage
+  +String? largeCoverImage
+  +String? mediumScreenshotImage1
+  +String? mediumScreenshotImage2
+  +String? mediumScreenshotImage3
+  +String? largeScreenshotImage1
+  +String? largeScreenshotImage2
+  +String? largeScreenshotImage3
+  +List<Cast>? cast
+  +String? dateUploaded
+  +num? dateUploadedUnix
+  +bool isInWishList
+  +bool isWatched
+}
+
+class "mymoviesapp::Domain::Models::MoviesDetails::MovieDetailsResponse.dart::MovieDetailsResponse" {
+  +String? status
+  +String? statusMessage
+  +Movie? movie
+}
+
+"mymoviesapp::Domain::Models::MoviesDetails::MovieDetailsResponse.dart::MovieDetailsResponse" o-- "mymoviesapp::Domain::Models::MoviesDetails::Movie.dart::Movie"
+
+class "mymoviesapp::Domain::Models::User::User.dart::Users" {
+  +String uid
+  +String email
+  +String image
+  +String phone
+  +String name
+}
+
+abstract class "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRemoteDataSource" {
+  +dynamic getTopRatedMovies()
+  +dynamic getMoviesByGenre()
+  +dynamic getBrowseData()
+  +dynamic getRelatedMoviesData()
+  +dynamic getMovieFullDetails()
+}
+
+abstract class "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository" {
+  +dynamic getTopRatedMovies()
+  +dynamic getMoviesByGenre()
+  +dynamic getBrowseData()
+  +dynamic getRelatedMoviesData()
+  +dynamic getMovieFullDetails()
+  +dynamic addToHistory()
+  +dynamic deleteFromHistory()
+  +dynamic isInHistory()
+  +dynamic getHistory()
+  +dynamic addToWishList()
+  +dynamic deleteFromWishList()
+  +dynamic isInWishList()
+  +dynamic getWishList()
+}
+
+abstract class "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataLocalDataSource" {
+  +dynamic addToHistory()
+  +dynamic deleteFromHistory()
+  +dynamic isInHistory()
+  +dynamic getHistory()
+  +dynamic addToWishList()
+  +dynamic deleteFromWishList()
+  +dynamic isInWishList()
+  +dynamic getWishList()
+}
+
+abstract class "mymoviesapp::Domain::Repository::Search_Data_Contract.dart::SearchDataRemoteDataSource" {
+  +dynamic getMoviesByKeyWord()
+}
+
+abstract class "mymoviesapp::Domain::Repository::Search_Data_Contract.dart::SearchDataRepository" {
+  +dynamic getMoviesByKeyWord()
+}
+
+abstract class "mymoviesapp::Domain::Repository::User_Data_Contract.dart::AuthFirebaseRemoteDataSource" {
+  +dynamic signup()
+  +dynamic login()
+  +dynamic resetPassword()
+}
+
+abstract class "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository" {
+  +dynamic signup()
+  +dynamic login()
+  +dynamic resetPassword()
+  +dynamic createUser()
+  +dynamic getUser()
+  +dynamic updateUserData()
+}
+
+abstract class "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UsersRemoteDataSource" {
+  +dynamic createUser()
+  +dynamic getUser()
+  +dynamic updateUserData()
+}
+
+class "mymoviesapp::Domain::UseCase::addToHistoryUseCase.dart::AddToHistoryUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::addToHistoryUseCase.dart::AddToHistoryUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::addToWishListUseCase.dart::AddToWishListUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::addToWishListUseCase.dart::AddToWishListUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::daleteFromWishListUseCase.dart::DeleteFromWishListUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::daleteFromWishListUseCase.dart::DeleteFromWishListUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getHistoryUseCase.dart::GetHistoryUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::getHistoryUseCase.dart::GetHistoryUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getMovieFullDetailsUseCase.dart::GetMovieFullDetailsUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::getMovieFullDetailsUseCase.dart::GetMovieFullDetailsUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getMoviesByGenreToBrowseUseCase.dart::GetMoviesByGenreToBrowseUseCase" {
+  +MoviesDataRepository repository
+  +dynamic getMoviesToBrowse()
+}
+
+"mymoviesapp::Domain::UseCase::getMoviesByGenreToBrowseUseCase.dart::GetMoviesByGenreToBrowseUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getMoviesByGenreUseCase.dart::GetMoviesByGenreUseCase" {
+  +MoviesDataRepository repository
+  +dynamic doWork()
+}
+
+"mymoviesapp::Domain::UseCase::getMoviesByGenreUseCase.dart::GetMoviesByGenreUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getMoviesDataUseCase.dart::GetMoviesDataUseCase" {
+  +MoviesDataRepository repository
+  +dynamic doWork()
+}
+
+"mymoviesapp::Domain::UseCase::getMoviesDataUseCase.dart::GetMoviesDataUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getRelatedMoviesUseCase.dart::GetRelatedMoviesUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::getRelatedMoviesUseCase.dart::GetRelatedMoviesUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getSearchResultsUseCase.dart::GetSearchResultsUseCase" {
+  +SearchDataRepository repository
+  +dynamic getSearchResults()
+}
+
+"mymoviesapp::Domain::UseCase::getSearchResultsUseCase.dart::GetSearchResultsUseCase" o-- "mymoviesapp::Domain::Repository::Search_Data_Contract.dart::SearchDataRepository"
+
+class "mymoviesapp::Domain::UseCase::getUserDataUseCase.dart::GetUserDataUseCase" {
+  +UserRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::getUserDataUseCase.dart::GetUserDataUseCase" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository"
+
+class "mymoviesapp::Domain::UseCase::getWishListDataUseCase.dart::GetWishListDataUseCase" {
+  +MoviesDataRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::getWishListDataUseCase.dart::GetWishListDataUseCase" o-- "mymoviesapp::Domain::Repository::Movies_Data_Contract.dart::MoviesDataRepository"
+
+class "mymoviesapp::Domain::UseCase::loginUseCase.dart::LoginUseCase" {
+  +UserRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::loginUseCase.dart::LoginUseCase" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository"
+
+class "mymoviesapp::Domain::UseCase::resetPasswordUseCase.dart::ResetPasswordUseCase" {
+  +UserRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::resetPasswordUseCase.dart::ResetPasswordUseCase" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository"
+
+class "mymoviesapp::Domain::UseCase::signupUseCase.dart::SignupUseCase" {
+  +UserRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::signupUseCase.dart::SignupUseCase" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository"
+
+class "mymoviesapp::Domain::UseCase::updateUserDataUseCase.dart::UpdateUserDataUseCase" {
+  +UserRepository repository
+  +dynamic invoke()
+}
+
+"mymoviesapp::Domain::UseCase::updateUserDataUseCase.dart::UpdateUserDataUseCase" o-- "mymoviesapp::Domain::Repository::User_Data_Contract.dart::UserRepository"
+
+class "mymoviesapp::firebase_options.dart::DefaultFirebaseOptions" {
+  {static} +FirebaseOptions web
+  {static} +FirebaseOptions android
+  {static} +FirebaseOptions ios
+  {static} +FirebaseOptions macos
+  {static} +FirebaseOptions currentPlatform
+}
+
+"mymoviesapp::firebase_options.dart::DefaultFirebaseOptions" o-- "firebase_core_platform_interface::firebase_core_platform_interface.dart::FirebaseOptions"
+
+class "mymoviesapp::main.dart::MyApp" {
+  +String uid
+  +bool isFirstTime
+  +GoRouter router
+  +String getInitialLocation()
+  +Widget build()
+}
+
+"mymoviesapp::main.dart::MyApp" o-- "go_router::src::router.dart::GoRouter"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::main.dart::MyApp"
+
+class "mymoviesapp::Presentation::Global%20Widgets::MoviesLists.dart::Movieslist" {
+  +List<Movies> movies
+  +String type
+  +Function goToDetailsScreen
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Global%20Widgets::MoviesLists.dart::Movieslist"
+
+class "mymoviesapp::Presentation::Global%20Widgets::MyBottomSheet.dart::ModalSheetWidget" {
+  +List<String> images
+  +String selectedImage
+  +Function changeSelectedImage
+  +State<ModalSheetWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Global%20Widgets::MyBottomSheet.dart::ModalSheetWidget"
+
+class "mymoviesapp::Presentation::Global%20Widgets::MyBottomSheet.dart::_ModalSheetWidgetState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Global%20Widgets::MyBottomSheet.dart::_ModalSheetWidgetState"
+
+class "mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyTextFormField" {
+  +String hint
+  +IconData icon
+  +Function validation
+  +TextEditingController controller
+  +TextInputType keyboardType
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyTextFormField" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyTextFormField" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyTextFormField" o-- "flutter::src::services::text_input.dart::TextInputType"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyTextFormField"
+
+class "mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyPasswordTextFormField" {
+  +String hint
+  +IconData icon
+  +Function validation
+  +TextEditingController controller
+  +TextInputType keyboardType
+  +State<MyPasswordTextFormField> createState()
+}
+
+"mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyPasswordTextFormField" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyPasswordTextFormField" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyPasswordTextFormField" o-- "flutter::src::services::text_input.dart::TextInputType"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::MyPasswordTextFormField"
+
+class "mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::_MyPasswordTextFormFieldState" {
+  +bool showPassword
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Global%20Widgets::MyTextFileds.dart::_MyPasswordTextFormFieldState"
+
+class "mymoviesapp::Presentation::Global%20Widgets::PosterImage.dart::PosterImage" {
+  +Movies movie
+  +Function goToDetailsScreen
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Global%20Widgets::PosterImage.dart::PosterImage" o-- "mymoviesapp::Domain::Models::Movies::Movies.dart::Movies"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Global%20Widgets::PosterImage.dart::PosterImage"
+
+class "mymoviesapp::Presentation::Home::HomeScreenView.dart::HomeScreen" {
+  {static} +String routeName
+  {static} +String path
+  +Widget tab
+  +State<HomeScreen> createState()
+}
+
+"mymoviesapp::Presentation::Home::HomeScreenView.dart::HomeScreen" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::HomeScreenView.dart::HomeScreen"
+
+class "mymoviesapp::Presentation::Home::HomeScreenView.dart::_HomeScreenState" {
+  +HomeScreenViewModel viewModel
+  +void initState()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Home::HomeScreenView.dart::_HomeScreenState" o-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::HomeScreenView.dart::_HomeScreenState"
+
+class "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel" {
+  +GoRouter? router
+  +int selectedIndex
+  +void setSelectedIndex()
+  +void updateState()
+  +int setCurrentIndex()
+}
+
+"mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel" o-- "go_router::src::router.dart::GoRouter"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+
+class "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeTabState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeTabState"
+
+class "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::SearchTabState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::SearchTabState"
+
+class "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::BrowseTabState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::BrowseTabState"
+
+class "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::ProfileTabState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::ProfileTabState"
+
+class "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::BackState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::BackState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabView.dart::BrowseTabView" {
+  {static} +String routeName
+  {static} +String path
+  +State<BrowseTabView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabView.dart::BrowseTabView"
+
+class "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabView.dart::_BrowseTabViewState" {
+  +BrowseTabViewModel viewModel
+  +void initState()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabView.dart::_BrowseTabViewState" o-- "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::BrowseTabViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabView.dart::_BrowseTabViewState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::BrowseTabViewModel" {
+  +List<String> genres
+  +int selectedIndex
+  +int pageNumber
+  +List<Movies> movies
+  +GetMoviesByGenreToBrowseUseCase useCase
+  +ScrollController controller
+  +HomeScreenViewModel? homeScreenViewModel
+  +dynamic getMoviesByGenre()
+  +void changeToLoadingState()
+  +void goToDetailsScreen()
+  +void changeTap()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::BrowseTabViewModel" o-- "mymoviesapp::Domain::UseCase::getMoviesByGenreToBrowseUseCase.dart::GetMoviesByGenreToBrowseUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::BrowseTabViewModel" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::BrowseTabViewModel" o-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::BrowseTabViewModel"
+
+class "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::MoviesLoadedState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Browse::BrowseTabViewMode.dart::MoviesLoadedState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Browse::Widgets::TabButton.dart::TabButton" {
+  +String genre
+  +bool isSelected
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Browse::Widgets::TabButton.dart::TabButton"
+
+class "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileView.dart::EditProfileView" {
+  +Users user
+  {static} +String routeName
+  {static} +String path
+  +State<EditProfileView> createState()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileView.dart::EditProfileView" o-- "mymoviesapp::Domain::Models::User::User.dart::Users"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileView.dart::EditProfileView"
+
+class "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileView.dart::_EditProfileViewState" {
+  +EditProfileViewModel viewModel
+  +void initState()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileView.dart::_EditProfileViewState" o-- "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileView.dart::_EditProfileViewState"
+
+class "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel" {
+  +UpdateUserDataUseCase updateUserDataUseCase
+  +ResetPasswordUseCase resetPasswordUseCase
+  +GlobalKey<FormState> formKey
+  +TextEditingController name
+  +TextEditingController phone
+  +Users user
+  +List<String> images
+  +String image
+  +void changeSelectedImage()
+  +void initData()
+  +String? nameValidation()
+  +String? phoneValidation()
+  +void resetPassword()
+  +void updateUserData()
+  +void goToHomeScreen()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel" o-- "mymoviesapp::Domain::UseCase::updateUserDataUseCase.dart::UpdateUserDataUseCase"
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel" o-- "mymoviesapp::Domain::UseCase::resetPasswordUseCase.dart::ResetPasswordUseCase"
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel" o-- "mymoviesapp::Domain::Models::User::User.dart::Users"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::EditProfileViewModel"
+
+class "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::InputWaiting" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::InputWaiting"
+
+class "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::GoToHomeScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::EditProfileScreen::EditProfileViewModel.dart::GoToHomeScreenAction"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabView.dart::HomeTabView" {
+  {static} +String routeName
+  {static} +String path
+  +State<HomeTabView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabView.dart::HomeTabView"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabView.dart::_HomeTabViewState" {
+  +HomeTabViewModel viewModel
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Home::HomeTabView.dart::_HomeTabViewState" o-- "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabView.dart::_HomeTabViewState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel" {
+  +GetMoviesDataUseCase getMoviesDataUseCase
+  +GetMoviesByGenreUseCase getMoviesByGenreUseCase
+  +DataProvider? provider
+  +HomeScreenViewModel? homeScreenViewModel
+  +dynamic readData()
+  +dynamic refreshData()
+  +void setStateToLoading()
+  +void goToDetailsScreen()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel" o-- "mymoviesapp::Domain::UseCase::getMoviesDataUseCase.dart::GetMoviesDataUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel" o-- "mymoviesapp::Domain::UseCase::getMoviesByGenreUseCase.dart::GetMoviesByGenreUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel" o-- "mymoviesapp::Core::Providers::DataProvider.dart::DataProvider"
+"mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel" o-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::HomeTabViewModel"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::RefreshState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::RefreshState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::MoviesLoadedState" {
+  +List<Movies>? movies
+  +List<Movies>? actionMovies
+  +List<Movies>? dramaMovies
+  +List<Movies>? crimeMovies
+  +List<Movies>? animationMovies
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::HomeTabViewModel.dart::MoviesLoadedState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::MyPlaceHolder.dart::MyPlaceHolder" {
+  +List<int> placeholders
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::MyPlaceHolder.dart::MyPlaceHolder"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::MyPlaceHolder.dart::PlaceHolderContainer" {
+  +double height
+  +double width
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::MyPlaceHolder.dart::PlaceHolderContainer"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::TopRatedMovies.dart::TopRatedMovies" {
+  +List<Movies> movies
+  +Function goToDetailsScreen
+  +State<TopRatedMovies> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::TopRatedMovies.dart::TopRatedMovies"
+
+class "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::TopRatedMovies.dart::_TopRatedMoviesState" {
+  +String image
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::Home::Widgets::TopRatedMovies.dart::_TopRatedMoviesState"
+
+class "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsView.dart::MovieDetailsScreen" {
+  +num? movieId
+  {static} +String routeName
+  {static} +String path
+  +State<MovieDetailsScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsView.dart::MovieDetailsScreen"
+
+class "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsView.dart::_MovieDetailsScreenState" {
+  +MovieDetailsViewModel viewModel
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +Widget title()
+  +Widget info()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsView.dart::_MovieDetailsScreenState" o-- "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsView.dart::_MovieDetailsScreenState"
+
+class "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" {
+  +GetRelatedMoviesUseCase getRelatedMoviesUseCase
+  +GetMovieFullDetailsUseCase getMovieFullDetailsUseCase
+  +AddToHistoryUseCase addToHistoryUseCase
+  +AddToWishListUseCase addToWishListUseCase
+  +DeleteFromWishListUseCase deleteFromWishListUseCase
+  +AppConfigProvider? provider
+  +DataProvider? dataProvider
+  +HomeScreenViewModel? homeScreenViewModel
+  +void loadData()
+  +void setStateToLoading()
+  +void onPressBackAction()
+  +void goToDetailsScreen()
+  +dynamic lunchURL()
+  +dynamic changeWishList()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Domain::UseCase::getRelatedMoviesUseCase.dart::GetRelatedMoviesUseCase"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Domain::UseCase::getMovieFullDetailsUseCase.dart::GetMovieFullDetailsUseCase"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Domain::UseCase::addToHistoryUseCase.dart::AddToHistoryUseCase"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Domain::UseCase::addToWishListUseCase.dart::AddToWishListUseCase"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Domain::UseCase::daleteFromWishListUseCase.dart::DeleteFromWishListUseCase"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Core::Providers::AppConfigProvieder.dart::AppConfigProvider"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Core::Providers::DataProvider.dart::DataProvider"
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel" o-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::MovieDetailsViewModel"
+
+class "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::DataLoadedState" {
+  +Movie movie
+  +List<Movies> relatedMovies
+}
+
+"mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::DataLoadedState" o-- "mymoviesapp::Domain::Models::MoviesDetails::Movie.dart::Movie"
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::DataLoadedState"
+
+class "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::BackAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::MovieDetails::MovieDetailsViewModel.dart::BackAction"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabVIew.dart::ProfileTabView" {
+  {static} +String routeName
+  {static} +String path
+  +State<ProfileTabView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabVIew.dart::ProfileTabView"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabVIew.dart::_ProfileTabViewState" {
+  +ProfileTabViewModel viewModel
+  +ScrollController controller
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabVIew.dart::_ProfileTabViewState" o-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel"
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabVIew.dart::_ProfileTabViewState" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabVIew.dart::_ProfileTabViewState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" {
+  +GetUserDataUseCase getUserDataUseCase
+  +GetHistoryUseCase getHistoryUseCase
+  +GetWishListDataUseCase getWishListDataUseCase
+  +HomeScreenViewModel? homeScreenViewModel
+  +AppConfigProvider? provider
+  +DataProvider? dataProvider
+  +void getData()
+  +void goToDetailsScreen()
+  +void onSignOutPress()
+  +void signOut()
+  +void goToEditProfileScreen()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" o-- "mymoviesapp::Domain::UseCase::getUserDataUseCase.dart::GetUserDataUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" o-- "mymoviesapp::Domain::UseCase::getHistoryUseCase.dart::GetHistoryUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" o-- "mymoviesapp::Domain::UseCase::getWishListDataUseCase.dart::GetWishListDataUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" o-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" o-- "mymoviesapp::Core::Providers::AppConfigProvieder.dart::AppConfigProvider"
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel" o-- "mymoviesapp::Core::Providers::DataProvider.dart::DataProvider"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ProfileTabViewModel"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::DataLoadedState" {
+  +Users user
+  +List<Movies> historyMovies
+  +List<Movies> wishlistMovies
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::DataLoadedState" o-- "mymoviesapp::Domain::Models::User::User.dart::Users"
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::DataLoadedState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ShowQuestionMessageState" {
+  +String message
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::ShowQuestionMessageState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::SignOutAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::SignOutAction"
+
+class "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::EditProfileAction" {
+  +Users user
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::EditProfileAction" o-- "mymoviesapp::Domain::Models::User::User.dart::Users"
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Profile::ProfileTabViewModel.dart::EditProfileAction"
+
+class "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabView.dart::SearchTabView" {
+  {static} +String routeName
+  {static} +String path
+  +State<SearchTabView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabView.dart::SearchTabView"
+
+class "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabView.dart::_SearchTabViewState" {
+  +SearchTabViewModel viewModel
+  +void initState()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Search::SearchTabView.dart::_SearchTabViewState" o-- "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::SearchTabViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabView.dart::_SearchTabViewState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::SearchTabViewModel" {
+  +GetSearchResultsUseCase useCase
+  +HomeScreenViewModel? homeScreenViewModel
+  +dynamic getSearchResults()
+  +void goToDetailsScreen()
+}
+
+"mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::SearchTabViewModel" o-- "mymoviesapp::Domain::UseCase::getSearchResultsUseCase.dart::GetSearchResultsUseCase"
+"mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::SearchTabViewModel" o-- "mymoviesapp::Presentation::Home::HomeScreenViewModel.dart::HomeScreenViewModel"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::SearchTabViewModel"
+
+class "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::EmptyListState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::EmptyListState"
+
+class "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::MoviesLoadedState" {
+  +List<Movies> movies
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Home::Tabs::Search::SearchTabViewModel.dart::MoviesLoadedState"
+
+class "mymoviesapp::Presentation::Intro::IntroScreenView.dart::IntroScreenView" {
+  {static} +String routeName
+  {static} +String path
+  +State<IntroScreenView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Intro::IntroScreenView.dart::IntroScreenView"
+
+class "mymoviesapp::Presentation::Intro::IntroScreenView.dart::_IntroScreenViewState" {
+  +IntroScreenViewModel viewModel
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Intro::IntroScreenView.dart::_IntroScreenViewState" o-- "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::IntroScreenViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Intro::IntroScreenView.dart::_IntroScreenViewState"
+
+class "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::IntroScreenViewModel" {
+  +List<Widget> tabs
+  +int currentIndex
+  +void changeIndex()
+}
+
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::IntroScreenViewModel"
+
+class "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::TabsState" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::TabsState"
+
+class "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::GoToWelcomeScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Intro::IntroScreenViewModel.dart::GoToWelcomeScreenAction"
+
+class "mymoviesapp::Presentation::Intro::Widgets::FirstTab.dart::FirstTab" {
+  +Function changeIndexCallBack
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Intro::Widgets::FirstTab.dart::FirstTab"
+
+class "mymoviesapp::Presentation::Intro::Widgets::LastTab.dart::LastTab" {
+  +Function changeIndexCallBack
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Intro::Widgets::LastTab.dart::LastTab"
+
+class "mymoviesapp::Presentation::Intro::Widgets::SecondTab.dart::SecondTab" {
+  +Function changeIndexCallBack
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Intro::Widgets::SecondTab.dart::SecondTab"
+
+class "mymoviesapp::Presentation::Login::LoginView.dart::LoginScreen" {
+  {static} +String routeName
+  {static} +String path
+  +State<LoginScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Login::LoginView.dart::LoginScreen"
+
+class "mymoviesapp::Presentation::Login::LoginView.dart::_LoginScreenState" {
+  +LoginViewModel viewModel
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::Login::LoginView.dart::_LoginScreenState" o-- "mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Login::LoginView.dart::_LoginScreenState"
+
+class "mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel" {
+  +LoginUseCase useCase
+  +AppConfigProvider? provider
+  +GlobalKey<FormState> formKey
+  +TextEditingController emailController
+  +TextEditingController passwordController
+  +String? emailValidation()
+  +String? passwordValidation()
+  +void login()
+  +void goToHomeScreen()
+  +void goToRegistrationScreen()
+  +void goToResetPasswordScreen()
+}
+
+"mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel" o-- "mymoviesapp::Domain::UseCase::loginUseCase.dart::LoginUseCase"
+"mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel" o-- "mymoviesapp::Core::Providers::AppConfigProvieder.dart::AppConfigProvider"
+"mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Login::LoginViewModel.dart::LoginViewModel"
+
+class "mymoviesapp::Presentation::Login::LoginViewModel.dart::InputWaiting" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Login::LoginViewModel.dart::InputWaiting"
+
+class "mymoviesapp::Presentation::Login::LoginViewModel.dart::GoToRegistrationScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Login::LoginViewModel.dart::GoToRegistrationScreenAction"
+
+class "mymoviesapp::Presentation::Login::LoginViewModel.dart::GoToHomeScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Login::LoginViewModel.dart::GoToHomeScreenAction"
+
+class "mymoviesapp::Presentation::Login::LoginViewModel.dart::GoToResetPasswordScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Login::LoginViewModel.dart::GoToResetPasswordScreenAction"
+
+class "mymoviesapp::Presentation::Registration::RegistrationView.dart::RegistrationScreen" {
+  {static} +String routeName
+  {static} +String path
+  +State<RegistrationScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::Registration::RegistrationView.dart::RegistrationScreen"
+
+class "mymoviesapp::Presentation::Registration::RegistrationView.dart::_RegistrationScreenState" {
+  +RegistrationViewModel viewModel
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +dynamic showMyModalBottomSheet()
+}
+
+"mymoviesapp::Presentation::Registration::RegistrationView.dart::_RegistrationScreenState" o-- "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::Registration::RegistrationView.dart::_RegistrationScreenState"
+
+class "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel" {
+  +SignupUseCase useCase
+  +AppConfigProvider? provider
+  +GlobalKey<FormState> formKey
+  +TextEditingController name
+  +TextEditingController email
+  +TextEditingController password
+  +TextEditingController passwordConfirmation
+  +TextEditingController phone
+  +List<String> images
+  +String image
+  +void showModalBottomSheetState()
+  +void changeSelectedImage()
+  +String? nameValidation()
+  +String? emailValidation()
+  +String? passwordValidation()
+  +String? phoneValidation()
+  +void register()
+  +void goToHomeScreen()
+  +void goToLoginScreen()
+}
+
+"mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel" o-- "mymoviesapp::Domain::UseCase::signupUseCase.dart::SignupUseCase"
+"mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel" o-- "mymoviesapp::Core::Providers::AppConfigProvieder.dart::AppConfigProvider"
+"mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::RegistrationViewModel"
+
+class "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::InputWaiting" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::InputWaiting"
+
+class "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::GoToHomeScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::GoToHomeScreenAction"
+
+class "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::GoToLoginScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::GoToLoginScreenAction"
+
+class "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::ShowModalBottomSheetAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::Registration::RegistrationViewModel.dart::ShowModalBottomSheetAction"
+
+class "mymoviesapp::Presentation::ResetPassword::ResetPasswordView.dart::ResetPasswordView" {
+  {static} +String path
+  {static} +String routeName
+  +State<ResetPasswordView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordView.dart::ResetPasswordView"
+
+class "mymoviesapp::Presentation::ResetPassword::ResetPasswordView.dart::_ResetPasswordViewState" {
+  +ResetPasswordViewModel viewModel
+  +Widget build()
+}
+
+"mymoviesapp::Presentation::ResetPassword::ResetPasswordView.dart::_ResetPasswordViewState" o-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel"
+"flutter::src::widgets::framework.dart::State" <|-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordView.dart::_ResetPasswordViewState"
+
+class "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" {
+  +ResetPasswordUseCase useCase
+  +GlobalKey<FormState> formKey
+  +TextEditingController emailController
+  +String? emailValidation()
+  +void resetPassword()
+  +void goToRegistrationScreen()
+  +void goToLoginScreen()
+}
+
+"mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" o-- "mymoviesapp::Domain::UseCase::resetPasswordUseCase.dart::ResetPasswordUseCase"
+"mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"bloc::src::cubit.dart::Cubit" <|-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::ResetPasswordViewModel"
+
+class "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::InputWaiting" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::InputWaiting"
+
+class "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::GoToRegistrationScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::GoToRegistrationScreenAction"
+
+class "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::GoToLoginScreenAction" {
+}
+
+"mymoviesapp::Core::Base::BaseCubitState.dart::BaseCubitState" <|-- "mymoviesapp::Presentation::ResetPassword::ResetPasswordViewModel.dart::GoToLoginScreenAction"
+
+class "mymoviesapp::Presentation::Welcome::WelcomeScreen.dart::WelcomeScreen" {
+  {static} +String routeName
+  {static} +String path
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "mymoviesapp::Presentation::Welcome::WelcomeScreen.dart::WelcomeScreen"
+
+
+@enduml
