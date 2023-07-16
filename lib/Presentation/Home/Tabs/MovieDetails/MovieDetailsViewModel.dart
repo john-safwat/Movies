@@ -64,7 +64,7 @@ class MovieDetailsViewModel extends Cubit<BaseCubitState> {
   Future<void> lunchURL(String link , Movie movie)async{
     try{
       var url = Uri.parse(link);
-      !await launchUrl(url ,  mode: LaunchMode.inAppWebView,
+      !await launchUrl(url ,  mode: LaunchMode.externalApplication,
           webViewConfiguration: const WebViewConfiguration(
               headers: <String, String>{'my_header_key': 'my_header_value'}));
       var uid = await provider!.getUid();

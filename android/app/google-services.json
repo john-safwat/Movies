@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "832894186541-bep96hebvdodh1apu4v6suvtqc4uv0po.apps.googleusercontent.com",
+              "client_id": "832894186541-1kkv1k5itcel8ehj6n2s6tfksq7uqi3n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.mymoviesapp"
+                "bundle_id": "com.example.movies.RunnerTests"
               }
             }
           ]
@@ -67,10 +67,10 @@
               "client_type": 3
             },
             {
-              "client_id": "832894186541-bep96hebvdodh1apu4v6suvtqc4uv0po.apps.googleusercontent.com",
+              "client_id": "832894186541-1kkv1k5itcel8ehj6n2s6tfksq7uqi3n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.mymoviesapp"
+                "bundle_id": "com.example.movies.RunnerTests"
               }
             }
           ]
@@ -103,10 +103,10 @@
               "client_type": 3
             },
             {
-              "client_id": "832894186541-bep96hebvdodh1apu4v6suvtqc4uv0po.apps.googleusercontent.com",
+              "client_id": "832894186541-1kkv1k5itcel8ehj6n2s6tfksq7uqi3n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.mymoviesapp"
+                "bundle_id": "com.example.movies.RunnerTests"
               }
             }
           ]
@@ -139,10 +139,10 @@
               "client_type": 3
             },
             {
-              "client_id": "832894186541-bep96hebvdodh1apu4v6suvtqc4uv0po.apps.googleusercontent.com",
+              "client_id": "832894186541-1kkv1k5itcel8ehj6n2s6tfksq7uqi3n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.mymoviesapp"
+                "bundle_id": "com.example.movies.RunnerTests"
               }
             }
           ]
@@ -175,10 +175,10 @@
               "client_type": 3
             },
             {
-              "client_id": "832894186541-bep96hebvdodh1apu4v6suvtqc4uv0po.apps.googleusercontent.com",
+              "client_id": "832894186541-1kkv1k5itcel8ehj6n2s6tfksq7uqi3n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.mymoviesapp"
+                "bundle_id": "com.example.movies.RunnerTests"
               }
             }
           ]
