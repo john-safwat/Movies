@@ -118,7 +118,7 @@ images
 <img src = "https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/Screenshot_20230714_152508.png?alt=media&token=a7aaf1bc-eeff-4bff-a4a5-d47655dac399" width = "100px">
 </div>
 <div style= "display : flex ; justify-content: space-around ; margin : 20px 0px">
-<img src = "https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/Screenshot_20230714_152538.png?alt=media&token=1c333bdd-6b8b-4ea4-8c78-3664396ccb88 " width = "100px">
+<img src = "https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/Screenshot_20230714_152538.png?alt=media&token=1c333bdd-6b8b-4ea4-8c78-3664396ccb88" width = "100px">
 <img src = "https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/Screenshot_20230714_152604.png?alt=media&token=f538dece-2be5-458b-9c26-0ddda5de475a" width = "100px">
 <img src = "https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/Screenshot_20230714_152645.png?alt=media&token=f8041efb-f488-4ca1-b4d2-857271e0fb52" width = "100px">
 <img src = "https://firebasestorage.googleapis.com/v0/b/my-movies-app-e8e75.appspot.com/o/Screenshot_20230714_153152.png?alt=media&token=2d41fdc8-8235-46e7-9249-74373e2b593e" width = "100px">
